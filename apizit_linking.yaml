@@ -1,0 +1,10 @@
+version: 1
+
+runtime:
+  language: python
+  version: "3.12"
+
+routes:
+  - path: /hello
+    method: GET
+    function: hello:hello

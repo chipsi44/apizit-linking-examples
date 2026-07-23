@@ -1,0 +1,19 @@
+version: 1
+
+runtime:
+  language: python
+  version: "3.12"
+
+routes:
+  - path: /divide
+    method: GET
+    function: calculator:divide
+    parameters:
+      dividend:
+        source:
+          location: query
+          name: dividend
+      divisor:
+        source:
+          location: query
+          name: divisor

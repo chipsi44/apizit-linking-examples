@@ -1,0 +1,19 @@
+version: 1
+
+runtime:
+  language: python
+  version: "3.12"
+
+routes:
+  - path: /users/{user_id}/greeting
+    method: GET
+    function: greetings:get_greeting
+    parameters:
+      user_id:
+        source:
+          location: path
+          name: user_id
+      verbose:
+        source:
+          location: query
+          name: verbose
