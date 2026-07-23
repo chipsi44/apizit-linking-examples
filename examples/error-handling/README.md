@@ -61,6 +61,7 @@ message.
 
 ## Limitation
 
-V1 cannot yet declare response status codes, headers, response schemas, or map
-business exceptions to HTTP responses. Business code intentionally does not
-import `HTTPException`, FastAPI, or APIZIT Linking.
+V1 cannot yet declare response status codes, headers, configurable response
+schemas, or map business exceptions to HTTP responses. Minimal response schemas
+in OpenAPI are documentary and are not enforced at runtime. Business code
+intentionally does not import `HTTPException`, FastAPI, or APIZIT Linking.

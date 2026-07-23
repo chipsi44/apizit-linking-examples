@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Evaluate APIZIT Linking 0.4 to 0.5 with 0.5.0rc1</title>
+    <title>Migrate APIZIT Linking 0.4 to final 0.5.0</title>
     <meta
       name="description"
-      content="Evaluate APIZIT Linking 0.5.0rc1 from 0.4.0 while keeping production stable, recompiling artifact v1, and preserving exact engine matching."
+      content="Migrate APIZIT Linking 0.4.0 to final 0.5.0 with exact pins, recompiled artifact v1 outputs, documentary responses, and non-vendored adapters."
     >
     <link
       rel="canonical"
@@ -14,7 +14,7 @@
     >
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="APIZIT Linking">
-    <meta property="og:title" content="Evaluate APIZIT Linking 0.4-to-0.5 with 0.5.0rc1">
+    <meta property="og:title" content="Migrate APIZIT Linking 0.4 to final 0.5.0">
     <meta
       property="og:description"
       content="Why unchanged format version 1 still requires recompilation and an exact APIZIT package re-pin."
@@ -24,10 +24,10 @@
       content="https://chipsi44.github.io/apizit-linking-examples/migrations/0.4-to-0.5/"
     >
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="APIZIT Linking 0.4-to-0.5 RC evaluation">
+    <meta name="twitter:title" content="APIZIT Linking 0.4-to-0.5 final migration">
     <meta
       name="twitter:description"
-      content="0.5.0rc1 is available for evaluation; keep production on stable 0.4.0."
+      content="Final 0.5.0 is the stable public beta; re-pin exactly and recompile every runtime artifact."
     >
     <link rel="stylesheet" href="/apizit-linking-examples/assets/styles.css">
     <script type="application/ld+json">
@@ -36,11 +36,11 @@
         "@graph": [
           {
             "@type": "TechArticle",
-            "headline": "Evaluate APIZIT Linking 0.4-to-0.5 with 0.5.0rc1",
-            "description": "Candidate migration guidance from stable 0.4.0 to the published 0.5.0rc1 evaluation package.",
+            "headline": "Migrate APIZIT Linking 0.4 to final 0.5.0",
+            "description": "Final migration guidance from 0.4.0 to the published 0.5.0 stable public beta.",
             "url": "https://chipsi44.github.io/apizit-linking-examples/migrations/0.4-to-0.5/",
             "datePublished": "2026-07-23",
-            "dateModified": "2026-07-23",
+            "dateModified": "2026-07-24",
             "inLanguage": "en",
             "proficiencyLevel": "Intermediate"
           },
@@ -62,7 +62,7 @@
               {
                 "@type": "ListItem",
                 "position": 3,
-                "name": "0.4 to 0.5 RC evaluation",
+                "name": "0.4 to final 0.5.0",
                 "item": "https://chipsi44.github.io/apizit-linking-examples/migrations/0.4-to-0.5/"
               }
             ]
@@ -105,45 +105,44 @@
             <ol>
               <li><a href="/apizit-linking-examples/">Home</a></li>
               <li><a href="/apizit-linking-examples/migrations/">Migrations</a></li>
-              <li aria-current="page">0.4 to 0.5 RC evaluation</li>
+              <li aria-current="page">0.4 to final 0.5.0</li>
             </ol>
           </nav>
-          <p class="eyebrow">Published candidate · isolated evaluation</p>
-          <h1>Evaluate 0.4 to 0.5 with 0.5.0rc1</h1>
+          <p class="eyebrow">Published final migration</p>
+          <h1>Migrate 0.4.0 to final 0.5.0</h1>
           <p class="lede">
-            The 0.5 candidate keeps the two public V1 formats stable while retaining
-            exact engine identity. The files look familiar, but every runtime artifact
-            still has to be regenerated with the candidate for an isolated evaluation.
+            Version 0.5.0 keeps both public V1 formats stable while retaining exact
+            engine identity. The files look familiar, but every runtime artifact must
+            be regenerated with the final package.
           </p>
         </div>
       </header>
 
       <article class="container article">
-        <div class="callout callout-warning">
+        <div class="callout callout-note">
           <p>
-            <strong>This is candidate evaluation guidance, not a production upgrade.</strong>
-            Package 0.5.0rc1 is published, but final 0.5.0 is not published. Keep
-            production, stable test fixtures, examples, and guides pinned to
-            <code>apizit-linking==0.4.0</code>.
+            <strong>Final release:</strong> package 0.5.0 is published and is the
+            current stable public beta. Requirements, examples, guides, CI, and
+            integrations should use an exact <code>apizit-linking==0.5.0</code> pin.
           </p>
         </div>
 
-        <h2 id="candidate-install">Create a separate evaluation environment</h2>
+        <h2 id="final-install">Install the exact final release</h2>
         <div class="code-block">
-          <div class="code-block-label">Exact RC pin</div>
-          <pre><code>python -m venv .venv-050rc1
-# Activate .venv-050rc1, then:
-python -m pip install "apizit-linking[preview]==0.5.0rc1"
+          <div class="code-block-label">Exact final pin</div>
+          <pre><code>python -m venv .venv-050
+# Activate .venv-050, then:
+python -m pip install "apizit-linking[preview]==0.5.0"
 apizit-linking validate .
 apizit-linking preview . --port 8080</code></pre>
         </div>
         <p>
           The package files are canonical on the
-          <a href="https://pypi.org/project/apizit-linking/0.5.0rc1/">
-            PyPI 0.5.0rc1 page
+          <a href="https://pypi.org/project/apizit-linking/0.5.0/">
+            PyPI 0.5.0 page
           </a>.
-          Use an exact pin and keep the stable 0.4.0 environment available for
-          comparison and rollback.
+          Use an exact pin and preserve a reproducible 0.4.0 environment only when a
+          rollback path is required.
         </p>
 
         <h2 id="unchanged">What remains unchanged</h2>
@@ -173,14 +172,14 @@ apizit-linking preview . --port 8080</code></pre>
         <h2 id="recompile">Why recompilation is mandatory</h2>
         <p>
           The artifact envelope carries an exact <code>engine_version</code>. The
-          0.5.0rc1 runtime must reject an artifact compiled by 0.4.0 even though both
+          0.5.0 runtime must reject an artifact compiled by 0.4.0 even though both
           artifacts declare runtime artifact <code>version: 1</code>. Format version 1
           says the envelope has the same contract; exact engine identity says which
           implementation verified and serialized the callable metadata.
         </p>
         <div class="callout callout-note">
           <p>
-            Re-run the compiler with the exact candidate engine. Never replace
+            Re-run the compiler with the exact final engine. Never replace
             <code>engine_version</code> in JSON, copy routes between artifacts, or
             suppress the mismatch check.
           </p>
@@ -188,43 +187,41 @@ apizit-linking preview . --port 8080</code></pre>
 
         <h2 id="responses">Response scope is documentary only</h2>
         <p>
-          Version 0.5.0rc1 documents a minimal <code>200</code>, stable Linking
+          Version 0.5.0 documents a minimal <code>200</code>, stable Linking
           <code>400</code>, and generic <code>500</code> in OpenAPI. These descriptions
           do not introduce declarative status codes, custom response headers, response
           models, or streaming behavior. Return annotations are not used to validate,
           transform, reject, or reshape customer return values at runtime.
         </p>
 
-        <h2 id="project-owner">Project-owner RC checklist</h2>
+        <h2 id="project-owner">Project-owner migration checklist</h2>
         <ol>
-          <li>Read the 0.5.0rc1 release notes and confirm the exact candidate version.</li>
-          <li>Install 0.5.0rc1 from PyPI in a clean, non-production environment.</li>
+          <li>Read the 0.5.0 release notes and confirm the exact final version.</li>
+          <li>Install 0.5.0 from PyPI in a clean environment.</li>
           <li>Run <code>apizit-linking validate</code> against the unchanged manifest v1.</li>
-          <li>Compile a new artifact with 0.5.0rc1; keep artifact version 1.</li>
+          <li>Compile a new artifact with 0.5.0; keep artifact version 1.</li>
           <li>Inspect <code>/openapi.json</code>, Swagger UI, and ReDoc in preview.</li>
           <li>Run startup, success, conversion-error, and business-error tests.</li>
-          <li>Discard candidate outputs after evaluation; do not replace stable production outputs.</li>
+          <li>Replace deployment outputs only after provenance and rollback checks pass.</li>
         </ol>
 
-        <h2 id="apizit-repin">APIZIT evaluation must re-pin and rebuild</h2>
+        <h2 id="apizit-repin">APIZIT final promotion is verified</h2>
         <p>
-          APIZIT currently consumes Linking as a separate released framework and has
-          not yet been promoted to 0.5.0rc1. A candidate-only integration branch may
-          evaluate the RC, but it must:
+          APIZIT consumes Linking as a separate released framework. Its final 0.5
+          integration has now been merged with the exact package pin and rebuilt
+          artifact outputs:
         </p>
-        <ol>
-          <li>change its exact build and runtime pin from 0.4.0 to 0.5.0rc1;</li>
-          <li>compile each discovered manifest again with that exact package;</li>
-          <li>record the source revision, engine version, manifest version, and artifact hash;</li>
-          <li>rebuild Lambda ZIPs and container images without vendored Linking code;</li>
-          <li>run scan, report, ZIP, image, startup, and end-to-end request tests;</li>
-          <li>prove that documentation remains non-enforcing when return values differ;</li>
-          <li>keep stable APIZIT promotion blocked until the final release decision.</li>
-        </ol>
+        <ul>
+          <li>build and runtime dependencies pin <code>apizit-linking==0.5.0</code> exactly;</li>
+          <li>Linking artifacts were recompiled by that exact package;</li>
+          <li>12 Linking integration tests and 89 backend tests passed;</li>
+          <li>the wheel and deployment outputs passed the anti-vendoring audit;</li>
+          <li>the merged main-branch CI is green.</li>
+        </ul>
 
         <h2 id="rollback">Rollback must also recompile</h2>
         <p>
-          If APIZIT rolls back to 0.4.0, it must restore the exact 0.4.0 dependency and
+          If an adapter rolls back to 0.4.0, it must restore the exact 0.4.0 dependency and
           deploy an artifact freshly compiled by 0.4.0, or a preserved immutable 0.4.0
           output with proven provenance. A new artifact cannot be made compatible by
           editing its engine field.
@@ -234,20 +231,19 @@ apizit-linking preview . --port 8080</code></pre>
         <p>
           Follow the published
           <a href="/apizit-linking-examples/releases/0.5.0/">
-            0.5.0rc1 release notes
+            0.5.0 release notes
           </a>
-          for observed behavior and completed package gates. PyPI is the canonical
-          source of the candidate files. A final 0.5.0 requires a separate publication
-          and is not implied by this RC.
+          for observed behavior, the preceding 0.5.0rc1 evaluation history, and
+          completed package gates. PyPI is the canonical source of final package files.
         </p>
       </article>
     </main>
 
     <footer class="site-footer">
       <div class="container footer-inner">
-        <p>0.5.0rc1 evaluation guide · Stable beta and production pin: 0.4.0</p>
+        <p>Final migration · APIZIT Linking 0.5.0 stable public beta</p>
         <ul class="footer-links">
-          <li><a href="https://pypi.org/project/apizit-linking/0.5.0rc1/">PyPI 0.5.0rc1</a></li>
+          <li><a href="https://pypi.org/project/apizit-linking/0.5.0/">PyPI 0.5.0</a></li>
           <li><a href="/apizit-linking-examples/releases/">Releases</a></li>
           <li><a href="/apizit-linking-examples/migrations/">Migrations</a></li>
           <li><a href="/apizit-linking-examples/limits/">V1 limits</a></li>

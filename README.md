@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/chipsi44/apizit-linking-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/chipsi44/apizit-linking-examples/actions/workflows/ci.yml)
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-2357c6)](https://chipsi44.github.io/apizit-linking-examples/)
-[![APIZIT Linking](https://img.shields.io/badge/APIZIT%20Linking-0.4.0-blue)](https://pypi.org/project/apizit-linking/)
+[![APIZIT Linking](https://img.shields.io/badge/APIZIT%20Linking-0.5.0-blue)](https://pypi.org/project/apizit-linking/0.5.0/)
 
 Public, forkable API projects for
 [APIZIT Linking](https://pypi.org/project/apizit-linking/). The repository root
@@ -126,7 +126,7 @@ The suite:
 - verifies structured `400` errors and generic `500` failures;
 - runs the complete task CRUD lifecycle.
 
-CI performs the same checks against the published `apizit-linking==0.4.0` on
+CI performs the same checks against the published `apizit-linking==0.5.0` on
 Python 3.10 through 3.14.
 
 ## Releases and migrations
@@ -137,21 +137,22 @@ version-by-version migration guides. This examples repository does not create
 GitHub Releases for the engine because its generated source archives would
 contain the examples repository, not the canonical package.
 
+The [0.5.0 release page](https://chipsi44.github.io/apizit-linking-examples/releases/0.5.0/)
+documents the current stable beta, its preceding `0.5.0rc1` evaluation, and
+links to the canonical [PyPI files](https://pypi.org/project/apizit-linking/0.5.0/).
 The [0.4.0 retrospective](https://chipsi44.github.io/apizit-linking-examples/releases/0.4.0/)
-documents the current stable beta. The
-[0.5.0rc1 release-candidate page](https://chipsi44.github.io/apizit-linking-examples/releases/0.5.0/)
-documents the published evaluation candidate and links to its canonical
-[PyPI files](https://pypi.org/project/apizit-linking/0.5.0rc1/).
+remains available as historical release documentation.
 
-Evaluate the candidate only in a separate environment:
+Install the final release with an exact pin:
 
 ```text
-python -m pip install "apizit-linking[preview]==0.5.0rc1"
+python -m pip install "apizit-linking[preview]==0.5.0"
 ```
 
-The final 0.5.0 package is not published. Requirements, runnable examples,
-guides, CI, and production integrations remain pinned to 0.4.0. APIZIT has not
-yet been promoted to the candidate.
+Requirements, runnable examples, guides, and CI are pinned to 0.5.0. APIZIT has
+also completed its separate promotion: it pins 0.5.0 exactly, recompiles the
+runtime artifact, passes the anti-vendoring audit, and has a green main-branch
+CI after 12 Linking integration tests and 89 backend tests.
 
 ## Security
 
@@ -163,8 +164,9 @@ fallback if GitHub Private Vulnerability Reporting is temporarily unavailable.
 
 ## Current V1 boundaries
 
-- Successful returned values use HTTP `200`; custom `201`, `204`, or `404`
-  responses and response headers cannot yet be declared.
+- Successful returned values use HTTP `200`; OpenAPI derives a minimal
+  documentary schema from the return annotation, but custom `201`, `204`, or
+  `404` responses and response headers cannot yet be declared.
 - APIZIT Linking request-resolution failures are structured `400` responses.
 - Unhandled business exceptions become generic `500` responses.
 - Body bindings select top-level JSON fields rather than nested models.

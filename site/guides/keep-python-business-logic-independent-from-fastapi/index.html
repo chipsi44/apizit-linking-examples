@@ -269,11 +269,11 @@ routes:
         <section id="run">
           <h2>3. Validate and run the API</h2>
           <p>
-            Install the 0.4.0 preview extra, validate the static contract, then start the local
+            Install the 0.5.0 preview extra, validate the static contract, then start the local
             server:
           </p>
           <div class="code-block" role="region" aria-label="Install and run commands" tabindex="0">
-            <pre><code class="language-shell">python -m pip install "apizit-linking[preview]==0.4.0"
+            <pre><code class="language-shell">python -m pip install "apizit-linking[preview]==0.5.0"
 apizit-linking validate .
 apizit-linking preview . --port 8080</code></pre>
           </div>
@@ -362,7 +362,8 @@ apizit-linking preview . --port 8080</code></pre>
           <ul>
             <li>
               V1 cannot declare <code>201</code>, <code>204</code>, <code>404</code>, custom
-              headers, or a typed response schema.
+              headers, or a configurable response schema. The minimal schema inferred
+              for OpenAPI is documentary and is not enforced at runtime.
             </li>
             <li>
               An unhandled domain exception becomes a generic <code>500</code> in preview; stable
