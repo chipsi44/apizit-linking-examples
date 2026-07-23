@@ -138,17 +138,28 @@ GitHub Releases for the engine because its generated source archives would
 contain the examples repository, not the canonical package.
 
 The [0.4.0 retrospective](https://chipsi44.github.io/apizit-linking-examples/releases/0.4.0/)
-documents the current published beta. The
-[0.5.0 / RC page](https://chipsi44.github.io/apizit-linking-examples/releases/0.5.0/)
-is explicitly a future planning draft; all install and CI pins remain at 0.4.0.
+documents the current stable beta. The
+[0.5.0rc1 release-candidate page](https://chipsi44.github.io/apizit-linking-examples/releases/0.5.0/)
+documents the published evaluation candidate and links to its canonical
+[PyPI files](https://pypi.org/project/apizit-linking/0.5.0rc1/).
+
+Evaluate the candidate only in a separate environment:
+
+```text
+python -m pip install "apizit-linking[preview]==0.5.0rc1"
+```
+
+The final 0.5.0 package is not published. Requirements, runnable examples,
+guides, CI, and production integrations remain pinned to 0.4.0. APIZIT has not
+yet been promoted to the candidate.
 
 ## Security
 
 Do not disclose vulnerabilities in public issues. Read
 [SECURITY.md](SECURITY.md) or the
 [published security page](https://chipsi44.github.io/apizit-linking-examples/security/)
-for supported versions, the private-reporting channel, scope, and the safe fallback
-until GitHub Private Vulnerability Reporting is enabled.
+for supported versions, the private-reporting channel, scope, and the safe
+fallback if GitHub Private Vulnerability Reporting is temporarily unavailable.
 
 ## Current V1 boundaries
 

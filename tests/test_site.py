@@ -270,7 +270,7 @@ class DocumentationSiteTests(unittest.TestCase):
                 with self.subTest(page=relative_path, link=link):
                     self.assertIn(f'href="{link}"', source)
 
-    def test_0_5_material_is_an_unpublished_documentary_draft(self) -> None:
+    def test_0_5_material_documents_the_published_rc_without_claiming_final(self) -> None:
         release = (
             SITE_ROOT / "releases" / "0.5.0" / "index.html"
         ).read_text(encoding="utf-8")
@@ -280,25 +280,45 @@ class DocumentationSiteTests(unittest.TestCase):
         combined = f"{release}\n{migration}"
 
         for expected in (
-            "not published",
+            "0.5.0rc1",
+            "https://pypi.org/project/apizit-linking/0.5.0rc1/",
+            'apizit-linking[preview]==0.5.0rc1',
+            "final 0.5.0 is not published",
             "Manifest <code>version: 1</code>",
             "Runtime artifact <code>version: 1</code>",
             "exact <code>engine_version</code>",
             "recompil",
-            "APIZIT must",
-            "re-pin",
+            "APIZIT",
+            "not yet promoted",
             "documentary only",
             "without vendored Linking code",
+            "nine gated jobs",
+            "six clean-environment smoke jobs",
         ):
             with self.subTest(expected=expected):
                 self.assertIn(expected, combined)
 
-        self.assertIn('apizit-linking[preview]==0.4.0', release)
-        self.assertNotRegex(
-            combined,
-            r'pip install [^<\r\n]*apizit-linking[^<\r\n]*==0\.5',
-        )
+        self.assertIn("response model", combined)
+        self.assertRegex(release, r"do not\s+validate or transform")
         self.assertNotIn('"softwareVersion": "0.5.0"', combined)
+        self.assertNotIn("0.5.0 is available from", combined)
+
+    def test_stable_examples_guides_and_ci_remain_pinned_to_0_4_0(self) -> None:
+        requirements = (REPOSITORY_ROOT / "requirements.txt").read_text(
+            encoding="utf-8"
+        )
+        self.assertEqual(requirements.strip(), "apizit-linking[preview]==0.4.0")
+
+        stable_surfaces = (
+            REPOSITORY_ROOT / ".github" / "workflows" / "ci.yml",
+            SITE_ROOT / "quickstart" / "index.html",
+            *tuple((SITE_ROOT / "guides").glob("*/index.html")),
+        )
+        for path in stable_surfaces:
+            with self.subTest(path=path.relative_to(REPOSITORY_ROOT).as_posix()):
+                source = path.read_text(encoding="utf-8")
+                self.assertIn("0.4.0", source)
+                self.assertNotIn("0.5.0rc1", source)
 
     def test_public_security_channel_is_documented_as_enabled(self) -> None:
         security_url = (
@@ -314,6 +334,10 @@ class DocumentationSiteTests(unittest.TestCase):
         self.assertRegex(page, r"Private Vulnerability Reporting is enabled")
         self.assertNotIn("not active yet", policy)
         self.assertIn("Do **not** disclose vulnerability details", policy)
+        self.assertIn("0.5.0rc1", policy)
+        self.assertIn("Evaluation candidate", page)
+        self.assertIn("0.5.0</td>", page)
+        self.assertIn("Not published</td>", page)
 
         for name in ("bug.yml", "feature.yml"):
             source = (
@@ -340,14 +364,18 @@ class DocumentationSiteTests(unittest.TestCase):
         self.assertIn("blank_issues_enabled: false", config)
         self.assertIn(f"{BASE_URL}security/", config)
 
-    def test_public_changelog_and_machine_index_keep_0_4_canonical(self) -> None:
+    def test_public_changelog_and_machine_index_separate_stable_and_rc(self) -> None:
         changelog = (REPOSITORY_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         llms = (SITE_ROOT / "llms.txt").read_text(encoding="utf-8")
 
         self.assertIn("## Unreleased", changelog)
         self.assertIn("## 0.4.0", changelog)
-        self.assertNotIn("## 0.5.0", changelog)
-        self.assertIn("There is no public `apizit-linking` 0.5.0 release yet", changelog)
+        self.assertIn("## 0.5.0rc1 - 2026-07-23", changelog)
+        self.assertNotRegex(changelog, r"(?m)^## 0\.5\.0(?:\s|$)")
+        self.assertIn(
+            "There is no final public `apizit-linking` 0.5.0 release yet",
+            changelog,
+        )
 
         for expected in (
             f"{BASE_URL}releases/",
@@ -358,7 +386,12 @@ class DocumentationSiteTests(unittest.TestCase):
             f"{BASE_URL}migrations/0.4-to-0.5/",
             f"{BASE_URL}security/",
             "apizit-linking[preview]==0.4.0",
-            "Package 0.5.0 and a 0.5 release candidate are not published",
+            "apizit-linking[preview]==0.5.0rc1",
+            "Final package 0.5.0 is not published",
+            "Response annotations are documentary only",
+            "nine gated jobs",
+            "six clean-wheel",
+            "APIZIT has not yet been promoted",
             "does not publish engine GitHub Releases",
         ):
             with self.subTest(expected=expected):

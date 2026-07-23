@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>APIZIT Linking 0.5.0 / RC draft — not published</title>
+    <title>APIZIT Linking 0.5.0rc1 — published release candidate</title>
     <meta
       name="description"
-      content="Clearly labelled planning draft for a future APIZIT Linking 0.5.0 or release candidate; it is not a published package or installation guide."
+      content="Published APIZIT Linking 0.5.0rc1 release notes: useful documentary OpenAPI, minimal response descriptions, multi-OS wheel gates, and evaluation guidance."
     >
     <meta name="robots" content="index, follow">
     <link
@@ -15,20 +15,20 @@
     >
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="APIZIT Linking">
-    <meta property="og:title" content="APIZIT Linking 0.5.0 / RC draft — not published">
+    <meta property="og:title" content="APIZIT Linking 0.5.0rc1 release candidate">
     <meta
       property="og:description"
-      content="Prospective release notes and publication gates for the next APIZIT Linking beta."
+      content="Observed behavior and completed publication gates for the public 0.5.0rc1 evaluation candidate."
     >
     <meta
       property="og:url"
       content="https://chipsi44.github.io/apizit-linking-examples/releases/0.5.0/"
     >
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="APIZIT Linking 0.5.0 / RC draft">
+    <meta name="twitter:title" content="APIZIT Linking 0.5.0rc1 release candidate">
     <meta
       name="twitter:description"
-      content="Planning document only. The current published APIZIT Linking package remains 0.4.0."
+      content="The 0.5.0rc1 candidate is published for evaluation; 0.4.0 remains the stable beta."
     >
     <link rel="stylesheet" href="/apizit-linking-examples/assets/styles.css">
     <script type="application/ld+json">
@@ -37,13 +37,13 @@
         "@graph": [
           {
             "@type": "TechArticle",
-            "headline": "APIZIT Linking 0.5.0 / RC planning draft",
-            "description": "Unpublished planning notes for a possible APIZIT Linking 0.5 beta.",
+            "headline": "APIZIT Linking 0.5.0rc1 release candidate",
+            "description": "Published release notes and evaluation guidance for APIZIT Linking 0.5.0rc1.",
             "url": "https://chipsi44.github.io/apizit-linking-examples/releases/0.5.0/",
             "datePublished": "2026-07-23",
             "dateModified": "2026-07-23",
             "inLanguage": "en",
-            "about": ["APIZIT Linking", "release planning", "migration"]
+            "about": ["APIZIT Linking", "OpenAPI", "release candidate", "migration"]
           },
           {
             "@type": "BreadcrumbList",
@@ -63,7 +63,7 @@
               {
                 "@type": "ListItem",
                 "position": 3,
-                "name": "0.5.0 draft",
+                "name": "0.5.0rc1",
                 "item": "https://chipsi44.github.io/apizit-linking-examples/releases/0.5.0/"
               }
             ]
@@ -106,41 +106,77 @@
             <ol>
               <li><a href="/apizit-linking-examples/">Home</a></li>
               <li><a href="/apizit-linking-examples/releases/">Releases</a></li>
-              <li aria-current="page">0.5.0 / RC draft</li>
+              <li aria-current="page">0.5.0rc1</li>
             </ol>
           </nav>
-          <p class="eyebrow">Draft · not published · not an RC</p>
-          <h1>APIZIT Linking 0.5.0 planning draft</h1>
+          <p class="eyebrow">Published release candidate · evaluation only</p>
+          <h1>APIZIT Linking 0.5.0rc1</h1>
           <p class="lede">
-            This page reserves the public release-note structure for a possible 0.5.0
-            line. It records compatibility decisions and publication gates without
-            presenting future work as an available package.
+            The first 0.5 candidate adds useful OpenAPI 3.1 documentation and minimal
+            documentary responses while preserving the V1 manifest and runtime-artifact
+            formats.
           </p>
         </div>
       </header>
 
       <article class="container article">
-        <div class="callout callout-warning">
+        <div class="callout callout-note">
           <p>
-            <strong>Do not install or depend on 0.5.0 from this page.</strong> No 0.5.0
-            package or release candidate is claimed here. The current public package is
-            <a href="https://pypi.org/project/apizit-linking/0.4.0/">0.4.0 on PyPI</a>.
+            <strong>Publication status:</strong> 0.5.0rc1 is available from
+            <a href="https://pypi.org/project/apizit-linking/0.5.0rc1/">PyPI</a>
+            as a wheel and source distribution. It is intended for isolated evaluation.
+            <a href="https://pypi.org/project/apizit-linking/0.4.0/">0.4.0</a>
+            remains the stable beta and final 0.5.0 is not published.
           </p>
         </div>
 
-        <h2 id="current-command">Current reproducible command</h2>
+        <h2 id="candidate-command">Evaluate the exact candidate</h2>
         <div class="code-block">
-          <div class="code-block-label">Published version only</div>
-          <pre><code>python -m pip install "apizit-linking[preview]==0.4.0"</code></pre>
+          <div class="code-block-label">Disposable virtual environment</div>
+          <pre><code>python -m pip install "apizit-linking[preview]==0.5.0rc1"
+apizit-linking validate .
+apizit-linking preview . --port 8080</code></pre>
         </div>
+        <p>
+          Do not change this examples repository's <code>requirements.txt</code>, guide
+          commands, CI pin, or a production integration from 0.4.0 merely to try the
+          candidate.
+        </p>
 
-        <h2 id="compatibility-draft">Compatibility decisions for the draft</h2>
+        <h2 id="observed-behavior">Observed 0.5.0rc1 behavior</h2>
+        <ul>
+          <li>
+            Local preview exposes Swagger UI, ReDoc, and an OpenAPI 3.1 document. If a
+            linked <code>GET</code> or <code>HEAD</code> route would shadow a standard
+            documentation path, preview relocates its documentation URLs.
+          </li>
+          <li>
+            OpenAPI operations are generated statically from the compiled contract. The
+            generator does not import or execute customer modules to inspect metadata.
+          </li>
+          <li>
+            Explicit path, query, header, JSON body, form, and file bindings are
+            described with source-aware wire schemas. Defaults, nullable annotations,
+            repeated values, and automatic source resolution are represented.
+          </li>
+          <li>
+            Operations document a minimal successful <code>200</code>, stable Linking
+            request errors as <code>400</code>, and generic business failures as
+            <code>500</code>. <code>HEAD</code> does not advertise a response body.
+          </li>
+          <li>
+            Linking remains responsible for request resolution, so this change does not
+            introduce FastAPI/Pydantic request <code>422</code> responses.
+          </li>
+        </ul>
+
+        <h2 id="compatibility">Compatibility decisions</h2>
         <div class="table-wrap wide">
           <table>
             <thead>
               <tr>
                 <th scope="col">Contract</th>
-                <th scope="col">0.4 to proposed 0.5 treatment</th>
+                <th scope="col">0.4 to 0.5.0rc1 treatment</th>
               </tr>
             </thead>
             <tbody>
@@ -156,20 +192,21 @@
                 <td>Artifact engine identity</td>
                 <td>
                   Exact <code>engine_version</code> matching remains mandatory, so
-                  artifacts must be recompiled with the released 0.5 engine.
+                  artifacts must be recompiled with the candidate engine.
                 </td>
               </tr>
               <tr>
                 <td>HTTP responses</td>
                 <td>
-                  Response changes in this public preparation are documentary only.
-                  They do not add a new declarative response-control contract.
+                  Response schemas are documentary only. Return annotations do not
+                  validate or transform customer return values, and there is no new
+                  manifest response block.
                 </td>
               </tr>
               <tr>
                 <td>Legacy route-list adapter</td>
                 <td>
-                  The deprecated bridge is planned to remain through 0.5 under the
+                  The deprecated bridge remains through 0.5 under the
                   public one-following-minor policy; earliest normal removal is 0.6.
                 </td>
               </tr>
@@ -179,16 +216,26 @@
         <p>
           Artifact format and engine compatibility answer different questions. Keeping
           artifact <code>version: 1</code> means the envelope shape stays readable; it
-          does not make a 0.4-generated artifact executable by a 0.5 runtime.
+          does not make a 0.4-generated artifact executable by the candidate runtime.
         </p>
 
-        <h2 id="apizit">APIZIT integration gate</h2>
+        <h2 id="documentary-responses">Responses are documentary only</h2>
         <p>
-          APIZIT must not pre-pin an unpublished version. After a 0.5 package is
-          successfully published and verified on PyPI, APIZIT must change its exact
-          dependency pin, recompile every Linking artifact, rebuild ZIP and container
-          outputs, and record the released engine version plus artifact hash in
-          deployment provenance. No private Linking source should be copied into APIZIT.
+          The OpenAPI return schema is a useful description derived from the Python
+          annotation, not a runtime response contract. APIZIT Linking sets no FastAPI
+          response model and does not reject, coerce, or reshape a returned value to
+          match that annotation. FastAPI still performs its normal response
+          serialization. Custom status codes, response headers, streaming, and
+          user-configured response models remain outside manifest v1.
+        </p>
+
+        <h2 id="apizit">APIZIT is not yet promoted</h2>
+        <p>
+          Publication of the candidate does not promote APIZIT automatically. APIZIT
+          remains on its current stable integration until its separate candidate
+          validation updates the exact dependency pin, recompiles every Linking
+          artifact, rebuilds ZIP and container outputs, verifies deployment provenance,
+          and proves that no Linking engine source is vendored.
         </p>
         <p>
           The complete documentary checklist is in the
@@ -197,34 +244,41 @@
           </a>.
         </p>
 
-        <h2 id="release-gates">Required publication gates</h2>
-        <ul>
-          <li>All engine, packaging, schema, adapter, and supported-Python tests pass.</li>
-          <li>Wheel and source distribution are built from the intended immutable commit.</li>
-          <li>PyPI Trusted Publishing succeeds and file hashes are recorded.</li>
-          <li>The installed distributions pass smoke tests in a clean environment.</li>
-          <li>APIZIT passes scan, report, ZIP, image, and runtime integration tests.</li>
-          <li>
-            These notes are replaced with observed behavior, an actual publication
-            status, and final migration evidence.
-          </li>
-        </ul>
-
-        <h2 id="rc-transition">When this becomes an RC</h2>
+        <h2 id="release-gates">Completed publication gates</h2>
         <p>
-          A release candidate must have a real, uniquely versioned distribution and
-          test evidence. At that point this page will name the candidate exactly, link
-          to its canonical package files, list known blockers, and state whether it is
-          appropriate only for testing. Until then, “0.5.0 / RC” is a planning label.
+          The release workflow completed nine gated jobs before PyPI publication:
+        </p>
+        <ul>
+          <li>one immutable wheel and source-distribution build;</li>
+          <li>
+            six clean-environment smoke jobs installing the exact same wheel on Linux,
+            Windows, and macOS with Python 3.10 and 3.14;
+          </li>
+          <li>one smoke with the minimum supported preview dependencies on Python 3.10;</li>
+          <li>one PyPI Trusted Publishing job.</li>
+        </ul>
+        <p>
+          Each wheel smoke verified the installed CLI, public schema, OpenAPI document,
+          FastAPI adapter, and a real ASGI request outside the source checkout. These
+          package gates passed; the separate APIZIT promotion gate remains pending.
+        </p>
+
+        <h2 id="final-transition">Before final 0.5.0</h2>
+        <p>
+          Evaluate 0.5.0rc1 against real projects and the separate APIZIT integration.
+          Report security findings privately and non-security defects through the
+          public examples repository. A final 0.5.0 release will require its own exact
+          package, completed gates, migration evidence, and explicit publication; this
+          page does not claim that final release exists.
         </p>
       </article>
     </main>
 
     <footer class="site-footer">
       <div class="container footer-inner">
-        <p>Draft for a future 0.5 line · Current published beta: 0.4.0</p>
+        <p>APIZIT Linking 0.5.0rc1 evaluation candidate · Stable beta: 0.4.0</p>
         <ul class="footer-links">
-          <li><a href="https://pypi.org/project/apizit-linking/0.4.0/">Current PyPI release</a></li>
+          <li><a href="https://pypi.org/project/apizit-linking/0.5.0rc1/">PyPI 0.5.0rc1</a></li>
           <li><a href="/apizit-linking-examples/releases/">Releases</a></li>
           <li><a href="/apizit-linking-examples/migrations/">Migrations</a></li>
           <li><a href="/apizit-linking-examples/limits/">V1 limits</a></li>

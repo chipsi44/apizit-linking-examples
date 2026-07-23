@@ -5,6 +5,7 @@
 > import APIZIT Linking, FastAPI, or Flask.
 
 Current public beta: 0.4.0
+Published evaluation candidate: 0.5.0rc1
 Python support: 3.10 through 3.14
 License: Apache-2.0
 
@@ -27,10 +28,10 @@ Canonical documentation:
 - V1 limitations: https://chipsi44.github.io/apizit-linking-examples/limits/
 - Release notes and public changelog: https://chipsi44.github.io/apizit-linking-examples/releases/
 - Published 0.4.0 retrospective: https://chipsi44.github.io/apizit-linking-examples/releases/0.4.0/
-- Future 0.5.0 / RC draft (not published): https://chipsi44.github.io/apizit-linking-examples/releases/0.5.0/
+- Published 0.5.0rc1 release-candidate notes: https://chipsi44.github.io/apizit-linking-examples/releases/0.5.0/
 - Migration index: https://chipsi44.github.io/apizit-linking-examples/migrations/
 - Migration from 0.3 to 0.4: https://chipsi44.github.io/apizit-linking-examples/migrations/0.3-to-0.4/
-- Documentary 0.4-to-0.5 migration draft: https://chipsi44.github.io/apizit-linking-examples/migrations/0.4-to-0.5/
+- 0.4-to-0.5 RC evaluation guide: https://chipsi44.github.io/apizit-linking-examples/migrations/0.4-to-0.5/
 - Security policy and enabled private-reporting channel: https://chipsi44.github.io/apizit-linking-examples/security/
 
 Public package and examples:
@@ -46,12 +47,22 @@ Release-channel rules:
 - PyPI is canonical for installable package files.
 - GitHub Pages is canonical for release explanations and migrations.
 - This examples repository does not publish engine GitHub Releases.
-- Package 0.5.0 and a 0.5 release candidate are not published.
-- Manifest version 1 and runtime artifact version 1 are planned to remain
-  unchanged for 0.5, but exact engine_version matching still requires complete
-  recompilation after an engine update.
-- APIZIT must re-pin only after publication, then rebuild every generated
-  artifact, Lambda ZIP, and container image without vendored Linking source.
+- Package 0.5.0rc1 is published for isolated evaluation:
+
+      python -m pip install "apizit-linking[preview]==0.5.0rc1"
+
+- Final package 0.5.0 is not published. Version 0.4.0 remains the stable beta;
+  requirements, runnable examples, guides, CI, and production pins stay on 0.4.0.
+- The candidate preserves manifest version 1 and runtime artifact version 1,
+  but exact engine_version matching requires complete recompilation.
+- OpenAPI 3.1 describes request bindings and minimal 200, 400, and 500
+  responses. Response annotations are documentary only: they do not validate,
+  transform, reject, or reshape customer return values at runtime.
+- The release workflow completed nine gated jobs, including six clean-wheel
+  smokes on Linux, Windows, and macOS with Python 3.10 and 3.14.
+- APIZIT has not yet been promoted to 0.5.0rc1. Candidate evaluation must re-pin
+  exactly, rebuild every artifact, Lambda ZIP, and container image, and prove
+  that no Linking engine source is vendored.
 
 APIZIT Linking is a declarative Python-to-HTTP binding layer, not a replacement
 for a full web framework. Its optional preview server uses FastAPI internally
