@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/chipsi44/apizit-linking-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/chipsi44/apizit-linking-examples/actions/workflows/ci.yml)
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-2357c6)](https://chipsi44.github.io/apizit-linking-examples/)
-[![APIZIT Linking](https://img.shields.io/badge/APIZIT%20Linking-0.3.0-blue)](https://pypi.org/project/apizit-linking/)
+[![APIZIT Linking](https://img.shields.io/badge/APIZIT%20Linking-0.3.1-blue)](https://pypi.org/project/apizit-linking/)
 
 Public, forkable API projects for
 [APIZIT Linking](https://pypi.org/project/apizit-linking/). The repository root
@@ -115,7 +115,7 @@ The suite:
 - verifies structured `400` errors and generic `500` failures;
 - runs the complete task CRUD lifecycle.
 
-CI performs the same checks against the published `apizit-linking==0.3.0` on
+CI performs the same checks against the published `apizit-linking==0.3.1` on
 Python 3.10 through 3.14.
 
 ## Current V1 boundaries
