@@ -36,9 +36,9 @@ migrations are published on
 ### Integration status
 
 APIZIT completed its separate final promotion with an exact 0.5.0 build and
-runtime pin, a recompiled artifact, wheel and deployment-output anti-vendoring
-checks, 12 Linking integration tests, 89 backend tests, and a green
-main-branch CI.
+runtime pin, a recompiled artifact, anti-vendoring checks of APIZIT source, the
+generated pre-install runtime, and its wheel, 12 Linking integration tests, 89
+backend tests, and a green main-branch CI.
 
 ## 0.5.0rc1 - 2026-07-23
 

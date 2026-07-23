@@ -303,7 +303,7 @@ class DocumentationSiteTests(unittest.TestCase):
 
         self.assertIn("response model", combined)
         self.assertRegex(release, r"do not\s+validate or transform")
-        self.assertRegex(combined, r"no Linking engine source is\s+vendored")
+        self.assertRegex(combined, r"no Linking\s+engine source is\s+vendored")
         self.assertIn("0.5.0 is available from", combined)
         self.assertNotIn("final 0.5.0 is not published", combined)
         self.assertNotIn("PROMOTION_STATUS=PENDING", combined)
@@ -384,7 +384,7 @@ class DocumentationSiteTests(unittest.TestCase):
         self.assertIn("## 0.5.0 - 2026-07-23", changelog)
         self.assertNotIn("PROMOTION_STATUS=PENDING", changelog)
         self.assertIn("12 Linking integration tests", changelog)
-        self.assertIn("89 backend tests", changelog)
+        self.assertRegex(changelog, r"89\s+backend tests")
 
         for expected in (
             f"{BASE_URL}releases/",

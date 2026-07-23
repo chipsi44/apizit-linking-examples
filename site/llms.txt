@@ -61,8 +61,9 @@ Release-channel rules:
   smokes on Linux, Windows, and macOS with Python 3.10 and 3.14.
 - APIZIT has completed its separate final promotion: build and runtime pin
   apizit-linking==0.5.0 exactly, the runtime artifact was recompiled, 12 Linking
-  integration tests and 89 backend tests passed, wheel and deployment outputs
-  passed the anti-vendoring audit, and main-branch CI is green.
+  integration tests and 89 backend tests passed, APIZIT source, the generated
+  pre-install runtime, and its wheel passed the anti-vendoring audit, and
+  main-branch CI is green.
 
 APIZIT Linking is a declarative Python-to-HTTP binding layer, not a replacement
 for a full web framework. Its optional preview server uses FastAPI internally
