@@ -126,6 +126,39 @@
           </p>
         </div>
 
+        <h2 id="editor-schema">Editor validation</h2>
+        <p>
+          The canonical Draft 2020-12 schema is available as
+          <a href="/apizit-linking-examples/schema/apizit-linking-v1.schema.json">
+            raw JSON Schema
+          </a>.
+          Editors can use it for completion, field documentation, and immediate
+          structural validation.
+        </p>
+        <h3 id="vscode-schema">VS Code and YAML Language Server</h3>
+        <p>
+          With the Red Hat YAML extension or another YAML Language Server client, add
+          this directive as the first line:
+        </p>
+        <div class="code-block">
+          <div class="code-block-header">apizit_linking.yaml</div>
+          <pre><code># yaml-language-server: $schema=https://chipsi44.github.io/apizit-linking-examples/schema/apizit-linking-v1.schema.json
+version: 1</code></pre>
+        </div>
+        <h3 id="pycharm-schema">PyCharm</h3>
+        <p>
+          Open <strong>Settings | Languages &amp; Frameworks | Schemas and DTDs |
+          JSON Schema Mappings</strong>, create a mapping that uses the schema URL
+          above, and apply it to <code>apizit_linking.yaml</code>,
+          <code>apizit_linking.yml</code>, and <code>apizit_linking.json</code>.
+        </p>
+        <p>
+          The schema describes canonical files. Run
+          <code>apizit-linking validate .</code> as well: only the compiler can check
+          the referenced Python files, function signatures, bindings, and route
+          collisions.
+        </p>
+
         <h2 id="file-discovery">Manifest discovery</h2>
         <p>
           When a target is a directory, APIZIT Linking searches its root in this
@@ -254,6 +287,14 @@ routes:
           methods and normalizes them. Linked functions must be top-level functions in a
           Python module or package inside the project root.
         </p>
+        <p>
+          A canonical path starts with <code>/</code>, contains no whitespace, query
+          string, or fragment, and uses balanced placeholders such as
+          <code>{customer_id}</code>. Each placeholder is a unique, non-keyword portable
+          Python identifier. A canonical function target uses portable Python
+          identifiers separated by dots, contains exactly one colon, and cannot point
+          into the reserved top-level <code>apizit_linking</code> module.
+        </p>
 
         <h3 id="route-ordering">Collisions and route ordering</h3>
         <p>
@@ -280,7 +321,8 @@ routes:
         <p>
           Here, JSON body field <code>name</code> becomes Python argument
           <code>customer_name</code>. When a source is explicit, only that source is
-          inspected; there is no fallback.
+          inspected; there is no fallback. Canonical external names are non-empty,
+          single-line strings without leading or trailing whitespace.
         </p>
         <div class="table-wrap wide">
           <table>
@@ -408,10 +450,12 @@ routes:
 
         <h2 id="compatibility">Compatibility behavior</h2>
         <p>
-          The official schema requires <code>version: 1</code>. For migration, the
-          Python compiler currently interprets a missing version as V1 and emits an
-          <code>IMPLICIT_VERSION</code> warning. Historical extensionless slash targets
-          can also produce migration warnings; new files should always use dotted
+          The official schema accepts canonical authoring forms only. For migration,
+          the compiler currently interprets a missing version as V1 and emits
+          <code>IMPLICIT_VERSION</code>, normalizes method case and selected surrounding
+          whitespace, and accepts historical extensionless slash targets with
+          <code>LEGACY_FUNCTION_REFERENCE</code>. New files always use explicit
+          <code>version: 1</code>, uppercase methods, trimmed values, and dotted
           <code>module:function</code> targets.
         </p>
 
@@ -429,6 +473,11 @@ routes:
           <li>
             <a href="/apizit-linking-examples/limits/">
               Review V1 response and runtime boundaries
+            </a>
+          </li>
+          <li>
+            <a href="/apizit-linking-examples/reference/compatibility/">
+              Read the package, schema, diagnostics, and artifact compatibility policy
             </a>
           </li>
         </ul>

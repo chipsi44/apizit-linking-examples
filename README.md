@@ -17,6 +17,12 @@ Read the [public documentation](https://chipsi44.github.io/apizit-linking-exampl
 for the quickstart, complete Linking YAML and CLI references, runnable example
 catalogue, architecture guides, and documented V1 boundaries.
 
+The canonical editor schema is published as
+[raw JSON Schema](https://chipsi44.github.io/apizit-linking-examples/schema/apizit-linking-v1.schema.json).
+The public
+[compatibility policy](https://chipsi44.github.io/apizit-linking-examples/reference/compatibility/)
+separates package, manifest, diagnostics, and runtime-artifact guarantees.
+
 ## Fork and run
 
 [Fork this repository](https://github.com/chipsi44/apizit-linking-examples/fork)

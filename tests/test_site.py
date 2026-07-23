@@ -11,12 +11,15 @@ from urllib.parse import unquote, urljoin, urlparse
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 SITE_ROOT = REPOSITORY_ROOT / "site"
 BASE_URL = "https://chipsi44.github.io/apizit-linking-examples/"
+SCHEMA_RELATIVE_PATH = Path("schema/apizit-linking-v1.schema.json")
+PUBLIC_SCHEMA_URL = f"{BASE_URL}{SCHEMA_RELATIVE_PATH.as_posix()}"
 
 PUBLIC_PAGES = {
     "index.html": BASE_URL,
     "quickstart/index.html": f"{BASE_URL}quickstart/",
     "reference/linking-yaml/index.html": f"{BASE_URL}reference/linking-yaml/",
     "reference/cli/index.html": f"{BASE_URL}reference/cli/",
+    "reference/compatibility/index.html": f"{BASE_URL}reference/compatibility/",
     "examples/index.html": f"{BASE_URL}examples/",
     "guides/index.html": f"{BASE_URL}guides/",
     "guides/expose-python-function-as-http-api-without-decorators/index.html": (
@@ -81,6 +84,38 @@ def _target_for(url: str) -> tuple[Path, str]:
 
 
 class DocumentationSiteTests(unittest.TestCase):
+    def test_published_schema_is_an_exact_canonical_copy(self) -> None:
+        canonical = REPOSITORY_ROOT / SCHEMA_RELATIVE_PATH
+        published = SITE_ROOT / SCHEMA_RELATIVE_PATH
+
+        self.assertTrue(canonical.is_file(), canonical)
+        self.assertTrue(published.is_file(), published)
+        self.assertEqual(published.read_bytes(), canonical.read_bytes())
+
+        schema = json.loads(canonical.read_text(encoding="utf-8"))
+        self.assertEqual(schema["$schema"], "https://json-schema.org/draft/2020-12/schema")
+        self.assertEqual(schema["$id"], PUBLIC_SCHEMA_URL)
+        self.assertEqual(schema["properties"]["version"]["const"], 1)
+
+    def test_compatibility_policy_names_each_public_contract(self) -> None:
+        policy = (
+            SITE_ROOT / "reference" / "compatibility" / "index.html"
+        ).read_text(encoding="utf-8")
+
+        for expected in (
+            "discover_linking_file",
+            "compile_linking_file",
+            "CompilationResult",
+            "RUNTIME_ARTIFACT_VERSION",
+            "create_app_from_runtime_artifact",
+            "Manifest schema guarantees",
+            "Diagnostic guarantees",
+            "Runtime artifact guarantees",
+            "Semantic Versioning and deprecation",
+        ):
+            with self.subTest(expected=expected):
+                self.assertIn(expected, policy)
+
     def test_public_pages_have_unique_canonical_metadata_and_valid_json_ld(self) -> None:
         seen_titles: set[str] = set()
         seen_descriptions: set[str] = set()

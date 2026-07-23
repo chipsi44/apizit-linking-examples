@@ -19,7 +19,9 @@ Canonical documentation:
 - Home: https://chipsi44.github.io/apizit-linking-examples/
 - Quickstart: https://chipsi44.github.io/apizit-linking-examples/quickstart/
 - Linking YAML reference: https://chipsi44.github.io/apizit-linking-examples/reference/linking-yaml/
+- Canonical JSON Schema: https://chipsi44.github.io/apizit-linking-examples/schema/apizit-linking-v1.schema.json
 - CLI reference: https://chipsi44.github.io/apizit-linking-examples/reference/cli/
+- Compatibility policy: https://chipsi44.github.io/apizit-linking-examples/reference/compatibility/
 - Runnable examples: https://chipsi44.github.io/apizit-linking-examples/examples/
 - Technical guides: https://chipsi44.github.io/apizit-linking-examples/guides/
 - V1 limitations: https://chipsi44.github.io/apizit-linking-examples/limits/
