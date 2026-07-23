@@ -245,6 +245,14 @@
           guessed.
         </p>
         <p>
+          Each route records its ordered parameters, parameter kinds,
+          required/default state, annotations, <code>callable_kind</code>
+          (<code>sync</code> or <code>async</code>), and
+          <code>return_annotation</code>. A change to any of those dimensions fails
+          before the HTTP application starts. Synchronous and asynchronous generators
+          are rejected until streaming has a separate explicit contract.
+        </p>
+        <p>
           Adapters treat artifacts as opaque, record the engine version and artifact
           hash in deployment provenance, and recompile rather than editing routes by
           hand. An artifact executes only with the exact
