@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>APIZIT Linking 0.5.0 / RC draft — not published</title>
+    <meta
+      name="description"
+      content="Clearly labelled planning draft for a future APIZIT Linking 0.5.0 or release candidate; it is not a published package or installation guide."
+    >
+    <meta name="robots" content="index, follow">
+    <link
+      rel="canonical"
+      href="https://chipsi44.github.io/apizit-linking-examples/releases/0.5.0/"
+    >
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="APIZIT Linking">
+    <meta property="og:title" content="APIZIT Linking 0.5.0 / RC draft — not published">
+    <meta
+      property="og:description"
+      content="Prospective release notes and publication gates for the next APIZIT Linking beta."
+    >
+    <meta
+      property="og:url"
+      content="https://chipsi44.github.io/apizit-linking-examples/releases/0.5.0/"
+    >
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="APIZIT Linking 0.5.0 / RC draft">
+    <meta
+      name="twitter:description"
+      content="Planning document only. The current published APIZIT Linking package remains 0.4.0."
+    >
+    <link rel="stylesheet" href="/apizit-linking-examples/assets/styles.css">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "TechArticle",
+            "headline": "APIZIT Linking 0.5.0 / RC planning draft",
+            "description": "Unpublished planning notes for a possible APIZIT Linking 0.5 beta.",
+            "url": "https://chipsi44.github.io/apizit-linking-examples/releases/0.5.0/",
+            "datePublished": "2026-07-23",
+            "dateModified": "2026-07-23",
+            "inLanguage": "en",
+            "about": ["APIZIT Linking", "release planning", "migration"]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Releases",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/releases/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "0.5.0 draft",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/releases/0.5.0/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/apizit-linking-examples/" aria-label="APIZIT Linking home">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span class="brand-copy">
+            <span class="brand-name">APIZIT Linking</span>
+            <span class="brand-subtitle">Documentation</span>
+          </span>
+        </a>
+        <nav class="primary-nav" aria-label="Primary">
+          <ul>
+            <li><a href="/apizit-linking-examples/">Home</a></li>
+            <li><a href="/apizit-linking-examples/quickstart/">Quickstart</a></li>
+            <li><a href="/apizit-linking-examples/reference/linking-yaml/">YAML</a></li>
+            <li><a href="/apizit-linking-examples/reference/cli/">CLI</a></li>
+            <li><a href="/apizit-linking-examples/examples/">Examples</a></li>
+            <li><a href="/apizit-linking-examples/guides/">Guides</a></li>
+            <li><a href="/apizit-linking-examples/limits/">V1 limits</a></li>
+            <li><a href="/apizit-linking-examples/releases/" aria-current="page">Releases</a></li>
+            <li><a href="/apizit-linking-examples/security/">Security</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <header class="page-heading">
+        <div class="container">
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+              <li><a href="/apizit-linking-examples/">Home</a></li>
+              <li><a href="/apizit-linking-examples/releases/">Releases</a></li>
+              <li aria-current="page">0.5.0 / RC draft</li>
+            </ol>
+          </nav>
+          <p class="eyebrow">Draft · not published · not an RC</p>
+          <h1>APIZIT Linking 0.5.0 planning draft</h1>
+          <p class="lede">
+            This page reserves the public release-note structure for a possible 0.5.0
+            line. It records compatibility decisions and publication gates without
+            presenting future work as an available package.
+          </p>
+        </div>
+      </header>
+
+      <article class="container article">
+        <div class="callout callout-warning">
+          <p>
+            <strong>Do not install or depend on 0.5.0 from this page.</strong> No 0.5.0
+            package or release candidate is claimed here. The current public package is
+            <a href="https://pypi.org/project/apizit-linking/0.4.0/">0.4.0 on PyPI</a>.
+          </p>
+        </div>
+
+        <h2 id="current-command">Current reproducible command</h2>
+        <div class="code-block">
+          <div class="code-block-label">Published version only</div>
+          <pre><code>python -m pip install "apizit-linking[preview]==0.4.0"</code></pre>
+        </div>
+
+        <h2 id="compatibility-draft">Compatibility decisions for the draft</h2>
+        <div class="table-wrap wide">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Contract</th>
+                <th scope="col">0.4 to proposed 0.5 treatment</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>User-authored manifest</td>
+                <td>Manifest <code>version: 1</code> remains unchanged.</td>
+              </tr>
+              <tr>
+                <td>Generated runtime artifact</td>
+                <td>Runtime artifact <code>version: 1</code> remains unchanged.</td>
+              </tr>
+              <tr>
+                <td>Artifact engine identity</td>
+                <td>
+                  Exact <code>engine_version</code> matching remains mandatory, so
+                  artifacts must be recompiled with the released 0.5 engine.
+                </td>
+              </tr>
+              <tr>
+                <td>HTTP responses</td>
+                <td>
+                  Response changes in this public preparation are documentary only.
+                  They do not add a new declarative response-control contract.
+                </td>
+              </tr>
+              <tr>
+                <td>Legacy route-list adapter</td>
+                <td>
+                  The deprecated bridge is planned to remain through 0.5 under the
+                  public one-following-minor policy; earliest normal removal is 0.6.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Artifact format and engine compatibility answer different questions. Keeping
+          artifact <code>version: 1</code> means the envelope shape stays readable; it
+          does not make a 0.4-generated artifact executable by a 0.5 runtime.
+        </p>
+
+        <h2 id="apizit">APIZIT integration gate</h2>
+        <p>
+          APIZIT must not pre-pin an unpublished version. After a 0.5 package is
+          successfully published and verified on PyPI, APIZIT must change its exact
+          dependency pin, recompile every Linking artifact, rebuild ZIP and container
+          outputs, and record the released engine version plus artifact hash in
+          deployment provenance. No private Linking source should be copied into APIZIT.
+        </p>
+        <p>
+          The complete documentary checklist is in the
+          <a href="/apizit-linking-examples/migrations/0.4-to-0.5/">
+            0.4-to-0.5 migration guide
+          </a>.
+        </p>
+
+        <h2 id="release-gates">Required publication gates</h2>
+        <ul>
+          <li>All engine, packaging, schema, adapter, and supported-Python tests pass.</li>
+          <li>Wheel and source distribution are built from the intended immutable commit.</li>
+          <li>PyPI Trusted Publishing succeeds and file hashes are recorded.</li>
+          <li>The installed distributions pass smoke tests in a clean environment.</li>
+          <li>APIZIT passes scan, report, ZIP, image, and runtime integration tests.</li>
+          <li>
+            These notes are replaced with observed behavior, an actual publication
+            status, and final migration evidence.
+          </li>
+        </ul>
+
+        <h2 id="rc-transition">When this becomes an RC</h2>
+        <p>
+          A release candidate must have a real, uniquely versioned distribution and
+          test evidence. At that point this page will name the candidate exactly, link
+          to its canonical package files, list known blockers, and state whether it is
+          appropriate only for testing. Until then, “0.5.0 / RC” is a planning label.
+        </p>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>Draft for a future 0.5 line · Current published beta: 0.4.0</p>
+        <ul class="footer-links">
+          <li><a href="https://pypi.org/project/apizit-linking/0.4.0/">Current PyPI release</a></li>
+          <li><a href="/apizit-linking-examples/releases/">Releases</a></li>
+          <li><a href="/apizit-linking-examples/migrations/">Migrations</a></li>
+          <li><a href="/apizit-linking-examples/limits/">V1 limits</a></li>
+          <li><a href="/apizit-linking-examples/security/">Security</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

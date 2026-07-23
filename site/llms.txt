@@ -25,12 +25,33 @@ Canonical documentation:
 - Runnable examples: https://chipsi44.github.io/apizit-linking-examples/examples/
 - Technical guides: https://chipsi44.github.io/apizit-linking-examples/guides/
 - V1 limitations: https://chipsi44.github.io/apizit-linking-examples/limits/
+- Release notes and public changelog: https://chipsi44.github.io/apizit-linking-examples/releases/
+- Published 0.4.0 retrospective: https://chipsi44.github.io/apizit-linking-examples/releases/0.4.0/
+- Future 0.5.0 / RC draft (not published): https://chipsi44.github.io/apizit-linking-examples/releases/0.5.0/
+- Migration index: https://chipsi44.github.io/apizit-linking-examples/migrations/
+- Migration from 0.3 to 0.4: https://chipsi44.github.io/apizit-linking-examples/migrations/0.3-to-0.4/
+- Documentary 0.4-to-0.5 migration draft: https://chipsi44.github.io/apizit-linking-examples/migrations/0.4-to-0.5/
+- Security policy and enabled private-reporting channel: https://chipsi44.github.io/apizit-linking-examples/security/
 
 Public package and examples:
 
 - PyPI: https://pypi.org/project/apizit-linking/
 - Forkable repository: https://github.com/chipsi44/apizit-linking-examples
 - Public issues: https://github.com/chipsi44/apizit-linking-examples/issues
+- Public changelog: https://github.com/chipsi44/apizit-linking-examples/blob/main/CHANGELOG.md
+- Repository security policy: https://github.com/chipsi44/apizit-linking-examples/blob/main/SECURITY.md
+
+Release-channel rules:
+
+- PyPI is canonical for installable package files.
+- GitHub Pages is canonical for release explanations and migrations.
+- This examples repository does not publish engine GitHub Releases.
+- Package 0.5.0 and a 0.5 release candidate are not published.
+- Manifest version 1 and runtime artifact version 1 are planned to remain
+  unchanged for 0.5, but exact engine_version matching still requires complete
+  recompilation after an engine update.
+- APIZIT must re-pin only after publication, then rebuild every generated
+  artifact, Lambda ZIP, and container image without vendored Linking source.
 
 APIZIT Linking is a declarative Python-to-HTTP binding layer, not a replacement
 for a full web framework. Its optional preview server uses FastAPI internally

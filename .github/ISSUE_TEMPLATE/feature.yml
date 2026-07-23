@@ -1,0 +1,57 @@
+name: Feature request
+description: Propose a public contract, example, or documentation improvement.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Security warning:** this form is public. Do not include vulnerability details, secrets, private source code, or customer data. Follow the [security policy](https://github.com/chipsi44/apizit-linking-examples/security/policy) for security reports.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: Describe the developer problem and who encounters it, independently of a preferred implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed public behavior
+      description: Show the desired command, manifest, adapter call, example, or documentation outcome.
+    validations:
+      required: true
+  - type: dropdown
+    id: contract
+    attributes:
+      label: Contract affected
+      options:
+        - package or Python adapter API
+        - Linking manifest or JSON Schema
+        - diagnostics
+        - runtime artifact
+        - HTTP request or response behavior
+        - examples or documentation only
+        - not sure
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Explain current workarounds or why they are insufficient.
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility considerations
+      description: Note any existing manifest, artifact, adapter, or APIZIT deployment that could be affected.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues and the documented V1 limits.
+          required: true
+        - label: This request contains no vulnerability details, secrets, private code, or customer data.
+          required: true

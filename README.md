@@ -22,6 +22,11 @@ The canonical editor schema is published as
 The public
 [compatibility policy](https://chipsi44.github.io/apizit-linking-examples/reference/compatibility/)
 separates package, manifest, diagnostics, and runtime-artifact guarantees.
+See the canonical
+[release notes](https://chipsi44.github.io/apizit-linking-examples/releases/),
+[migration index](https://chipsi44.github.io/apizit-linking-examples/migrations/),
+and [security policy](https://chipsi44.github.io/apizit-linking-examples/security/)
+before updating an integration pin.
 
 ## Fork and run
 
@@ -123,6 +128,27 @@ The suite:
 
 CI performs the same checks against the published `apizit-linking==0.4.0` on
 Python 3.10 through 3.14.
+
+## Releases and migrations
+
+PyPI is the canonical source for installable `apizit-linking` wheels and source
+distributions. GitHub Pages contains the human-readable release notes and
+version-by-version migration guides. This examples repository does not create
+GitHub Releases for the engine because its generated source archives would
+contain the examples repository, not the canonical package.
+
+The [0.4.0 retrospective](https://chipsi44.github.io/apizit-linking-examples/releases/0.4.0/)
+documents the current published beta. The
+[0.5.0 / RC page](https://chipsi44.github.io/apizit-linking-examples/releases/0.5.0/)
+is explicitly a future planning draft; all install and CI pins remain at 0.4.0.
+
+## Security
+
+Do not disclose vulnerabilities in public issues. Read
+[SECURITY.md](SECURITY.md) or the
+[published security page](https://chipsi44.github.io/apizit-linking-examples/security/)
+for supported versions, the private-reporting channel, scope, and the safe fallback
+until GitHub Private Vulnerability Reporting is enabled.
 
 ## Current V1 boundaries
 

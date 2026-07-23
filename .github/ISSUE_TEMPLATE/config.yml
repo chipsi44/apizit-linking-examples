@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://chipsi44.github.io/apizit-linking-examples/security/
+    about: Do not disclose details publicly. Use the enabled private-reporting channel.
+  - name: APIZIT Linking documentation
+    url: https://chipsi44.github.io/apizit-linking-examples/
+    about: Check the quickstart, references, migrations, and current limits before opening an issue.

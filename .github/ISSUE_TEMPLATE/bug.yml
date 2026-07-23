@@ -1,0 +1,89 @@
+name: Bug report
+description: Report a reproducible, non-security defect in APIZIT Linking or its public examples.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Security warning:** do not disclose vulnerabilities, secrets, private source code, or customer data here. Follow the [security policy](https://github.com/chipsi44/apizit-linking-examples/security/policy) and use the private-reporting channel when it is available.
+  - type: input
+    id: package-version
+    attributes:
+      label: APIZIT Linking version
+      description: Run `python -m pip show apizit-linking` and copy only the version.
+      placeholder: "0.4.0"
+    validations:
+      required: true
+  - type: input
+    id: python-version
+    attributes:
+      label: Python version
+      placeholder: "3.12.4"
+    validations:
+      required: true
+  - type: input
+    id: operating-system
+    attributes:
+      label: Operating system
+      placeholder: "Ubuntu 24.04, macOS 15, or Windows 11"
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Affected component
+      options:
+        - validate command
+        - preview command
+        - manifest or JSON Schema
+        - runtime artifact or FastAPI adapter
+        - public example
+        - documentation
+        - packaging or installation
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: minimal-project
+    attributes:
+      label: Minimal project
+      description: Provide the smallest safe Python and linking YAML example that reproduces the defect.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Include exact commands and inputs, after removing sensitive values.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Sanitized diagnostics
+      description: Paste relevant output only. Redact credentials, personal data, private paths, and customer code.
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues for the same problem.
+          required: true
+        - label: This report contains no vulnerability details, secrets, private code, or customer data.
+          required: true
