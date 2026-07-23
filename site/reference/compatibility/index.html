@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Compatibility policy — APIZIT Linking</title>
+    <meta
+      name="description"
+      content="Compatibility guarantees for APIZIT Linking package releases, Python adapter APIs, manifest schemas, diagnostics, and generated runtime artifacts."
+    >
+    <meta name="theme-color" content="#0c1428">
+    <link
+      rel="canonical"
+      href="https://chipsi44.github.io/apizit-linking-examples/reference/compatibility/"
+    >
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="APIZIT Linking">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Compatibility policy — APIZIT Linking">
+    <meta
+      property="og:description"
+      content="Know which APIZIT Linking contracts are stable and how schema, artifact, diagnostics, and package versions evolve."
+    >
+    <meta
+      property="og:url"
+      content="https://chipsi44.github.io/apizit-linking-examples/reference/compatibility/"
+    >
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="APIZIT Linking compatibility policy">
+    <meta
+      name="twitter:description"
+      content="Stability rules for adapters, manifests, diagnostics, runtime artifacts, and package releases."
+    >
+    <link rel="stylesheet" href="/apizit-linking-examples/assets/styles.css">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "TechArticle",
+            "headline": "APIZIT Linking compatibility policy",
+            "description": "Compatibility guarantees for APIZIT Linking public contracts.",
+            "url": "https://chipsi44.github.io/apizit-linking-examples/reference/compatibility/",
+            "proficiencyLevel": "Intermediate",
+            "inLanguage": "en"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Compatibility policy",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/reference/compatibility/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/apizit-linking-examples/" aria-label="APIZIT Linking home">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span class="brand-copy">
+            <span class="brand-name">APIZIT Linking</span>
+            <span class="brand-subtitle">Documentation</span>
+          </span>
+        </a>
+        <nav class="primary-nav" aria-label="Primary">
+          <ul>
+            <li><a href="/apizit-linking-examples/">Home</a></li>
+            <li><a href="/apizit-linking-examples/quickstart/">Quickstart</a></li>
+            <li>
+              <a href="/apizit-linking-examples/reference/linking-yaml/">
+                YAML reference
+              </a>
+            </li>
+            <li><a href="/apizit-linking-examples/reference/cli/">CLI</a></li>
+            <li><a href="/apizit-linking-examples/examples/">Examples</a></li>
+            <li><a href="/apizit-linking-examples/guides/">Guides</a></li>
+            <li><a href="/apizit-linking-examples/limits/">V1 limits</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <header class="page-heading">
+        <div class="container">
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+              <li><a href="/apizit-linking-examples/">Home</a></li>
+              <li>Reference</li>
+              <li aria-current="page">Compatibility policy</li>
+            </ol>
+          </nav>
+          <p class="eyebrow">Public contract</p>
+          <h1>Compatibility policy</h1>
+          <p class="lede">
+            APIZIT Linking versions its package, manifest, and generated runtime
+            artifact independently. This page defines which parts integrations can
+            safely depend on.
+          </p>
+        </div>
+      </header>
+
+      <article class="container article">
+        <div class="callout callout-note">
+          <p>
+            APIZIT Linking is still a pre-1.0 beta. Patch releases preserve their minor
+            line; minor releases can refine beta APIs with migration notes. The stronger
+            1.x guarantees below begin with package 1.0.
+          </p>
+        </div>
+
+        <h2 id="four-contracts">Four separate contracts</h2>
+        <div class="table-wrap wide">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Contract</th>
+                <th scope="col">Version source</th>
+                <th scope="col">Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Python package</td>
+                <td>PyPI and <code>apizit_linking.__version__</code></td>
+                <td>Implementation and public integration API</td>
+              </tr>
+              <tr>
+                <td>Linking manifest</td>
+                <td>Root <code>version</code></td>
+                <td>User-authored route and binding contract</td>
+              </tr>
+              <tr>
+                <td>Runtime artifact</td>
+                <td>Closed artifact envelope</td>
+                <td>Compiled build input consumed by an HTTP adapter</td>
+              </tr>
+              <tr>
+                <td>Diagnostics</td>
+                <td>Package release and stable diagnostic codes</td>
+                <td>Machine-readable validation and request failures</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Package <code>0.4.x</code> can continue to consume a manifest declaring
+          <code>version: 1</code>. Neither number implies the other.
+        </p>
+
+        <h2 id="python-api">Supported Python adapter API</h2>
+        <p>
+          The 0.4 adapter surface is intentionally small:
+        </p>
+        <ul>
+          <li><code>apizit_linking.discover_linking_file</code></li>
+          <li><code>apizit_linking.compile_linking_file</code></li>
+          <li>
+            <code>apizit_linking.CompilationResult</code> and its documented runtime
+            artifact serialization
+          </li>
+          <li>
+            <code>RUNTIME_ARTIFACT_FORMAT</code>,
+            <code>RUNTIME_ARTIFACT_VERSION</code>, and
+            <code>runtime_routes_from_dict</code>
+          </li>
+          <li>
+            <code>apizit_linking.fastapi.create_app_from_runtime_artifact</code>
+          </li>
+        </ul>
+        <p>
+          Deployment adapters use this flow to discover a manifest, compile once,
+          serialize a closed artifact, and build the HTTP app from that artifact. They
+          must depend on a released APIZIT Linking package instead of vendoring its
+          source code.
+        </p>
+        <p>
+          Other importable models, loaders, and conversion helpers are advanced
+          implementation surfaces unless this policy explicitly lists them. A name in
+          <code>__all__</code> is not by itself a stability promise. Names beginning
+          with an underscore are private.
+        </p>
+        <div class="callout callout-warning">
+          <p>
+            <code>create_app_from_runtime_routes</code> supports the old unversioned
+            list only as a migration bridge. New adapters use
+            <code>create_app_from_runtime_artifact</code>.
+          </p>
+        </div>
+
+        <h2 id="manifest">Manifest schema guarantees</h2>
+        <p>
+          The
+          <a href="/apizit-linking-examples/schema/apizit-linking-v1.schema.json">
+            canonical schema v1
+          </a>
+          becomes a closed authoring contract with the 0.4 line. Existing valid
+          canonical v1 documents remain valid and keep their meaning. Removing a field,
+          changing an existing field's meaning, or invalidating an existing canonical
+          document requires a new root manifest version.
+        </p>
+        <p>
+          The compiler retains selected migration inputs that the canonical schema
+          rejects: an omitted root version, case-normalized methods, and historical
+          slash module references. Migration acceptance does not redefine the canonical
+          schema. New manifests should pass both the schema and
+          <code>apizit-linking validate</code>.
+        </p>
+
+        <h2 id="diagnostics">Diagnostic guarantees</h2>
+        <p>
+          Integrations can branch on <code>code</code> and inspect
+          <code>severity</code>, <code>route_index</code>, <code>field</code>,
+          <code>parameter</code>, and <code>details</code>. Existing codes keep their
+          broad meaning and severity within a compatible package line.
+        </p>
+        <ul>
+          <li>Feature releases can add new diagnostic codes.</li>
+          <li><code>details</code> can gain keys; consumers ignore unknown keys.</li>
+          <li>Human-readable <code>message</code> text can improve and is not parsed.</li>
+          <li>Removing or incompatibly redefining a code follows deprecation rules.</li>
+        </ul>
+
+        <h2 id="artifacts">Runtime artifact guarantees</h2>
+        <p>
+          Runtime artifacts are generated build outputs, not manifests. Their closed
+          envelope requires <code>format</code>, <code>version</code>,
+          <code>engine_version</code>, <code>manifest_version</code>, and
+          <code>routes</code>. Unsupported versions, unknown fields, malformed routes,
+          and Python signatures that drift after compilation are rejected instead of
+          guessed.
+        </p>
+        <p>
+          Adapters treat artifacts as opaque, record the engine version and artifact
+          hash in deployment provenance, and recompile rather than editing routes by
+          hand. An artifact executes only with the exact
+          <code>engine_version</code> that compiled it, so any packaged-engine update
+          requires recompilation. The artifact <code>version</code> describes the
+          serialization shape; a breaking serialization change receives a new format
+          version.
+        </p>
+
+        <h2 id="semver">Semantic Versioning and deprecation</h2>
+        <p>
+          Before 1.0, <code>0.y.z</code> patches are compatible within
+          <code>0.y</code>; a new minor can refine a beta surface with migration notes.
+          Starting at 1.0, patches are compatible fixes, minors add backward-compatible
+          functionality, and majors can remove deprecated contracts.
+        </p>
+        <p>
+          Normal deprecations appear in release notes, emit
+          <code>DeprecationWarning</code> for identifiable Python call sites, and remain
+          for at least one following minor during 0.x. After 1.0 they remain for at least
+          two minor releases and normally 90 days. Security, data-corruption, or
+          documented-correctness fixes may use a shorter window with prominent release
+          notes.
+        </p>
+
+        <ul class="link-list">
+          <li>
+            <a href="/apizit-linking-examples/reference/linking-yaml/">
+              Read the canonical Linking YAML contract
+            </a>
+          </li>
+          <li>
+            <a href="/apizit-linking-examples/reference/cli/">
+              Validate a project from the CLI
+            </a>
+          </li>
+          <li>
+            <a href="/apizit-linking-examples/limits/">
+              Review current product boundaries
+            </a>
+          </li>
+        </ul>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>
+          APIZIT Linking 0.3.1 public beta ·
+          <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a>
+        </p>
+        <ul class="footer-links">
+          <li><a href="https://pypi.org/project/apizit-linking/">PyPI</a></li>
+          <li>
+            <a href="https://github.com/chipsi44/apizit-linking-examples">GitHub</a>
+          </li>
+          <li><a href="/apizit-linking-examples/sitemap.xml">Sitemap</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

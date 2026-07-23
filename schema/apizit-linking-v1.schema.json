@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://chipsi44.github.io/apizit-linking-examples/schema/apizit-linking-v1.schema.json",
+  "title": "APIZIT Linking manifest schema v1",
+  "description": "Canonical authoring contract for APIZIT Linking schema v1 manifests. The compiler also recognizes a small, documented set of non-canonical migration forms.",
+  "$comment": "This schema describes canonical manifests, not every migration form accepted and normalized by the compiler. Static validation by apizit-linking remains authoritative for module existence, Python signatures, path-source correspondence, and cross-route collisions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "routes"],
+  "properties": {
+    "version": {
+      "description": "Manifest schema version. It is independent from the apizit-linking package version.",
+      "const": 1
+    },
+    "runtime": {
+      "description": "Optional deployment runtime metadata. The standalone engine validates it but does not select infrastructure.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "description": "Runtime language supported by schema v1.",
+          "const": "python"
+        },
+        "version": {
+          "description": "Requested Python minor version in major.minor form.",
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+$",
+          "examples": ["3.12"]
+        }
+      }
+    },
+    "routes": {
+      "description": "HTTP routes linked to top-level Python functions.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/route"
+      }
+    }
+  },
+  "$defs": {
+    "pythonIdentifier": {
+      "description": "Portable, non-keyword Python identifier used by canonical manifests.",
+      "type": "string",
+      "pattern": "^(?!(?:False|None|True|and|as|assert|async|await|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|nonlocal|not|or|pass|raise|return|try|while|with|yield)$)[A-Za-z_][A-Za-z0-9_]*$"
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "method", "function"],
+      "properties": {
+        "path": {
+          "description": "Absolute HTTP path without whitespace, query, or fragment. Placeholders use unique, non-keyword Python identifiers in braces.",
+          "type": "string",
+          "pattern": "^/(?:[^\\s{}?#]|\\{(?!(?:False|None|True|and|as|assert|async|await|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|nonlocal|not|or|pass|raise|return|try|while|with|yield)\\})[A-Za-z_][A-Za-z0-9_]*\\})*$",
+          "not": {
+            "pattern": "\\{([A-Za-z_][A-Za-z0-9_]*)\\}.*\\{\\1\\}"
+          },
+          "examples": ["/customers/{customer_id}"]
+        },
+        "method": {
+          "description": "Canonical uppercase HTTP method. The compiler normalizes case-insensitive migration input.",
+          "type": "string",
+          "enum": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"]
+        },
+        "function": {
+          "description": "Portable dotted module:function reference. Python keywords and the reserved top-level apizit_linking module are not allowed.",
+          "type": "string",
+          "pattern": "^(?!apizit_linking(?:\\.|:))(?!(?:False|None|True|and|as|assert|async|await|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|nonlocal|not|or|pass|raise|return|try|while|with|yield)(?:\\.|:))[A-Za-z_][A-Za-z0-9_]*(?:\\.(?!(?:False|None|True|and|as|assert|async|await|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|nonlocal|not|or|pass|raise|return|try|while|with|yield)(?:\\.|:))[A-Za-z_][A-Za-z0-9_]*)*:(?!(?:False|None|True|and|as|assert|async|await|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|nonlocal|not|or|pass|raise|return|try|while|with|yield)$)[A-Za-z_][A-Za-z0-9_]*$",
+          "examples": ["catalog.service:get_product"]
+        },
+        "parameters": {
+          "description": "Bindings keyed by an actual Python parameter name from the linked function signature.",
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/pythonIdentifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/parameter"
+          }
+        }
+      }
+    },
+    "parameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "$ref": "#/$defs/source"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["location", "name"],
+      "properties": {
+        "location": {
+          "description": "Canonical lowercase request source.",
+          "type": "string",
+          "enum": ["path", "query", "header", "body", "form", "file"]
+        },
+        "name": {
+          "description": "Non-empty external request field name without leading, trailing, or line-break whitespace.",
+          "type": "string",
+          "pattern": "^\\S(?:[^\\r\\n]*\\S)?$",
+          "examples": ["customer_id", "X-Request-ID"]
+        }
+      }
+    }
+  }
+}
