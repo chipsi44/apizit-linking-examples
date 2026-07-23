@@ -53,6 +53,7 @@ Expected response (`200 OK`):
 
 ## Limitation
 
-V1 converts primitive annotations but does not generate a complete OpenAPI
-request/response contract. An invalid integer or boolean produces a structured
-APIZIT Linking `400` response.
+V1 converts primitive annotations and generates useful OpenAPI request and
+minimal response documentation. Return schemas remain documentary and are not
+enforced at runtime. An invalid integer or boolean produces a structured APIZIT
+Linking `400` response.

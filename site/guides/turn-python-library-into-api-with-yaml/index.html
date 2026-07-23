@@ -215,7 +215,7 @@ def apply_discount(price: float, discount: float) -&gt; float:
     }</code></pre>
           </div>
           <p>
-            The relative import occurs inside <code>quote</code>. APIZIT Linking 0.4.0 keeps a
+            The relative import occurs inside <code>quote</code>. APIZIT Linking 0.5.0 keeps a
             project-private import namespace available during invocation, so this normal lazy
             package import resolves without placing the project root permanently on
             <code>sys.path</code>.
@@ -277,7 +277,7 @@ routes:
           <h2>3. Validate and call the API</h2>
           <p>Install the preview extra and run the static compiler:</p>
           <div class="code-block" role="region" aria-label="Install and validation commands" tabindex="0">
-            <pre><code class="language-shell">python -m pip install "apizit-linking[preview]==0.4.0"
+            <pre><code class="language-shell">python -m pip install "apizit-linking[preview]==0.5.0"
 apizit-linking validate .</code></pre>
           </div>
           <p>

@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>APIZIT Linking 0.5.0rc1 — published release candidate</title>
+    <title>APIZIT Linking 0.5.0 — stable public beta release</title>
     <meta
       name="description"
-      content="Published APIZIT Linking 0.5.0rc1 release notes: useful documentary OpenAPI, minimal response descriptions, multi-OS wheel gates, and evaluation guidance."
+      content="Published APIZIT Linking 0.5.0 release notes: useful documentary OpenAPI, minimal response descriptions, multi-OS wheel gates, and migration guidance."
     >
     <meta name="robots" content="index, follow">
     <link
@@ -15,20 +15,20 @@
     >
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="APIZIT Linking">
-    <meta property="og:title" content="APIZIT Linking 0.5.0rc1 release candidate">
+    <meta property="og:title" content="APIZIT Linking 0.5.0 stable public beta">
     <meta
       property="og:description"
-      content="Observed behavior and completed publication gates for the public 0.5.0rc1 evaluation candidate."
+      content="Observed behavior and completed publication gates for the final public 0.5.0 package."
     >
     <meta
       property="og:url"
       content="https://chipsi44.github.io/apizit-linking-examples/releases/0.5.0/"
     >
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="APIZIT Linking 0.5.0rc1 release candidate">
+    <meta name="twitter:title" content="APIZIT Linking 0.5.0 release">
     <meta
       name="twitter:description"
-      content="The 0.5.0rc1 candidate is published for evaluation; 0.4.0 remains the stable beta."
+      content="APIZIT Linking 0.5.0 is the current stable public beta; its responses remain documentary."
     >
     <link rel="stylesheet" href="/apizit-linking-examples/assets/styles.css">
     <script type="application/ld+json">
@@ -37,13 +37,13 @@
         "@graph": [
           {
             "@type": "TechArticle",
-            "headline": "APIZIT Linking 0.5.0rc1 release candidate",
-            "description": "Published release notes and evaluation guidance for APIZIT Linking 0.5.0rc1.",
+            "headline": "APIZIT Linking 0.5.0 stable public beta",
+            "description": "Published release notes and migration guidance for APIZIT Linking 0.5.0.",
             "url": "https://chipsi44.github.io/apizit-linking-examples/releases/0.5.0/",
             "datePublished": "2026-07-23",
-            "dateModified": "2026-07-23",
+            "dateModified": "2026-07-24",
             "inLanguage": "en",
-            "about": ["APIZIT Linking", "OpenAPI", "release candidate", "migration"]
+            "about": ["APIZIT Linking", "OpenAPI", "public beta", "migration"]
           },
           {
             "@type": "BreadcrumbList",
@@ -63,7 +63,7 @@
               {
                 "@type": "ListItem",
                 "position": 3,
-                "name": "0.5.0rc1",
+                "name": "0.5.0",
                 "item": "https://chipsi44.github.io/apizit-linking-examples/releases/0.5.0/"
               }
             ]
@@ -106,15 +106,15 @@
             <ol>
               <li><a href="/apizit-linking-examples/">Home</a></li>
               <li><a href="/apizit-linking-examples/releases/">Releases</a></li>
-              <li aria-current="page">0.5.0rc1</li>
+              <li aria-current="page">0.5.0</li>
             </ol>
           </nav>
-          <p class="eyebrow">Published release candidate · evaluation only</p>
-          <h1>APIZIT Linking 0.5.0rc1</h1>
+          <p class="eyebrow">Published final release · stable public beta</p>
+          <h1>APIZIT Linking 0.5.0</h1>
           <p class="lede">
-            The first 0.5 candidate adds useful OpenAPI 3.1 documentation and minimal
-            documentary responses while preserving the V1 manifest and runtime-artifact
-            formats.
+            The final 0.5 release adds useful OpenAPI 3.1 documentation and minimal
+            documentary responses while preserving manifest version 1 and runtime
+            artifact version 1.
           </p>
         </div>
       </header>
@@ -122,28 +122,29 @@
       <article class="container article">
         <div class="callout callout-note">
           <p>
-            <strong>Publication status:</strong> 0.5.0rc1 is available from
-            <a href="https://pypi.org/project/apizit-linking/0.5.0rc1/">PyPI</a>
-            as a wheel and source distribution. It is intended for isolated evaluation.
-            <a href="https://pypi.org/project/apizit-linking/0.4.0/">0.4.0</a>
-            remains the stable beta and final 0.5.0 is not published.
+            <strong>Publication status:</strong> 0.5.0 is available from
+            <a href="https://pypi.org/project/apizit-linking/0.5.0/">PyPI</a>
+            as a wheel and source distribution and is the current stable public beta.
+            The earlier
+            <a href="https://pypi.org/project/apizit-linking/0.5.0rc1/">0.5.0rc1</a>
+            remains available as the evaluation candidate that preceded this release.
           </p>
         </div>
 
-        <h2 id="candidate-command">Evaluate the exact candidate</h2>
+        <h2 id="install-command">Install the exact final release</h2>
         <div class="code-block">
-          <div class="code-block-label">Disposable virtual environment</div>
-          <pre><code>python -m pip install "apizit-linking[preview]==0.5.0rc1"
+          <div class="code-block-label">Virtual environment</div>
+          <pre><code>python -m pip install "apizit-linking[preview]==0.5.0"
 apizit-linking validate .
 apizit-linking preview . --port 8080</code></pre>
         </div>
         <p>
-          Do not change this examples repository's <code>requirements.txt</code>, guide
-          commands, CI pin, or a production integration from 0.4.0 merely to try the
-          candidate.
+          This examples repository's <code>requirements.txt</code>, guides, and CI use
+          this exact final pin. Deployment adapters must also recompile their artifacts
+          instead of reusing outputs built with 0.4.0 or 0.5.0rc1.
         </p>
 
-        <h2 id="observed-behavior">Observed 0.5.0rc1 behavior</h2>
+        <h2 id="observed-behavior">Observed 0.5.0 behavior</h2>
         <ul>
           <li>
             Local preview exposes Swagger UI, ReDoc, and an OpenAPI 3.1 document. If a
@@ -176,7 +177,7 @@ apizit-linking preview . --port 8080</code></pre>
             <thead>
               <tr>
                 <th scope="col">Contract</th>
-                <th scope="col">0.4 to 0.5.0rc1 treatment</th>
+                <th scope="col">0.4 to 0.5.0 treatment</th>
               </tr>
             </thead>
             <tbody>
@@ -192,7 +193,7 @@ apizit-linking preview . --port 8080</code></pre>
                 <td>Artifact engine identity</td>
                 <td>
                   Exact <code>engine_version</code> matching remains mandatory, so
-                  artifacts must be recompiled with the candidate engine.
+                  artifacts must be recompiled with the final engine.
                 </td>
               </tr>
               <tr>
@@ -216,7 +217,7 @@ apizit-linking preview . --port 8080</code></pre>
         <p>
           Artifact format and engine compatibility answer different questions. Keeping
           artifact <code>version: 1</code> means the envelope shape stays readable; it
-          does not make a 0.4-generated artifact executable by the candidate runtime.
+          does not make a 0.4-generated artifact executable by the 0.5 runtime.
         </p>
 
         <h2 id="documentary-responses">Responses are documentary only</h2>
@@ -229,13 +230,17 @@ apizit-linking preview . --port 8080</code></pre>
           user-configured response models remain outside manifest v1.
         </p>
 
-        <h2 id="apizit">APIZIT is not yet promoted</h2>
+        <h2 id="apizit">Final APIZIT promotion is verified</h2>
         <p>
-          Publication of the candidate does not promote APIZIT automatically. APIZIT
-          remains on its current stable integration until its separate candidate
-          validation updates the exact dependency pin, recompiles every Linking
-          artifact, rebuilds ZIP and container outputs, verifies deployment provenance,
-          and proves that no Linking engine source is vendored.
+          Publication of the standalone final package does not promote APIZIT
+          automatically. Its separate integration has now been merged with the exact
+          0.5.0 dependency pin and a recompiled Linking artifact. Checks of APIZIT
+          source, the generated pre-install runtime, and its wheel prove that no Linking
+          engine source is vendored.
+        </p>
+        <p>
+          The integration passed 12 Linking tests and 89 backend tests; its merged
+          main-branch CI is green.
         </p>
         <p>
           The complete documentary checklist is in the
@@ -246,7 +251,7 @@ apizit-linking preview . --port 8080</code></pre>
 
         <h2 id="release-gates">Completed publication gates</h2>
         <p>
-          The release workflow completed nine gated jobs before PyPI publication:
+          The final release workflow completed nine gated jobs before PyPI publication:
         </p>
         <ul>
           <li>one immutable wheel and source-distribution build;</li>
@@ -260,25 +265,25 @@ apizit-linking preview . --port 8080</code></pre>
         <p>
           Each wheel smoke verified the installed CLI, public schema, OpenAPI document,
           FastAPI adapter, and a real ASGI request outside the source checkout. These
-          package gates passed; the separate APIZIT promotion gate remains pending.
+          final package gates passed. APIZIT subsequently passed its independent
+          integration and anti-vendoring gates.
         </p>
 
-        <h2 id="final-transition">Before final 0.5.0</h2>
+        <h2 id="candidate-history">From 0.5.0rc1 to final 0.5.0</h2>
         <p>
-          Evaluate 0.5.0rc1 against real projects and the separate APIZIT integration.
-          Report security findings privately and non-security defects through the
-          public examples repository. A final 0.5.0 release will require its own exact
-          package, completed gates, migration evidence, and explicit publication; this
-          page does not claim that final release exists.
+          Version 0.5.0rc1 was first published for isolated evaluation. The final
+          0.5.0 package then repeated the release gates and became the exact pin used by
+          the public examples, guides, and CI. APIZIT was then promoted independently
+          with its own recompilation, test, packaging, and anti-vendoring evidence.
         </p>
       </article>
     </main>
 
     <footer class="site-footer">
       <div class="container footer-inner">
-        <p>APIZIT Linking 0.5.0rc1 evaluation candidate · Stable beta: 0.4.0</p>
+        <p>APIZIT Linking 0.5.0 stable public beta</p>
         <ul class="footer-links">
-          <li><a href="https://pypi.org/project/apizit-linking/0.5.0rc1/">PyPI 0.5.0rc1</a></li>
+          <li><a href="https://pypi.org/project/apizit-linking/0.5.0/">PyPI 0.5.0</a></li>
           <li><a href="/apizit-linking-examples/releases/">Releases</a></li>
           <li><a href="/apizit-linking-examples/migrations/">Migrations</a></li>
           <li><a href="/apizit-linking-examples/limits/">V1 limits</a></li>

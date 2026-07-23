@@ -6,7 +6,7 @@
     <title>Release notes and public changelog — APIZIT Linking</title>
     <meta
       name="description"
-      content="Canonical APIZIT Linking release notes, stable and release-candidate package status, migration links, and exact public installation channels."
+      content="Canonical APIZIT Linking release notes, stable package status, migration links, and exact public installation channels."
     >
     <link rel="canonical" href="https://chipsi44.github.io/apizit-linking-examples/releases/">
     <meta property="og:type" content="website">
@@ -14,7 +14,7 @@
     <meta property="og:title" content="APIZIT Linking release notes and public changelog">
     <meta
       property="og:description"
-      content="Published package history, 0.5.0rc1 evaluation guidance, migration documentation, and the current stable 0.4.0 line."
+      content="Published package history, final 0.5.0 guidance, migration documentation, and the preceding 0.5.0rc1 evaluation record."
     >
     <meta
       property="og:url"
@@ -37,7 +37,7 @@
             "description": "Canonical release notes and migration links for APIZIT Linking.",
             "url": "https://chipsi44.github.io/apizit-linking-examples/releases/",
             "inLanguage": "en",
-            "dateModified": "2026-07-23"
+            "dateModified": "2026-07-24"
           },
           {
             "@type": "BreadcrumbList",
@@ -109,10 +109,10 @@
       <article class="container article">
         <div class="callout callout-note">
           <p>
-            <strong>Stable beta: 0.4.0.</strong>
-            <a href="/apizit-linking-examples/releases/0.5.0/">0.5.0rc1</a>
-            is also published for isolated evaluation. The final 0.5.0 package is not
-            published, and stable examples and integrations remain pinned to 0.4.0.
+            <strong>Stable public beta: 0.5.0.</strong>
+            The final wheel and source distribution are published on
+            <a href="https://pypi.org/project/apizit-linking/0.5.0/">PyPI</a>.
+            Examples, guides, and CI now pin the exact final release.
           </p>
         </div>
 
@@ -154,15 +154,16 @@
         <h2 id="published">Published releases</h2>
         <div class="card-grid">
           <article class="card">
-            <p class="eyebrow">Published candidate</p>
-            <h3><a href="/apizit-linking-examples/releases/0.5.0/">0.5.0rc1</a></h3>
+            <p class="eyebrow">Stable public beta</p>
+            <h3><a href="/apizit-linking-examples/releases/0.5.0/">0.5.0</a></h3>
             <p>
               Useful OpenAPI 3.1, minimal documentary responses, and a release pipeline
-              verified by nine jobs including six multi-OS clean-wheel smokes.
+              verified by multi-OS clean-wheel smokes. The page preserves the
+              0.5.0rc1 evaluation history.
             </p>
           </article>
           <article class="card">
-            <p class="eyebrow">Stable beta</p>
+            <p class="eyebrow">Previous stable beta</p>
             <h3><a href="/apizit-linking-examples/releases/0.4.0/">0.4.0 retrospective</a></h3>
             <p>
               Closed runtime artifact v1, strict callable drift detection, generator
@@ -179,29 +180,28 @@
           </article>
         </div>
 
-        <h2 id="candidate">Evaluate the candidate separately</h2>
-        <div class="callout callout-warning">
+        <h2 id="migration">Move from 0.4 to final 0.5 deliberately</h2>
+        <div class="callout callout-note">
           <p>
-            <strong>Release candidate, not stable:</strong> install only the exact
-            <a href="https://pypi.org/project/apizit-linking/0.5.0rc1/">0.5.0rc1 package</a>
-            in a disposable environment. Do not interpret the candidate as final
-            0.5.0 or as an APIZIT promotion.
+            <strong>Exact final pin:</strong> install
+            <a href="https://pypi.org/project/apizit-linking/0.5.0/">0.5.0</a>
+            and recompile every generated runtime artifact. Manifest version 1 and
+            runtime artifact version 1 remain unchanged, while exact engine identity
+            still prevents reuse of 0.4-generated artifacts.
           </p>
         </div>
         <p>
           The accompanying
           <a href="/apizit-linking-examples/migrations/0.4-to-0.5/">
-            0.4-to-0.5 candidate evaluation guide
+            final 0.4-to-0.5 migration guide
           </a>
-          is now applicable to the RC while keeping production on 0.4.0. It keeps
-          manifest v1 and runtime artifact v1 distinct from the exact package engine
-          version.
+          includes the independently verified APIZIT platform promotion.
         </p>
 
         <h2 id="install-current">Install the current release</h2>
         <div class="code-block">
           <div class="code-block-label">Terminal</div>
-          <pre><code>python -m pip install "apizit-linking[preview]==0.4.0"
+          <pre><code>python -m pip install "apizit-linking[preview]==0.5.0"
 apizit-linking validate .
 apizit-linking preview . --port 8080</code></pre>
         </div>
@@ -210,7 +210,7 @@ apizit-linking preview . --port 8080</code></pre>
 
     <footer class="site-footer">
       <div class="container footer-inner">
-        <p>APIZIT Linking 0.4.0 public beta · Apache-2.0</p>
+        <p>APIZIT Linking 0.5.0 stable public beta · Apache-2.0</p>
         <ul class="footer-links">
           <li><a href="https://pypi.org/project/apizit-linking/">PyPI</a></li>
           <li><a href="/apizit-linking-examples/releases/">Releases</a></li>

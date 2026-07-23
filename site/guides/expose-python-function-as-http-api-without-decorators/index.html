@@ -174,7 +174,7 @@
           </div>
           <div class="callout callout-note">
             <p>
-              The commands below use only the V1 contract available in APIZIT Linking 0.4.0.
+              The commands below use only the V1 contract available in APIZIT Linking 0.5.0.
               For a reproducible deployment, pin the exact version you have tested.
             </p>
           </div>
@@ -241,7 +241,7 @@ routes:
             the preview:
           </p>
           <div class="code-block" role="region" aria-label="Installation commands" tabindex="0">
-            <pre><code class="language-shell">python -m pip install "apizit-linking[preview]==0.4.0"</code></pre>
+            <pre><code class="language-shell">python -m pip install "apizit-linking[preview]==0.5.0"</code></pre>
           </div>
           <p>Then validate the project:</p>
           <div class="code-block" role="region" aria-label="Validation command" tabindex="0">
@@ -302,8 +302,8 @@ Compiled routes: 1</code></pre>
           <h2>V1 limits you should know</h2>
           <div class="callout callout-warning">
             <p>
-              V1 does not declare response status codes, response headers, response schemas,
-              authentication, or business-exception mappings. A normal return is
+              V1 does not declare response status codes, response headers, configurable
+              response schemas, authentication, or business-exception mappings. A normal return is
               <code>200 OK</code>; request binding errors are structured
               <code>400</code> responses; an unhandled business exception becomes a generic
               <code>500</code> in preview.
@@ -317,7 +317,8 @@ Compiled routes: 1</code></pre>
               validation are not part of V1.
             </li>
             <li>
-              Generated OpenAPI does not yet describe the complete request and response contract.
+              Generated OpenAPI describes request bindings and minimal responses, but return
+              schemas are documentary only and are not enforced at runtime.
             </li>
           </ul>
           <p>

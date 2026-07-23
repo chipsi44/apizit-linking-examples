@@ -6,7 +6,7 @@
     <title>V1 limits and boundaries — APIZIT Linking</title>
     <meta
       name="description"
-      content="Honest boundaries of APIZIT Linking 0.4.0: response control, error behavior, type conversion, preview safety, OpenAPI, and deployment scope."
+      content="Honest boundaries of APIZIT Linking 0.5.0: documentary responses, error behavior, type conversion, preview safety, OpenAPI, and deployment scope."
     >
     <meta name="theme-color" content="#0c1428">
     <link
@@ -19,7 +19,7 @@
     <meta property="og:title" content="V1 limits and boundaries — APIZIT Linking">
     <meta
       property="og:description"
-      content="What APIZIT Linking 0.4.0 supports, what it deliberately does not, and when to use a full web framework."
+      content="What APIZIT Linking 0.5.0 supports, what it deliberately does not, and when to use a full web framework."
     >
     <meta
       property="og:url"
@@ -39,10 +39,10 @@
           {
             "@type": "TechArticle",
             "headline": "APIZIT Linking V1 limits and boundaries",
-            "description": "Documented boundaries for APIZIT Linking version 0.4.0.",
+            "description": "Documented boundaries for APIZIT Linking version 0.5.0.",
             "url": "https://chipsi44.github.io/apizit-linking-examples/limits/",
             "proficiencyLevel": "Beginner",
-            "dependencies": "APIZIT Linking 0.4.0",
+            "dependencies": "APIZIT Linking 0.5.0",
             "inLanguage": "en"
           },
           {
@@ -108,7 +108,7 @@
               <li aria-current="page">V1 limits</li>
             </ol>
           </nav>
-          <p class="eyebrow">Version 0.4.0 · Public beta</p>
+          <p class="eyebrow">Version 0.5.0 · Stable public beta</p>
           <h1>V1 limits and boundaries</h1>
           <p class="lede">
             APIZIT Linking has a deliberately focused contract. These are the current
@@ -195,12 +195,21 @@
           and sync or async functions are supported.
         </p>
 
-        <h2 id="openapi">No complete generated OpenAPI contract yet</h2>
+        <h2 id="openapi">OpenAPI is useful documentation, not response enforcement</h2>
         <p>
-          V1 does not generate a complete request and response OpenAPI description.
-          FastAPI documentation routes are disabled by default in the optional adapter.
-          Adapter users may request them with <code>docs=True</code>, but the resulting
-          schema must not be treated as a complete Linking contract.
+          Version 0.5.0 generates OpenAPI 3.1 operations statically from the compiled
+          route contract. It describes explicit and automatic request bindings,
+          repeated values, defaults, nullability, and minimal <code>200</code>,
+          <code>400</code>, and <code>500</code> responses. Preview exposes Swagger UI,
+          ReDoc, and <code>/openapi.json</code>, relocating those URLs if a linked route
+          would shadow them.
+        </p>
+        <p>
+          Reusable FastAPI factories keep documentation routes disabled by default;
+          adapter users must opt in with <code>docs=True</code>. Return annotations
+          produce documentary schemas only: Linking does not install a FastAPI response
+          model and does not validate, transform, reject, or reshape customer return
+          values. There is no response block in manifest v1.
         </p>
 
         <h2 id="preview-boundary">Preview is local development infrastructure</h2>
@@ -282,7 +291,7 @@
     <footer class="site-footer">
       <div class="container footer-inner">
         <p>
-          APIZIT Linking 0.4.0 public beta ·
+          APIZIT Linking 0.5.0 stable public beta ·
           <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a>
         </p>
         <ul class="footer-links">

@@ -10,12 +10,35 @@ migrations are published on
 
 ### Documentation
 
-- Keep 0.4.0 as the stable examples, guide, CI, and production pin while the
-  0.5 candidate is evaluated.
-- Keep the 0.4-to-0.5 migration and APIZIT promotion procedure explicit.
+- No unreleased documentation changes.
 
-There is no final public `apizit-linking` 0.5.0 release yet. Install commands
-for the stable examples remain pinned to 0.4.0.
+## 0.5.0 - 2026-07-23
+
+### Added
+
+- Useful OpenAPI 3.1 operations generated statically from compiled routes,
+  including explicit and automatic input bindings.
+- Minimal documentary `200`, stable Linking `400`, and generic `500` response
+  descriptions. Return annotations do not validate, transform, reject, or
+  reshape customer values at runtime.
+- Multi-OS clean-wheel release gates for Linux, Windows, and macOS.
+
+### Verified
+
+- The final wheel and source distribution are publicly available from
+  [PyPI](https://pypi.org/project/apizit-linking/0.5.0/).
+- Canonical examples, guides, requirements, and CI use the exact
+  `apizit-linking==0.5.0` release.
+- Manifest `version: 1` and runtime artifact `version: 1` remain unchanged.
+  Exact `engine_version` matching still requires every artifact to be
+  recompiled after the package update.
+
+### Integration status
+
+APIZIT completed its separate final promotion with an exact 0.5.0 build and
+runtime pin, a recompiled artifact, anti-vendoring checks of APIZIT source, the
+generated pre-install runtime, and its wheel, 12 Linking integration tests, 89
+backend tests, and a green main-branch CI.
 
 ## 0.5.0rc1 - 2026-07-23
 
@@ -39,8 +62,9 @@ for the stable examples remain pinned to 0.4.0.
 - Manifest `version: 1` and runtime artifact `version: 1` remain unchanged;
   exact `engine_version` matching still requires recompilation.
 
-This is an evaluation candidate, not the stable beta or a final 0.5.0 release.
-APIZIT has not yet been promoted to this candidate.
+This release candidate was the isolated evaluation build that preceded final
+0.5.0. Its publication history and gates remain part of the release narrative;
+new installations should use the final exact 0.5.0 pin.
 
 ## 0.4.0
 
