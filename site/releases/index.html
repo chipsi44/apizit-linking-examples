@@ -6,7 +6,7 @@
     <title>Release notes and public changelog — APIZIT Linking</title>
     <meta
       name="description"
-      content="Canonical APIZIT Linking release notes, public package status, migration links, and a clearly separated draft for the next beta line."
+      content="Canonical APIZIT Linking release notes, stable and release-candidate package status, migration links, and exact public installation channels."
     >
     <link rel="canonical" href="https://chipsi44.github.io/apizit-linking-examples/releases/">
     <meta property="og:type" content="website">
@@ -14,7 +14,7 @@
     <meta property="og:title" content="APIZIT Linking release notes and public changelog">
     <meta
       property="og:description"
-      content="Published package history, migration guidance, and explicitly labelled future release drafts."
+      content="Published package history, 0.5.0rc1 evaluation guidance, migration documentation, and the current stable 0.4.0 line."
     >
     <meta
       property="og:url"
@@ -109,8 +109,10 @@
       <article class="container article">
         <div class="callout callout-note">
           <p>
-            <strong>Current published beta: 0.4.0.</strong> The 0.5.0 page is a planning
-            draft, not a package, tag, release candidate, or install instruction.
+            <strong>Stable beta: 0.4.0.</strong>
+            <a href="/apizit-linking-examples/releases/0.5.0/">0.5.0rc1</a>
+            is also published for isolated evaluation. The final 0.5.0 package is not
+            published, and stable examples and integrations remain pinned to 0.4.0.
           </p>
         </div>
 
@@ -152,7 +154,15 @@
         <h2 id="published">Published releases</h2>
         <div class="card-grid">
           <article class="card">
-            <p class="eyebrow">Published</p>
+            <p class="eyebrow">Published candidate</p>
+            <h3><a href="/apizit-linking-examples/releases/0.5.0/">0.5.0rc1</a></h3>
+            <p>
+              Useful OpenAPI 3.1, minimal documentary responses, and a release pipeline
+              verified by nine jobs including six multi-OS clean-wheel smokes.
+            </p>
+          </article>
+          <article class="card">
+            <p class="eyebrow">Stable beta</p>
             <h3><a href="/apizit-linking-examples/releases/0.4.0/">0.4.0 retrospective</a></h3>
             <p>
               Closed runtime artifact v1, strict callable drift detection, generator
@@ -169,22 +179,23 @@
           </article>
         </div>
 
-        <h2 id="planned">Future draft</h2>
+        <h2 id="candidate">Evaluate the candidate separately</h2>
         <div class="callout callout-warning">
           <p>
-            <strong>Draft only:</strong>
-            <a href="/apizit-linking-examples/releases/0.5.0/">0.5.0 / RC planning notes</a>
-            describe the intended release process. They do not prove that any artifact
-            has been built, signed, uploaded, or accepted by PyPI.
+            <strong>Release candidate, not stable:</strong> install only the exact
+            <a href="https://pypi.org/project/apizit-linking/0.5.0rc1/">0.5.0rc1 package</a>
+            in a disposable environment. Do not interpret the candidate as final
+            0.5.0 or as an APIZIT promotion.
           </p>
         </div>
         <p>
           The accompanying
           <a href="/apizit-linking-examples/migrations/0.4-to-0.5/">
-            documentary 0.4-to-0.5 migration
+            0.4-to-0.5 candidate evaluation guide
           </a>
-          records what an adapter owner must verify before re-pinning. It keeps manifest
-          v1 and runtime artifact v1 distinct from the exact package engine version.
+          is now applicable to the RC while keeping production on 0.4.0. It keeps
+          manifest v1 and runtime artifact v1 distinct from the exact package engine
+          version.
         </p>
 
         <h2 id="install-current">Install the current release</h2>

@@ -2,18 +2,23 @@
 
 ## Supported versions
 
-APIZIT Linking is currently a public beta. Security fixes are provided for the
-latest published minor line.
+APIZIT Linking is currently a public beta. The 0.4 line remains the stable beta
+line. Published release candidates receive fixes during evaluation but are not
+recommended as production replacements.
 
 | Version | Supported |
 | --- | --- |
-| 0.4.x | Yes |
+| 0.4.x | Yes — current stable beta |
+| 0.5.0rc1 | Evaluation candidate — reports accepted |
 | 0.3.x and earlier | No |
 | 0.5.0 | Not published |
 
-Upgrade to the latest patch in the supported line before reporting a problem.
-The canonical package is distributed through
-[PyPI](https://pypi.org/project/apizit-linking/).
+Upgrade to the latest patch in the relevant supported line before reporting a
+problem. Keep production on 0.4.0 while evaluating 0.5.0rc1 separately. The
+canonical package is distributed through
+[PyPI](https://pypi.org/project/apizit-linking/); the candidate files are
+available on the
+[0.5.0rc1 project page](https://pypi.org/project/apizit-linking/0.5.0rc1/).
 
 ## Report a vulnerability privately
 

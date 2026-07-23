@@ -10,13 +10,37 @@ migrations are published on
 
 ### Documentation
 
-- Enable the public security intake and prepare the release-note and
-  migration-documentation lifecycle for the next beta line.
-- Document the planned 0.4-to-0.5 rebuild and APIZIT re-pin procedure without
-  claiming that package 0.5.0 is available.
+- Keep 0.4.0 as the stable examples, guide, CI, and production pin while the
+  0.5 candidate is evaluated.
+- Keep the 0.4-to-0.5 migration and APIZIT promotion procedure explicit.
 
-There is no public `apizit-linking` 0.5.0 release yet. Install commands remain
-pinned to 0.4.0 until a separate publication step succeeds.
+There is no final public `apizit-linking` 0.5.0 release yet. Install commands
+for the stable examples remain pinned to 0.4.0.
+
+## 0.5.0rc1 - 2026-07-23
+
+### Added
+
+- Useful OpenAPI 3.1 operations generated statically from compiled routes,
+  including explicit parameter sources, request bodies, defaults, nullability,
+  repeated values, and automatic-binding extensions.
+- Swagger UI, ReDoc, and the OpenAPI document in local preview, with safe
+  relocation when a customer route would shadow a documentation URL.
+- Minimal documentary `200`, stable Linking `400`, and generic `500` response
+  descriptions without adding runtime response validation or transformation.
+
+### Verified
+
+- The release workflow completed nine gated jobs: one build, six clean-wheel
+  smoke jobs across Linux, Windows, and macOS on Python 3.10 and 3.14, one
+  minimum-preview-dependency smoke, and one Trusted Publishing job.
+- The published wheel and source distribution are available from
+  [PyPI](https://pypi.org/project/apizit-linking/0.5.0rc1/).
+- Manifest `version: 1` and runtime artifact `version: 1` remain unchanged;
+  exact `engine_version` matching still requires recompilation.
+
+This is an evaluation candidate, not the stable beta or a final 0.5.0 release.
+APIZIT has not yet been promoted to this candidate.
 
 ## 0.4.0
 
