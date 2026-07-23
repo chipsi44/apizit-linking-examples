@@ -111,6 +111,8 @@ class DocumentationSiteTests(unittest.TestCase):
             "Manifest schema guarantees",
             "Diagnostic guarantees",
             "Runtime artifact guarantees",
+            "callable_kind",
+            "return_annotation",
             "Semantic Versioning and deprecation",
         ):
             with self.subTest(expected=expected):
