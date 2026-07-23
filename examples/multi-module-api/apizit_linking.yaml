@@ -1,0 +1,19 @@
+version: 1
+
+runtime:
+  language: python
+  version: "3.12"
+
+routes:
+  - path: /products/{product_id}/quote
+    method: GET
+    function: catalog.service:quote
+    parameters:
+      product_id:
+        source:
+          location: path
+          name: product_id
+      discount:
+        source:
+          location: query
+          name: discount

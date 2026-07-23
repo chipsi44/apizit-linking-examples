@@ -1,0 +1,59 @@
+version: 1
+
+runtime:
+  language: python
+  version: "3.12"
+
+routes:
+  - path: /tasks
+    method: GET
+    function: tasks:list_tasks
+    parameters:
+      completed:
+        source:
+          location: query
+          name: completed
+
+  - path: /tasks
+    method: POST
+    function: tasks:create_task
+    parameters:
+      title:
+        source:
+          location: body
+          name: title
+      description:
+        source:
+          location: body
+          name: description
+
+  - path: /tasks/{task_id}
+    method: GET
+    function: tasks:get_task
+    parameters:
+      task_id:
+        source:
+          location: path
+          name: task_id
+
+  - path: /tasks/{task_id}
+    method: PATCH
+    function: tasks:update_task
+    parameters:
+      task_id:
+        source:
+          location: path
+          name: task_id
+      completed:
+        source:
+          location: body
+          name: completed
+
+  - path: /tasks/{task_id}
+    method: DELETE
+    function: tasks:delete_task
+    parameters:
+      task_id:
+        source:
+          location: path
+          name: task_id

@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b
+        with:
+          version: "0.11.28"
+          python-version: ${{ matrix.python-version }}
+          enable-cache: true
+      - run: uv venv
+      - run: uv pip install --python .venv/bin/python -r requirements.txt -r requirements-test.txt
+      - name: Confirm the published APIZIT Linking version
+        run: |
+          .venv/bin/python -c "import importlib.metadata as m; assert m.version('apizit-linking') == '0.3.0'"
+      - run: .venv/bin/apizit-linking validate .
+      - name: Validate the additional projects
+        shell: bash
+        run: |
+          for manifest in examples/*/apizit_linking.yaml; do
+            .venv/bin/apizit-linking validate "$(dirname "$manifest")"
+          done
+      - run: .venv/bin/python -m unittest discover -s tests -p "test_*.py"

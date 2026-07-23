@@ -1,0 +1,27 @@
+version: 1
+
+runtime:
+  language: python
+  version: "3.12"
+
+routes:
+  - path: /products
+    method: POST
+    function: products:create_product
+    parameters:
+      name:
+        source:
+          location: body
+          name: name
+      price:
+        source:
+          location: body
+          name: price
+      in_stock:
+        source:
+          location: body
+          name: in_stock
+      tags:
+        source:
+          location: body
+          name: tags
