@@ -4,13 +4,13 @@
 > declarative file. Business modules keep their existing Python code and do not
 > import APIZIT Linking, FastAPI, or Flask.
 
-Current public beta: 0.3.1
+Current public beta: 0.4.0
 Python support: 3.10 through 3.14
 License: Apache-2.0
 
 Install and validate:
 
-    python -m pip install "apizit-linking[preview]==0.3.1"
+    python -m pip install "apizit-linking[preview]==0.4.0"
     apizit-linking validate .
     apizit-linking preview . --port 8080
 
