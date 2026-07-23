@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Security and vulnerability reporting — APIZIT Linking</title>
+    <meta
+      name="description"
+      content="Supported APIZIT Linking security versions, private vulnerability reporting status, disclosure rules, scope, and safe public bug-report guidance."
+    >
+    <link
+      rel="canonical"
+      href="https://chipsi44.github.io/apizit-linking-examples/security/"
+    >
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="APIZIT Linking">
+    <meta property="og:title" content="APIZIT Linking security policy">
+    <meta
+      property="og:description"
+      content="How to report vulnerabilities privately and which APIZIT Linking versions are supported."
+    >
+    <meta
+      property="og:url"
+      content="https://chipsi44.github.io/apizit-linking-examples/security/"
+    >
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="APIZIT Linking security policy">
+    <meta
+      name="twitter:description"
+      content="Enabled private reporting, supported versions, scope, and coordinated disclosure guidance."
+    >
+    <link rel="stylesheet" href="/apizit-linking-examples/assets/styles.css">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "name": "APIZIT Linking security and vulnerability reporting",
+            "description": "Supported versions and safe vulnerability-reporting guidance for APIZIT Linking.",
+            "url": "https://chipsi44.github.io/apizit-linking-examples/security/",
+            "dateModified": "2026-07-23",
+            "inLanguage": "en"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Security",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/security/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/apizit-linking-examples/" aria-label="APIZIT Linking home">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span class="brand-copy">
+            <span class="brand-name">APIZIT Linking</span>
+            <span class="brand-subtitle">Documentation</span>
+          </span>
+        </a>
+        <nav class="primary-nav" aria-label="Primary">
+          <ul>
+            <li><a href="/apizit-linking-examples/">Home</a></li>
+            <li><a href="/apizit-linking-examples/quickstart/">Quickstart</a></li>
+            <li><a href="/apizit-linking-examples/reference/linking-yaml/">YAML</a></li>
+            <li><a href="/apizit-linking-examples/reference/cli/">CLI</a></li>
+            <li><a href="/apizit-linking-examples/examples/">Examples</a></li>
+            <li><a href="/apizit-linking-examples/guides/">Guides</a></li>
+            <li><a href="/apizit-linking-examples/limits/">V1 limits</a></li>
+            <li><a href="/apizit-linking-examples/releases/">Releases</a></li>
+            <li><a href="/apizit-linking-examples/security/" aria-current="page">Security</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <header class="page-heading">
+        <div class="container">
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+              <li><a href="/apizit-linking-examples/">Home</a></li>
+              <li aria-current="page">Security</li>
+            </ol>
+          </nav>
+          <p class="eyebrow">Report privately</p>
+          <h1>Security policy</h1>
+          <p class="lede">
+            Keep vulnerability details out of public issues and examples. This page
+            records supported package lines, the enabled private intake, scope, and a
+            safe fallback for temporary service unavailability.
+          </p>
+        </div>
+      </header>
+
+      <article class="container article">
+        <div class="callout callout-warning">
+          <p>
+            <strong>Do not publish vulnerability details.</strong> Public issues, pull
+            requests, discussions, logs, screenshots, and forks are visible to everyone.
+          </p>
+        </div>
+
+        <h2 id="supported">Supported versions</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Version</th>
+                <th scope="col">Security support</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0.4.x</td>
+                <td>Supported</td>
+              </tr>
+              <tr>
+                <td>0.3.x and earlier</td>
+                <td>Not supported</td>
+              </tr>
+              <tr>
+                <td>0.5.0</td>
+                <td>Not published</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Reproduce on the latest patch in the supported line where possible. Canonical
+          package files come from
+          <a href="https://pypi.org/project/apizit-linking/">PyPI</a>.
+        </p>
+
+        <h2 id="private-report">Private reporting channel</h2>
+        <p>
+          The canonical private-report URL is:
+          <a href="https://github.com/chipsi44/apizit-linking-examples/security/advisories/new">
+            report an APIZIT Linking vulnerability privately
+          </a>.
+        </p>
+        <div class="callout callout-note">
+          <p>
+            <strong>Status:</strong> GitHub Private Vulnerability Reporting is enabled
+            for this repository. Submit technical details only through that private
+            form.
+          </p>
+        </div>
+        <p>
+          If the private form is temporarily unavailable, create only a
+          <a href="https://github.com/chipsi44/apizit-linking-examples/issues/new?template=security-contact.yml">
+            minimal security contact request
+          </a>
+          asking a maintainer for a private channel. Include no vulnerability details,
+          proof of concept, logs, customer information, secrets, or sensitive paths.
+        </p>
+
+        <h2 id="report-content">What to include privately</h2>
+        <ul>
+          <li>APIZIT Linking and Python versions;</li>
+          <li>affected component and deployment context;</li>
+          <li>impact and realistic attack preconditions;</li>
+          <li>minimal reproduction steps or a proof of concept;</li>
+          <li>possible mitigation, if known;</li>
+          <li>whether the issue has been disclosed elsewhere.</li>
+        </ul>
+        <p>
+          Maintainers aim to acknowledge a complete report within three business days
+          and provide an initial assessment within seven business days. Coordinate any
+          publication so a verified fix and update guidance can reach users first.
+        </p>
+
+        <h2 id="scope">Scope</h2>
+        <p>This policy covers:</p>
+        <ul>
+          <li>the <code>apizit-linking</code> package distributed on PyPI;</li>
+          <li>compiler, artifact validation, FastAPI adapter, and preview CLI behavior;</li>
+          <li>the public schema, examples, documentation, and release metadata here.</li>
+        </ul>
+        <p>
+          The hosted APIZIT product has a separate operational security process.
+          Customer applications, customer-selected dependencies, and unrelated
+          infrastructure are not automatically in scope.
+        </p>
+
+        <h2 id="trust-boundary">Preview trust boundary</h2>
+        <p>
+          <code>apizit-linking preview</code> imports and executes linked project code.
+          It is a local development server for trusted source, not a sandbox,
+          authentication boundary, or production server. Merely executing deliberately
+          malicious trusted project code is not a sandbox escape because no sandbox is
+          promised.
+        </p>
+
+        <h2 id="public-bugs">Non-security bugs</h2>
+        <p>
+          Use the
+          <a href="https://github.com/chipsi44/apizit-linking-examples/issues/new?template=bug.yml">
+            public bug form
+          </a>
+          for ordinary defects. Sanitize commands and diagnostics before posting them.
+          The repository copy of
+          <a href="https://github.com/chipsi44/apizit-linking-examples/blob/main/SECURITY.md">
+            SECURITY.md
+          </a>
+          is the concise source-controlled version of this policy.
+        </p>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>APIZIT Linking security policy · Private disclosure first</p>
+        <ul class="footer-links">
+          <li><a href="https://pypi.org/project/apizit-linking/">PyPI</a></li>
+          <li><a href="/apizit-linking-examples/releases/">Releases</a></li>
+          <li><a href="/apizit-linking-examples/migrations/">Migrations</a></li>
+          <li><a href="/apizit-linking-examples/limits/">V1 limits</a></li>
+          <li><a href="/apizit-linking-examples/security/" aria-current="page">Security</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

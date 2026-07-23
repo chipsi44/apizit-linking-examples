@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Migration guides — APIZIT Linking package and adapter upgrades</title>
+    <meta
+      name="description"
+      content="Version-by-version APIZIT Linking migration guides for manifests, generated runtime artifacts, Python adapters, and APIZIT deployment pins."
+    >
+    <link
+      rel="canonical"
+      href="https://chipsi44.github.io/apizit-linking-examples/migrations/"
+    >
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="APIZIT Linking">
+    <meta property="og:title" content="APIZIT Linking migration guides">
+    <meta
+      property="og:description"
+      content="Upgrade checklists that keep package, manifest, artifact, and adapter versions separate."
+    >
+    <meta
+      property="og:url"
+      content="https://chipsi44.github.io/apizit-linking-examples/migrations/"
+    >
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="APIZIT Linking migration guides">
+    <meta
+      name="twitter:description"
+      content="Practical migrations for projects and deployment adapters using APIZIT Linking."
+    >
+    <link rel="stylesheet" href="/apizit-linking-examples/assets/styles.css">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "CollectionPage",
+            "name": "APIZIT Linking migration guides",
+            "description": "Version-by-version migrations for APIZIT Linking users and adapter owners.",
+            "url": "https://chipsi44.github.io/apizit-linking-examples/migrations/",
+            "inLanguage": "en",
+            "dateModified": "2026-07-23"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Migrations",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/migrations/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/apizit-linking-examples/" aria-label="APIZIT Linking home">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span class="brand-copy">
+            <span class="brand-name">APIZIT Linking</span>
+            <span class="brand-subtitle">Documentation</span>
+          </span>
+        </a>
+        <nav class="primary-nav" aria-label="Primary">
+          <ul>
+            <li><a href="/apizit-linking-examples/">Home</a></li>
+            <li><a href="/apizit-linking-examples/quickstart/">Quickstart</a></li>
+            <li><a href="/apizit-linking-examples/reference/linking-yaml/">YAML</a></li>
+            <li><a href="/apizit-linking-examples/reference/cli/">CLI</a></li>
+            <li><a href="/apizit-linking-examples/examples/">Examples</a></li>
+            <li><a href="/apizit-linking-examples/guides/">Guides</a></li>
+            <li><a href="/apizit-linking-examples/limits/">V1 limits</a></li>
+            <li><a href="/apizit-linking-examples/releases/">Releases</a></li>
+            <li><a href="/apizit-linking-examples/security/">Security</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <header class="page-heading">
+        <div class="container">
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+              <li><a href="/apizit-linking-examples/">Home</a></li>
+              <li aria-current="page">Migrations</li>
+            </ol>
+          </nav>
+          <p class="eyebrow">Upgrade deliberately</p>
+          <h1>Migration guides</h1>
+          <p class="lede">
+            A package version, manifest version, runtime-artifact version, and exact
+            artifact engine identity are separate contracts. Use the guide for every
+            minor upgrade instead of changing a pin in isolation.
+          </p>
+        </div>
+      </header>
+
+      <article class="container article">
+        <h2 id="available">Available migrations</h2>
+        <div class="card-grid">
+          <article class="card">
+            <p class="eyebrow">Published path</p>
+            <h3><a href="/apizit-linking-examples/migrations/0.3-to-0.4/">0.3 to 0.4</a></h3>
+            <p>
+              Adopt the closed runtime artifact, strict signature metadata, public
+              schema, generator rejection, and supported non-vendored adapter flow.
+            </p>
+          </article>
+          <article class="card">
+            <p class="eyebrow">Documentary draft</p>
+            <h3><a href="/apizit-linking-examples/migrations/0.4-to-0.5/">0.4 to 0.5</a></h3>
+            <p>
+              Prepare recompilation and APIZIT re-pinning while manifest v1 and runtime
+              artifact v1 remain unchanged. Package 0.5.0 is not published.
+            </p>
+          </article>
+        </div>
+
+        <h2 id="model">Read version fields correctly</h2>
+        <div class="table-wrap wide">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Value</th>
+                <th scope="col">What it versions</th>
+                <th scope="col">Upgrade rule</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Package version</td>
+                <td>Compiler, CLI, adapter, and public Python API release</td>
+                <td>Pin an exact released version in reproducible deployments.</td>
+              </tr>
+              <tr>
+                <td>Manifest <code>version</code></td>
+                <td>User-authored Linking YAML contract</td>
+                <td>Change only when the authoring contract itself changes.</td>
+              </tr>
+              <tr>
+                <td>Artifact <code>version</code></td>
+                <td>Generated serialization envelope</td>
+                <td>Change only for an incompatible artifact-shape revision.</td>
+              </tr>
+              <tr>
+                <td>Artifact <code>engine_version</code></td>
+                <td>Exact compiler/runtime implementation identity</td>
+                <td>Must equal the runtime package; always recompile after an update.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-warning">
+          <p>
+            Runtime artifacts are generated outputs. Do not patch
+            <code>engine_version</code>, routes, or signatures by hand to make an old
+            artifact load under a new package.
+          </p>
+        </div>
+
+        <h2 id="policy">Compatibility source of truth</h2>
+        <p>
+          The
+          <a href="/apizit-linking-examples/reference/compatibility/">
+            compatibility policy
+          </a>
+          defines guarantees and deprecation windows. Release notes state what changed;
+          migrations translate those changes into actions for project authors and
+          adapter owners.
+        </p>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>APIZIT Linking 0.4.0 public beta · Apache-2.0</p>
+        <ul class="footer-links">
+          <li><a href="https://pypi.org/project/apizit-linking/">PyPI</a></li>
+          <li><a href="/apizit-linking-examples/releases/">Releases</a></li>
+          <li><a href="/apizit-linking-examples/migrations/">Migrations</a></li>
+          <li><a href="/apizit-linking-examples/limits/">V1 limits</a></li>
+          <li><a href="/apizit-linking-examples/security/">Security</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

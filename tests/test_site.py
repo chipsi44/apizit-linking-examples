@@ -32,6 +32,13 @@ PUBLIC_PAGES = {
         f"{BASE_URL}guides/turn-python-library-into-api-with-yaml/"
     ),
     "limits/index.html": f"{BASE_URL}limits/",
+    "releases/index.html": f"{BASE_URL}releases/",
+    "releases/0.4.0/index.html": f"{BASE_URL}releases/0.4.0/",
+    "releases/0.5.0/index.html": f"{BASE_URL}releases/0.5.0/",
+    "migrations/index.html": f"{BASE_URL}migrations/",
+    "migrations/0.3-to-0.4/index.html": f"{BASE_URL}migrations/0.3-to-0.4/",
+    "migrations/0.4-to-0.5/index.html": f"{BASE_URL}migrations/0.4-to-0.5/",
+    "security/index.html": f"{BASE_URL}security/",
 }
 
 
@@ -250,6 +257,112 @@ class DocumentationSiteTests(unittest.TestCase):
                 self.assertGreater(len(visible_text.split()), 650)
                 self.assertIn('"@type": "TechArticle"', source)
                 self.assertIn('apizit-linking[preview]==0.4.0', source)
+
+    def test_release_migration_and_security_links_are_site_wide(self) -> None:
+        required_links = (
+            "/apizit-linking-examples/releases/",
+            "/apizit-linking-examples/migrations/",
+            "/apizit-linking-examples/security/",
+        )
+        for relative_path in PUBLIC_PAGES:
+            source = (SITE_ROOT / relative_path).read_text(encoding="utf-8")
+            for link in required_links:
+                with self.subTest(page=relative_path, link=link):
+                    self.assertIn(f'href="{link}"', source)
+
+    def test_0_5_material_is_an_unpublished_documentary_draft(self) -> None:
+        release = (
+            SITE_ROOT / "releases" / "0.5.0" / "index.html"
+        ).read_text(encoding="utf-8")
+        migration = (
+            SITE_ROOT / "migrations" / "0.4-to-0.5" / "index.html"
+        ).read_text(encoding="utf-8")
+        combined = f"{release}\n{migration}"
+
+        for expected in (
+            "not published",
+            "Manifest <code>version: 1</code>",
+            "Runtime artifact <code>version: 1</code>",
+            "exact <code>engine_version</code>",
+            "recompil",
+            "APIZIT must",
+            "re-pin",
+            "documentary only",
+            "without vendored Linking code",
+        ):
+            with self.subTest(expected=expected):
+                self.assertIn(expected, combined)
+
+        self.assertIn('apizit-linking[preview]==0.4.0', release)
+        self.assertNotRegex(
+            combined,
+            r'pip install [^<\r\n]*apizit-linking[^<\r\n]*==0\.5',
+        )
+        self.assertNotIn('"softwareVersion": "0.5.0"', combined)
+
+    def test_public_security_channel_is_documented_as_enabled(self) -> None:
+        security_url = (
+            "https://github.com/chipsi44/apizit-linking-examples/"
+            "security/advisories/new"
+        )
+        policy = (REPOSITORY_ROOT / "SECURITY.md").read_text(encoding="utf-8")
+        page = (SITE_ROOT / "security" / "index.html").read_text(encoding="utf-8")
+
+        self.assertIn(security_url, policy)
+        self.assertIn(security_url, page)
+        self.assertIn("Private Vulnerability Reporting is enabled", policy)
+        self.assertRegex(page, r"Private Vulnerability Reporting is enabled")
+        self.assertNotIn("not active yet", policy)
+        self.assertIn("Do **not** disclose vulnerability details", policy)
+
+        for name in ("bug.yml", "feature.yml"):
+            source = (
+                REPOSITORY_ROOT / ".github" / "ISSUE_TEMPLATE" / name
+            ).read_text(encoding="utf-8")
+            with self.subTest(issue_form=name):
+                self.assertIn("Security warning", source)
+                self.assertIn("security policy", source)
+                self.assertIn("customer data", source)
+
+        contact_form = (
+            REPOSITORY_ROOT
+            / ".github"
+            / "ISSUE_TEMPLATE"
+            / "security-contact.yml"
+        ).read_text(encoding="utf-8")
+        self.assertIn("this issue is public", contact_form)
+        self.assertIn("no vulnerability details", contact_form)
+        self.assertNotIn("type: textarea", contact_form)
+
+        config = (
+            REPOSITORY_ROOT / ".github" / "ISSUE_TEMPLATE" / "config.yml"
+        ).read_text(encoding="utf-8")
+        self.assertIn("blank_issues_enabled: false", config)
+        self.assertIn(f"{BASE_URL}security/", config)
+
+    def test_public_changelog_and_machine_index_keep_0_4_canonical(self) -> None:
+        changelog = (REPOSITORY_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+        llms = (SITE_ROOT / "llms.txt").read_text(encoding="utf-8")
+
+        self.assertIn("## Unreleased", changelog)
+        self.assertIn("## 0.4.0", changelog)
+        self.assertNotIn("## 0.5.0", changelog)
+        self.assertIn("There is no public `apizit-linking` 0.5.0 release yet", changelog)
+
+        for expected in (
+            f"{BASE_URL}releases/",
+            f"{BASE_URL}releases/0.4.0/",
+            f"{BASE_URL}releases/0.5.0/",
+            f"{BASE_URL}migrations/",
+            f"{BASE_URL}migrations/0.3-to-0.4/",
+            f"{BASE_URL}migrations/0.4-to-0.5/",
+            f"{BASE_URL}security/",
+            "apizit-linking[preview]==0.4.0",
+            "Package 0.5.0 and a 0.5 release candidate are not published",
+            "does not publish engine GitHub Releases",
+        ):
+            with self.subTest(expected=expected):
+                self.assertIn(expected, llms)
 
 
 if __name__ == "__main__":

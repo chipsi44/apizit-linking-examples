@@ -1,0 +1,17 @@
+name: Security contact request — no details
+description: Ask for a private channel only if GitHub Private Vulnerability Reporting is temporarily unavailable.
+title: "[Security contact]: private channel requested"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Stop: this issue is public.** Do not describe the vulnerability, affected code, impact, reproduction, logs, customer data, secrets, or sensitive paths. This form only tells maintainers that you need a private channel.
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Safe-contact confirmation
+      options:
+        - label: This issue contains no vulnerability details, proof of concept, logs, private code, secrets, or customer data.
+          required: true
+        - label: I will wait for a maintainer to provide a private channel before sharing any technical information.
+          required: true

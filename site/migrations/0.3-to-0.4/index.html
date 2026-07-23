@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Migrate APIZIT Linking 0.3 to 0.4 — artifact and adapter guide</title>
+    <meta
+      name="description"
+      content="Step-by-step APIZIT Linking 0.3-to-0.4 migration for canonical manifests, closed runtime artifacts, strict signatures, and non-vendored adapters."
+    >
+    <link
+      rel="canonical"
+      href="https://chipsi44.github.io/apizit-linking-examples/migrations/0.3-to-0.4/"
+    >
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="APIZIT Linking">
+    <meta property="og:title" content="Migrate APIZIT Linking 0.3 to 0.4">
+    <meta
+      property="og:description"
+      content="Replace unversioned route lists with the closed runtime artifact and rebuild adapter outputs."
+    >
+    <meta
+      property="og:url"
+      content="https://chipsi44.github.io/apizit-linking-examples/migrations/0.3-to-0.4/"
+    >
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="APIZIT Linking 0.3-to-0.4 migration">
+    <meta
+      name="twitter:description"
+      content="Canonical manifests, strict callable metadata, and the supported artifact-based adapter path."
+    >
+    <link rel="stylesheet" href="/apizit-linking-examples/assets/styles.css">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "TechArticle",
+            "headline": "Migrate APIZIT Linking 0.3 to 0.4",
+            "description": "Migration guide for APIZIT Linking projects and deployment adapters moving from 0.3 to 0.4.",
+            "url": "https://chipsi44.github.io/apizit-linking-examples/migrations/0.3-to-0.4/",
+            "datePublished": "2026-07-23",
+            "dateModified": "2026-07-23",
+            "inLanguage": "en",
+            "proficiencyLevel": "Intermediate"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Migrations",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/migrations/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "0.3 to 0.4",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/migrations/0.3-to-0.4/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/apizit-linking-examples/" aria-label="APIZIT Linking home">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span class="brand-copy">
+            <span class="brand-name">APIZIT Linking</span>
+            <span class="brand-subtitle">Documentation</span>
+          </span>
+        </a>
+        <nav class="primary-nav" aria-label="Primary">
+          <ul>
+            <li><a href="/apizit-linking-examples/">Home</a></li>
+            <li><a href="/apizit-linking-examples/quickstart/">Quickstart</a></li>
+            <li><a href="/apizit-linking-examples/reference/linking-yaml/">YAML</a></li>
+            <li><a href="/apizit-linking-examples/reference/cli/">CLI</a></li>
+            <li><a href="/apizit-linking-examples/examples/">Examples</a></li>
+            <li><a href="/apizit-linking-examples/guides/">Guides</a></li>
+            <li><a href="/apizit-linking-examples/limits/">V1 limits</a></li>
+            <li><a href="/apizit-linking-examples/releases/">Releases</a></li>
+            <li><a href="/apizit-linking-examples/security/">Security</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <header class="page-heading">
+        <div class="container">
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+              <li><a href="/apizit-linking-examples/">Home</a></li>
+              <li><a href="/apizit-linking-examples/migrations/">Migrations</a></li>
+              <li aria-current="page">0.3 to 0.4</li>
+            </ol>
+          </nav>
+          <p class="eyebrow">Published migration</p>
+          <h1>Migrate from 0.3 to 0.4</h1>
+          <p class="lede">
+            Keep the Linking manifest declarative, replace bare route arrays with the
+            closed runtime artifact, and make every adapter consume the published
+            package through its supported API.
+          </p>
+        </div>
+      </header>
+
+      <article class="container article">
+        <h2 id="before">Before you change the pin</h2>
+        <ol>
+          <li>Commit the current manifest and deployment build inputs.</li>
+          <li>Capture a known-good 0.3 validation and integration-test result.</li>
+          <li>Locate any copied APIZIT Linking modules or calls to the old route-list API.</li>
+          <li>Plan to rebuild every generated artifact, ZIP, or container image.</li>
+        </ol>
+
+        <h2 id="install">1. Pin the published 0.4 package</h2>
+        <div class="code-block">
+          <div class="code-block-label">requirements.txt or equivalent</div>
+          <pre><code>apizit-linking[preview]==0.4.0</code></pre>
+        </div>
+        <p>
+          Do not install from the private engine repository and do not copy its modules
+          into an adapter. PyPI is the supported distribution boundary.
+        </p>
+
+        <h2 id="manifest">2. Make the manifest canonical</h2>
+        <p>
+          The canonical authoring contract still uses root <code>version: 1</code>.
+          Explicitly declare it, use uppercase HTTP methods, dotted Python module paths,
+          leading-slash route paths, and only documented fields.
+        </p>
+        <div class="code-block">
+          <div class="code-block-label">apizit_linking.yaml</div>
+          <pre><code>version: 1
+routes:
+  - path: /hello
+    method: GET
+    function: hello:hello</code></pre>
+        </div>
+        <p>
+          The compiler may still accept selected historical forms to explain a
+          migration, but that does not make those forms part of the
+          <a href="/apizit-linking-examples/schema/apizit-linking-v1.schema.json">
+            public JSON Schema
+          </a>.
+          New and migrated files should pass both schema validation and the CLI.
+        </p>
+        <div class="code-block">
+          <div class="code-block-label">Terminal</div>
+          <pre><code>apizit-linking validate .</code></pre>
+        </div>
+
+        <h2 id="artifact">3. Replace the bare route list</h2>
+        <p>
+          Version 0.3 integrations could serialize individual route dictionaries and
+          pass the unversioned list directly to the FastAPI adapter. Version 0.4 makes
+          the complete artifact the supported handoff.
+        </p>
+        <h3>Old migration-only shape</h3>
+        <div class="code-block">
+          <pre><code>runtime_routes = [
+    route.to_runtime_dict()
+    for route in compilation.routes
+]
+app = create_app_from_runtime_routes(
+    runtime_routes,
+    project_root=project_root,
+)</code></pre>
+        </div>
+        <h3>Supported 0.4 shape</h3>
+        <div class="code-block">
+          <pre><code>compilation = compile_linking_file(
+    linking_file,
+    project_root=project_root,
+)
+artifact = compilation.to_runtime_dict()
+app = create_app_from_runtime_artifact(
+    artifact,
+    project_root=project_root,
+)</code></pre>
+        </div>
+        <p>
+          Persist the complete artifact unchanged. Its closed envelope contains
+          <code>format</code>, artifact <code>version</code>,
+          <code>engine_version</code>, <code>manifest_version</code>, and
+          <code>routes</code>. Treat it as opaque adapter input.
+        </p>
+
+        <h2 id="signature">4. Expect strict signature checks</h2>
+        <p>
+          Recompilation captures the complete callable contract: ordered parameters,
+          their kinds, required/default state, annotations,
+          <code>callable_kind</code>, and <code>return_annotation</code>. At startup,
+          the adapter imports the callable and rejects any drift before serving
+          requests. If customer Python changes, re-run compilation rather than editing
+          metadata.
+        </p>
+
+        <h2 id="generators">5. Remove generator routes</h2>
+        <p>
+          Functions containing <code>yield</code> and asynchronous generators are not
+          valid Linking targets in 0.4. Convert them to a normal synchronous or
+          asynchronous function returning a supported value. Do not wrap a generator
+          merely to hide its callable kind: streaming remains outside the V1 contract.
+        </p>
+
+        <h2 id="apizit">6. Rebuild APIZIT integration outputs</h2>
+        <ul>
+          <li>Pin exactly <code>apizit-linking==0.4.0</code> in the build and runtime.</li>
+          <li>Compile once during the controlled build step.</li>
+          <li>Record artifact hash, package version, manifest version, and source revision.</li>
+          <li>Package the untouched artifact with the exact 0.4.0 runtime dependency.</li>
+          <li>Rebuild ZIP and container outputs; do not reuse 0.3 artifacts.</li>
+          <li>Run scan, report, package, image, startup, and HTTP integration tests.</li>
+        </ul>
+        <div class="callout callout-warning">
+          <p>
+            An artifact executes only under its exact <code>engine_version</code>.
+            Changing the dependency without recompiling is expected to fail.
+          </p>
+        </div>
+
+        <h2 id="verify">7. Verify the migration</h2>
+        <ol>
+          <li>Run <code>apizit-linking validate</code> on every supported project.</li>
+          <li>Load each serialized artifact with the exact pinned engine.</li>
+          <li>Confirm drift tests fail when a fixture callable is deliberately changed.</li>
+          <li>Confirm generator fixtures fail during compilation.</li>
+          <li>Exercise successful requests and structured request errors over ASGI.</li>
+        </ol>
+
+        <h2 id="rollback">Rollback safely</h2>
+        <p>
+          Restore the exact 0.3 package pin and rebuild its deployment output from the
+          preserved 0.3 inputs. A 0.4 artifact is not a rollback artifact for a 0.3
+          runtime, and changing version fields by hand is not a rollback strategy.
+        </p>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>Published migration · APIZIT Linking 0.4.0</p>
+        <ul class="footer-links">
+          <li><a href="/apizit-linking-examples/releases/0.4.0/">0.4.0 notes</a></li>
+          <li><a href="/apizit-linking-examples/releases/">Releases</a></li>
+          <li><a href="/apizit-linking-examples/migrations/">Migrations</a></li>
+          <li><a href="/apizit-linking-examples/limits/">V1 limits</a></li>
+          <li><a href="/apizit-linking-examples/security/">Security</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>
