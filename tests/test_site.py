@@ -226,7 +226,7 @@ class DocumentationSiteTests(unittest.TestCase):
         )
 
         homepage = (SITE_ROOT / "index.html").read_text(encoding="utf-8")
-        self.assertIn('"softwareVersion": "0.3.1"', homepage)
+        self.assertIn('"softwareVersion": "0.4.0"', homepage)
         self.assertNotIn('"codeRepository"', homepage)
 
     def test_three_search_guides_are_substantive_and_reproducible(self) -> None:
@@ -249,7 +249,7 @@ class DocumentationSiteTests(unittest.TestCase):
                 visible_text = re.sub(r"<[^>]+>", " ", source)
                 self.assertGreater(len(visible_text.split()), 650)
                 self.assertIn('"@type": "TechArticle"', source)
-                self.assertIn('apizit-linking[preview]==0.3.1', source)
+                self.assertIn('apizit-linking[preview]==0.4.0', source)
 
 
 if __name__ == "__main__":

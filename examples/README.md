@@ -36,4 +36,4 @@ Locally, the integration suite compiles and invokes them all:
 python -m unittest discover -s tests -p "test_*.py" -v
 ```
 
-All projects target the capabilities available in APIZIT Linking 0.3.0.
+All projects target the capabilities available in APIZIT Linking 0.4.0.
