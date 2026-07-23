@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Keep Python Business Logic Independent from FastAPI | APIZIT Linking</title>
+    <meta
+      name="description"
+      content="Keep Python business logic free of FastAPI imports and decorators while exposing it through a declarative APIZIT Linking YAML route."
+    >
+    <link
+      rel="canonical"
+      href="https://chipsi44.github.io/apizit-linking-examples/guides/keep-python-business-logic-independent-from-fastapi/"
+    >
+    <link rel="stylesheet" href="../../assets/styles.css">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="APIZIT Linking">
+    <meta
+      property="og:title"
+      content="Keep Python Business Logic Independent from FastAPI"
+    >
+    <meta
+      property="og:description"
+      content="A runnable example that keeps pricing logic as ordinary Python and moves HTTP binding into YAML."
+    >
+    <meta
+      property="og:url"
+      content="https://chipsi44.github.io/apizit-linking-examples/guides/keep-python-business-logic-independent-from-fastapi/"
+    >
+    <meta name="twitter:card" content="summary">
+    <meta
+      name="twitter:title"
+      content="Keep Python Business Logic Independent from FastAPI"
+    >
+    <meta
+      name="twitter:description"
+      content="Separate Python business rules from HTTP routing with APIZIT Linking V1."
+    >
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "TechArticle",
+            "@id": "https://chipsi44.github.io/apizit-linking-examples/guides/keep-python-business-logic-independent-from-fastapi/#article",
+            "headline": "Keep Python Business Logic Independent from FastAPI",
+            "description": "Keep Python business logic free of FastAPI imports and decorators while exposing it through a declarative APIZIT Linking YAML route.",
+            "datePublished": "2026-07-23",
+            "dateModified": "2026-07-23",
+            "inLanguage": "en",
+            "author": {
+              "@type": "Organization",
+              "name": "APIZIT"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "APIZIT"
+            },
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://chipsi44.github.io/apizit-linking-examples/guides/keep-python-business-logic-independent-from-fastapi/"
+            },
+            "about": [
+              "Software architecture",
+              "Python",
+              "FastAPI"
+            ],
+            "keywords": [
+              "Python business logic independent from FastAPI",
+              "framework-independent Python",
+              "APIZIT Linking",
+              "declarative HTTP binding"
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Guides",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/guides/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Keep business logic independent from FastAPI",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/guides/keep-python-business-logic-independent-from-fastapi/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/apizit-linking-examples/" aria-label="APIZIT Linking home">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span class="brand-copy">
+            <span class="brand-name">APIZIT Linking</span>
+            <span class="brand-subtitle">Plain Python. Declarative HTTP.</span>
+          </span>
+        </a>
+        <nav class="primary-nav" aria-label="Primary">
+          <a href="/apizit-linking-examples/">Home</a>
+          <a href="/apizit-linking-examples/quickstart/">Quickstart</a>
+          <a href="/apizit-linking-examples/reference/linking-yaml/">YAML</a>
+          <a href="/apizit-linking-examples/reference/cli/">CLI</a>
+          <a href="/apizit-linking-examples/examples/">Examples</a>
+          <a href="/apizit-linking-examples/guides/" aria-current="page">Guides</a>
+          <a href="/apizit-linking-examples/limits/">V1 limits</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <article class="container article">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="/apizit-linking-examples/">Home</a>
+          <span aria-hidden="true">/</span>
+          <a href="/apizit-linking-examples/guides/">Guides</a>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">Business logic without FastAPI imports</span>
+        </nav>
+
+        <header>
+          <p class="eyebrow">Architecture guide · APIZIT Linking V1</p>
+          <h1>Keep Python business logic independent from FastAPI</h1>
+          <p class="lede">
+            A web framework should not have to own your domain function. With APIZIT Linking, the
+            Python module calculates a result using ordinary values, while YAML declares how HTTP
+            path, query, header, or body fields become function arguments.
+          </p>
+        </header>
+
+        <nav aria-label="On this page">
+          <h2>On this page</h2>
+          <ul>
+            <li><a href="#boundary">The boundary to preserve</a></li>
+            <li><a href="#business-function">1. Write and test the business function</a></li>
+            <li><a href="#http-binding">2. Add HTTP binding outside the code</a></li>
+            <li><a href="#run">3. Validate and run the API</a></li>
+            <li><a href="#why">Why the separation matters</a></li>
+            <li><a href="#v1-limits">Where V1 stops</a></li>
+          </ul>
+        </nav>
+
+        <section id="boundary">
+          <h2>The boundary to preserve</h2>
+          <p>
+            Framework coupling usually starts when a business function accepts a request object,
+            raises <code>HTTPException</code>, returns a framework response, or carries a route
+            decorator. Those choices make the same logic harder to call from a script, a worker, a
+            test, or another adapter.
+          </p>
+          <p>For this guide, the project remains only two files:</p>
+          <div class="code-block" role="region" aria-label="Project file tree" tabindex="0">
+            <pre><code>pricing-api/
+├── apizit_linking.yaml
+└── pricing.py</code></pre>
+          </div>
+          <div class="callout callout-note">
+            <p>
+              APIZIT Linking uses FastAPI only in its optional preview adapter. Your business
+              module does not import FastAPI or APIZIT Linking.
+            </p>
+          </div>
+        </section>
+
+        <section id="business-function">
+          <h2>1. Write and test the business function</h2>
+          <p>Create <code>pricing.py</code>:</p>
+          <div class="code-block" role="region" aria-label="Contents of pricing.py" tabindex="0">
+            <pre><code class="language-python">def calculate_total(
+    unit_price: float,
+    quantity: int,
+    tax_rate: float = 0.21,
+) -&gt; dict[str, float | int]:
+    subtotal = round(unit_price * quantity, 2)
+    tax = round(subtotal * tax_rate, 2)
+    return {
+        "quantity": quantity,
+        "unit_price": unit_price,
+        "subtotal": subtotal,
+        "tax": tax,
+        "total": round(subtotal + tax, 2),
+    }</code></pre>
+          </div>
+          <p>
+            This function knows about prices, quantities, and tax. It does not know about HTTP.
+            Test it directly before adding any route:
+          </p>
+          <div
+            class="code-block"
+            role="region"
+            aria-label="Direct business function test"
+            tabindex="0"
+          >
+            <pre><code class="language-shell">python -c "from pricing import calculate_total; assert calculate_total(12.5, 2)['total'] == 30.25"</code></pre>
+          </div>
+          <p>
+            That same import remains valid in a unit test, command-line job, notebook, or queue
+            worker. HTTP is a caller, not the center of the module.
+          </p>
+        </section>
+
+        <section id="http-binding">
+          <h2>2. Add HTTP binding outside the code</h2>
+          <p>
+            Create <code>apizit_linking.yaml</code>. Each body field maps explicitly to one Python
+            parameter:
+          </p>
+          <div
+            class="code-block"
+            role="region"
+            aria-label="Contents of apizit_linking.yaml"
+            tabindex="0"
+          >
+            <pre><code class="language-yaml">version: 1
+
+runtime:
+  language: python
+  version: "3.12"
+
+routes:
+  - path: /quotes
+    method: POST
+    function: pricing:calculate_total
+    parameters:
+      unit_price:
+        source:
+          location: body
+          name: unit_price
+      quantity:
+        source:
+          location: body
+          name: quantity
+      tax_rate:
+        source:
+          location: body
+          name: tax_rate</code></pre>
+          </div>
+          <p>
+            <code>unit_price</code> and <code>quantity</code> are required because the Python
+            signature has no defaults. <code>tax_rate</code> is optional: when the JSON field is
+            absent, APIZIT Linking omits the keyword and Python applies <code>0.21</code>.
+          </p>
+          <p>
+            Type hints drive the supported primitive conversions. For example, the JSON string
+            <code>"2"</code> can become an integer, but a non-integer value produces a structured
+            request error before the function is invoked.
+          </p>
+        </section>
+
+        <section id="run">
+          <h2>3. Validate and run the API</h2>
+          <p>
+            Install the 0.3.x preview extra, validate the static contract, then start the local
+            server:
+          </p>
+          <div class="code-block" role="region" aria-label="Install and run commands" tabindex="0">
+            <pre><code class="language-shell">python -m pip install "apizit-linking[preview]==0.3.1"
+apizit-linking validate .
+apizit-linking preview . --port 8080</code></pre>
+          </div>
+          <p>
+            Validation should report one compiled route. In another terminal, send a JSON object:
+          </p>
+          <div class="code-block" role="region" aria-label="Example quote request" tabindex="0">
+            <pre><code class="language-shell">curl -X POST "http://127.0.0.1:8080/quotes" \
+  -H "Content-Type: application/json" \
+  -d '{"unit_price":12.5,"quantity":2}'</code></pre>
+          </div>
+          <p>Expected response (<code>200 OK</code>):</p>
+          <div class="code-block" role="region" aria-label="Expected quote response" tabindex="0">
+            <pre><code class="language-json">{
+  "quantity": 2,
+  "unit_price": 12.5,
+  "subtotal": 25.0,
+  "tax": 5.25,
+  "total": 30.25
+}</code></pre>
+          </div>
+          <p>
+            Send <code>{"unit_price":12.5,"quantity":"many"}</code> and the adapter returns
+            <code>400 Bad Request</code> with error code <code>INVALID_PARAMETER</code>. The
+            pricing function is not called.
+          </p>
+        </section>
+
+        <section id="why">
+          <h2>Why the separation matters</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Concern</th>
+                  <th scope="col">Python module</th>
+                  <th scope="col">Linking YAML / adapter</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Business calculation</th>
+                  <td>Owns it</td>
+                  <td>Does not duplicate it</td>
+                </tr>
+                <tr>
+                  <th scope="row">Route and HTTP method</th>
+                  <td>Unaware</td>
+                  <td>Declares it</td>
+                </tr>
+                <tr>
+                  <th scope="row">Request source</th>
+                  <td>Receives ordinary values</td>
+                  <td>Maps body, query, path, header, form, or file</td>
+                </tr>
+                <tr>
+                  <th scope="row">Local server</th>
+                  <td>No server dependency</td>
+                  <td>Optional preview extra</td>
+                </tr>
+                <tr>
+                  <th scope="row">Unit testing</th>
+                  <td>Direct function call</td>
+                  <td>Separate integration tests</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            This design also keeps deployment choices open. APIZIT can consume the compiled
+            linking contract, while another platform can use the standalone package and optional
+            FastAPI adapter. Neither choice requires a decorator in <code>pricing.py</code>.
+          </p>
+        </section>
+
+        <section id="v1-limits">
+          <h2>Where V1 stops</h2>
+          <div class="callout callout-warning">
+            <p>
+              Keeping business exceptions framework-independent is good architecture, but V1 does
+              not yet map them to HTTP responses. Do not return an <code>{"error": ...}</code>
+              dictionary and describe it as a 4xx response: without response-status support, it is
+              still an HTTP 200.
+            </p>
+          </div>
+          <ul>
+            <li>
+              V1 cannot declare <code>201</code>, <code>204</code>, <code>404</code>, custom
+              headers, or a typed response schema.
+            </li>
+            <li>
+              An unhandled domain exception becomes a generic <code>500</code> in preview; stable
+              business-exception mapping is future work.
+            </li>
+            <li>
+              JSON input must be an object and bindings address top-level fields. Nested selectors
+              and rich constraints are not available.
+            </li>
+            <li>
+              Unknown custom annotations are passed through rather than instantiated as domain or
+              validation models.
+            </li>
+            <li>
+              The preview is for development. Authentication, metering, and production isolation
+              belong to a platform adapter.
+            </li>
+          </ul>
+          <p>
+            Keep domain errors as ordinary Python exceptions or result types, test them directly,
+            and consult the <a href="/apizit-linking-examples/limits/">V1 limits</a> before
+            exposing operations that require precise HTTP semantics.
+          </p>
+        </section>
+
+        <section aria-labelledby="related-resources">
+          <h2 id="related-resources">Related resources</h2>
+          <ul>
+            <li>
+              <a href="/apizit-linking-examples/examples/">Runnable examples</a>, including JSON
+              body and request-error projects.
+            </li>
+            <li>
+              <a href="/apizit-linking-examples/reference/linking-yaml/">YAML reference</a> for
+              explicit and automatic parameter sources.
+            </li>
+            <li>
+              <a href="/apizit-linking-examples/reference/cli/">CLI reference</a> for
+              <code>validate</code> and <code>preview</code>.
+            </li>
+            <li>
+              <a href="https://pypi.org/project/apizit-linking/">APIZIT Linking on PyPI</a>.
+            </li>
+            <li>
+              <a href="https://github.com/chipsi44/apizit-linking-examples">Source for the public
+              examples</a>.
+            </li>
+          </ul>
+        </section>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>APIZIT Linking examples · Plain Python stays plain.</p>
+        <p>
+          <a href="https://pypi.org/project/apizit-linking/">PyPI</a>
+          ·
+          <a href="https://github.com/chipsi44/apizit-linking-examples">GitHub</a>
+          ·
+          <a href="/apizit-linking-examples/limits/">V1 limits</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,219 @@
+from __future__ import annotations
+
+import json
+import re
+import unittest
+import xml.etree.ElementTree as ET
+from html.parser import HTMLParser
+from pathlib import Path
+from urllib.parse import unquote, urljoin, urlparse
+
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+SITE_ROOT = REPOSITORY_ROOT / "site"
+BASE_URL = "https://chipsi44.github.io/apizit-linking-examples/"
+
+PUBLIC_PAGES = {
+    "index.html": BASE_URL,
+    "quickstart/index.html": f"{BASE_URL}quickstart/",
+    "reference/linking-yaml/index.html": f"{BASE_URL}reference/linking-yaml/",
+    "reference/cli/index.html": f"{BASE_URL}reference/cli/",
+    "examples/index.html": f"{BASE_URL}examples/",
+    "guides/index.html": f"{BASE_URL}guides/",
+    "guides/expose-python-function-as-http-api-without-decorators/index.html": (
+        f"{BASE_URL}guides/expose-python-function-as-http-api-without-decorators/"
+    ),
+    "guides/keep-python-business-logic-independent-from-fastapi/index.html": (
+        f"{BASE_URL}guides/keep-python-business-logic-independent-from-fastapi/"
+    ),
+    "guides/turn-python-library-into-api-with-yaml/index.html": (
+        f"{BASE_URL}guides/turn-python-library-into-api-with-yaml/"
+    ),
+    "limits/index.html": f"{BASE_URL}limits/",
+}
+
+
+class _HtmlFacts(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self.ids: set[str] = set()
+        self.links: list[str] = []
+        self.tags: list[tuple[str, dict[str, str]]] = []
+
+    def handle_starttag(
+        self,
+        tag: str,
+        attrs: list[tuple[str, str | None]],
+    ) -> None:
+        attributes = {name: value or "" for name, value in attrs}
+        self.tags.append((tag, attributes))
+        if element_id := attributes.get("id"):
+            self.ids.add(element_id)
+        if href := attributes.get("href"):
+            self.links.append(href)
+
+
+def _parse_html(path: Path) -> tuple[str, _HtmlFacts]:
+    source = path.read_text(encoding="utf-8")
+    parser = _HtmlFacts()
+    parser.feed(source)
+    return source, parser
+
+
+def _canonical_from(parser: _HtmlFacts) -> str | None:
+    for tag, attributes in parser.tags:
+        if tag == "link" and attributes.get("rel") == "canonical":
+            return attributes.get("href")
+    return None
+
+
+def _target_for(url: str) -> tuple[Path, str]:
+    parsed = urlparse(url)
+    expected_prefix = "/apizit-linking-examples/"
+    if parsed.netloc and parsed.netloc != "chipsi44.github.io":
+        raise ValueError(f"Not an internal URL: {url}")
+    if not parsed.path.startswith(expected_prefix):
+        raise AssertionError(f"Internal URL escapes the project path: {url}")
+
+    relative = unquote(parsed.path.removeprefix(expected_prefix))
+    if not relative or relative.endswith("/"):
+        relative = f"{relative}index.html"
+    return SITE_ROOT / relative, parsed.fragment
+
+
+class DocumentationSiteTests(unittest.TestCase):
+    def test_public_pages_have_unique_canonical_metadata_and_valid_json_ld(self) -> None:
+        seen_titles: set[str] = set()
+        seen_descriptions: set[str] = set()
+
+        for relative_path, expected_canonical in PUBLIC_PAGES.items():
+            with self.subTest(page=relative_path):
+                path = SITE_ROOT / relative_path
+                self.assertTrue(path.is_file(), path)
+                source, parser = _parse_html(path)
+
+                self.assertTrue(source.lower().startswith("<!doctype html>"))
+                self.assertRegex(source, r'<html\s+lang="en">')
+                self.assertIn('class="skip-link"', source)
+                self.assertIn('<main id="main-content"', source)
+                self.assertEqual(_canonical_from(parser), expected_canonical)
+
+                title_match = re.search(r"<title>([^<]+)</title>", source)
+                self.assertIsNotNone(title_match)
+                title = title_match.group(1).strip()
+                self.assertNotIn(title, seen_titles)
+                seen_titles.add(title)
+
+                description_match = re.search(
+                    r'<meta\s+name="description"\s+content="([^"]+)"',
+                    source,
+                    flags=re.DOTALL,
+                )
+                self.assertIsNotNone(description_match)
+                description = " ".join(description_match.group(1).split())
+                self.assertGreaterEqual(len(description), 60)
+                self.assertNotIn(description, seen_descriptions)
+                seen_descriptions.add(description)
+
+                json_ld_blocks = re.findall(
+                    r'<script\s+type="application/ld\+json">\s*(.*?)\s*</script>',
+                    source,
+                    flags=re.DOTALL,
+                )
+                self.assertTrue(json_ld_blocks, f"Missing JSON-LD in {relative_path}")
+                for block in json_ld_blocks:
+                    json.loads(block)
+
+    def test_404_is_index_safe(self) -> None:
+        source, _ = _parse_html(SITE_ROOT / "404.html")
+        self.assertIn('name="robots" content="noindex, follow"', source)
+        self.assertNotIn('rel="canonical"', source)
+        self.assertIn('<main id="main-content"', source)
+
+    def test_every_internal_link_and_fragment_resolves(self) -> None:
+        html_files = tuple(SITE_ROOT.rglob("*.html"))
+        self.assertEqual(len(html_files), len(PUBLIC_PAGES) + 1)
+
+        facts_by_path = {path: _parse_html(path)[1] for path in html_files}
+        for page, facts in facts_by_path.items():
+            page_relative = page.relative_to(SITE_ROOT).as_posix()
+            page_url = (
+                BASE_URL
+                if page_relative == "index.html"
+                else urljoin(BASE_URL, page_relative)
+            )
+            for href in facts.links:
+                with self.subTest(page=page_relative, href=href):
+                    if href.startswith("#"):
+                        self.assertIn(href[1:], facts.ids)
+                        continue
+
+                    resolved = urljoin(page_url, href)
+                    parsed = urlparse(resolved)
+                    if parsed.scheme not in {"http", "https"}:
+                        continue
+                    if parsed.netloc != "chipsi44.github.io":
+                        continue
+
+                    target, fragment = _target_for(resolved)
+                    self.assertTrue(target.is_file(), f"{href} resolves to missing {target}")
+                    if fragment and target.suffix == ".html":
+                        self.assertIn(fragment, facts_by_path[target].ids)
+
+    def test_sitemap_and_robots_publish_the_canonical_set(self) -> None:
+        sitemap = ET.parse(SITE_ROOT / "sitemap.xml")
+        namespace = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+        actual_urls = {
+            element.text
+            for element in sitemap.findall("s:url/s:loc", namespace)
+            if element.text
+        }
+        self.assertEqual(actual_urls, set(PUBLIC_PAGES.values()))
+
+        robots = (SITE_ROOT / "robots.txt").read_text(encoding="utf-8")
+        self.assertIn("User-agent: OAI-SearchBot", robots)
+        self.assertIn("Allow: /", robots)
+        self.assertIn(f"Sitemap: {BASE_URL}sitemap.xml", robots)
+
+    def test_public_site_does_not_claim_the_private_engine_repository(self) -> None:
+        public_text = "\n".join(
+            path.read_text(encoding="utf-8")
+            for path in (*SITE_ROOT.rglob("*.html"), SITE_ROOT / "llms.txt")
+        )
+        self.assertNotIn(
+            'href="https://github.com/chipsi44/apizit-linking"',
+            public_text,
+        )
+        self.assertNotIn(
+            "git clone https://github.com/chipsi44/apizit-linking.git",
+            public_text,
+        )
+
+        homepage = (SITE_ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertIn('"softwareVersion": "0.3.1"', homepage)
+        self.assertNotIn('"codeRepository"', homepage)
+
+    def test_three_search_guides_are_substantive_and_reproducible(self) -> None:
+        guide_slugs = {
+            "expose-python-function-as-http-api-without-decorators",
+            "keep-python-business-logic-independent-from-fastapi",
+            "turn-python-library-into-api-with-yaml",
+        }
+        actual_slugs = {
+            path.parent.name
+            for path in (SITE_ROOT / "guides").glob("*/index.html")
+        }
+        self.assertEqual(actual_slugs, guide_slugs)
+
+        for slug in guide_slugs:
+            with self.subTest(guide=slug):
+                source = (
+                    SITE_ROOT / "guides" / slug / "index.html"
+                ).read_text(encoding="utf-8")
+                visible_text = re.sub(r"<[^>]+>", " ", source)
+                self.assertGreater(len(visible_text.split()), 650)
+                self.assertIn('"@type": "TechArticle"', source)
+                self.assertIn('apizit-linking[preview]==0.3.1', source)
+
+
+if __name__ == "__main__":
+    unittest.main()

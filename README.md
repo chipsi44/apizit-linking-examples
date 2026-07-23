@@ -1,6 +1,7 @@
 # APIZIT Linking examples
 
 [![CI](https://github.com/chipsi44/apizit-linking-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/chipsi44/apizit-linking-examples/actions/workflows/ci.yml)
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-2357c6)](https://chipsi44.github.io/apizit-linking-examples/)
 [![APIZIT Linking](https://img.shields.io/badge/APIZIT%20Linking-0.3.0-blue)](https://pypi.org/project/apizit-linking/)
 
 Public, forkable API projects for
@@ -11,6 +12,10 @@ code.
 
 The business modules contain no APIZIT Linking, FastAPI, or Flask imports.
 Routes and request bindings live only in `apizit_linking.yaml`.
+
+Read the [public documentation](https://chipsi44.github.io/apizit-linking-examples/)
+for the quickstart, complete Linking YAML and CLI references, runnable example
+catalogue, architecture guides, and documented V1 boundaries.
 
 ## Fork and run
 

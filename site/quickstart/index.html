@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quickstart — APIZIT Linking</title>
+    <meta
+      name="description"
+      content="Install APIZIT Linking, validate a plain Python function, and preview it as a local HTTP API."
+    >
+    <meta name="theme-color" content="#0c1428">
+    <link
+      rel="canonical"
+      href="https://chipsi44.github.io/apizit-linking-examples/quickstart/"
+    >
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="APIZIT Linking">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Quickstart — APIZIT Linking">
+    <meta
+      property="og:description"
+      content="Validate and preview an unchanged Python function as HTTP in a few commands."
+    >
+    <meta
+      property="og:url"
+      content="https://chipsi44.github.io/apizit-linking-examples/quickstart/"
+    >
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="APIZIT Linking quickstart">
+    <meta
+      name="twitter:description"
+      content="Install, validate, preview, and call a plain Python function over HTTP."
+    >
+    <link rel="stylesheet" href="/apizit-linking-examples/assets/styles.css">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "HowTo",
+            "name": "Run the APIZIT Linking Hello World example",
+            "description": "Install APIZIT Linking, validate the declarative route, and start the local preview.",
+            "totalTime": "PT5M",
+            "tool": [
+              {"@type": "HowToTool", "name": "Python 3.10 or newer"},
+              {"@type": "HowToTool", "name": "A terminal"}
+            ],
+            "step": [
+              {"@type": "HowToStep", "name": "Clone the example repository"},
+              {"@type": "HowToStep", "name": "Create and activate a virtual environment"},
+              {"@type": "HowToStep", "name": "Install the preview extra"},
+              {"@type": "HowToStep", "name": "Validate the project"},
+              {"@type": "HowToStep", "name": "Start the local preview and call the route"}
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Quickstart",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/quickstart/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/apizit-linking-examples/" aria-label="APIZIT Linking home">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span class="brand-copy">
+            <span class="brand-name">APIZIT Linking</span>
+            <span class="brand-subtitle">Documentation</span>
+          </span>
+        </a>
+        <nav class="primary-nav" aria-label="Primary">
+          <ul>
+            <li><a href="/apizit-linking-examples/">Home</a></li>
+            <li>
+              <a href="/apizit-linking-examples/quickstart/" aria-current="page">
+                Quickstart
+              </a>
+            </li>
+            <li>
+              <a href="/apizit-linking-examples/reference/linking-yaml/">YAML reference</a>
+            </li>
+            <li><a href="/apizit-linking-examples/reference/cli/">CLI</a></li>
+            <li><a href="/apizit-linking-examples/examples/">Examples</a></li>
+            <li><a href="/apizit-linking-examples/guides/">Guides</a></li>
+            <li><a href="/apizit-linking-examples/limits/">V1 limits</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <header class="page-heading">
+        <div class="container">
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+              <li><a href="/apizit-linking-examples/">Home</a></li>
+              <li aria-current="page">Quickstart</li>
+            </ol>
+          </nav>
+          <p class="eyebrow">Run your first route</p>
+          <h1>From plain Python to local HTTP</h1>
+          <p class="lede">
+            Fork or clone a complete project, validate it without importing the
+            business module, then start the local preview.
+          </p>
+        </div>
+      </header>
+
+      <article class="container article">
+        <div class="callout callout-note">
+          <p>
+            <strong>Prerequisite:</strong> Python 3.10 or newer. The example pins
+            <code>apizit-linking[preview]==0.3.1</code> for repeatable behavior.
+          </p>
+        </div>
+
+        <h2 id="get-the-project">1. Get the project</h2>
+        <p>
+          <a href="https://github.com/chipsi44/apizit-linking-examples/fork">
+            Fork the public repository
+          </a>
+          to experiment in your own GitHub account, or clone it directly:
+        </p>
+        <div class="code-block">
+          <div class="code-block-header">Terminal</div>
+          <pre><code>git clone https://github.com/chipsi44/apizit-linking-examples.git
+cd apizit-linking-examples
+python -m venv .venv</code></pre>
+        </div>
+
+        <h3 id="activate">Activate the virtual environment</h3>
+        <div class="code-block">
+          <div class="code-block-header">Windows PowerShell</div>
+          <pre><code>.venv\Scripts\Activate.ps1</code></pre>
+        </div>
+        <div class="code-block">
+          <div class="code-block-header">macOS or Linux</div>
+          <pre><code>source .venv/bin/activate</code></pre>
+        </div>
+
+        <h2 id="install">2. Install the local preview</h2>
+        <p>
+          The repository dependency installs the standalone binding engine, FastAPI
+          adapter, multipart support, and Uvicorn development server:
+        </p>
+        <div class="code-block">
+          <div class="code-block-header">Terminal</div>
+          <pre><code>python -m pip install -r requirements.txt</code></pre>
+        </div>
+        <p>
+          For validation without preview, the smaller core installation is sufficient:
+        </p>
+        <div class="code-block">
+          <div class="code-block-header">Core only</div>
+          <pre><code>python -m pip install "apizit-linking==0.3.1"</code></pre>
+        </div>
+
+        <h2 id="inspect">3. Inspect the complete project</h2>
+        <p>The runnable root project has one business file and one HTTP contract.</p>
+        <div class="code-block">
+          <div class="code-block-header">hello.py</div>
+          <pre><code>def hello() -&gt; dict[str, str]:
+    return {"message": "Hello from APIZIT Linking!"}</code></pre>
+        </div>
+        <div class="code-block">
+          <div class="code-block-header">apizit_linking.yaml</div>
+          <pre><code>version: 1
+
+runtime:
+  language: python
+  version: "3.12"
+
+routes:
+  - path: /hello
+    method: GET
+    function: hello:hello</code></pre>
+        </div>
+        <p>
+          The Python module has no APIZIT Linking or web-framework import. The
+          <code>function</code> value names the module and top-level function as
+          <code>module:function</code>.
+        </p>
+
+        <h2 id="validate">4. Validate without executing business code</h2>
+        <div class="code-block">
+          <div class="code-block-header">Terminal</div>
+          <pre><code>apizit-linking validate .</code></pre>
+        </div>
+        <p>A successful result reports that the definition is valid and compiled one route.</p>
+        <div class="code-block">
+          <div class="code-block-header">Expected output</div>
+          <pre><code>APIZIT linking definition is valid: .../apizit_linking.yaml
+Compiled routes: 1</code></pre>
+        </div>
+        <p>
+          Validation parses the Python source with the AST. It checks the route,
+          function, signature, parameter bindings, and collisions without importing or
+          calling <code>hello.py</code>.
+        </p>
+
+        <h2 id="preview">5. Preview and call the route</h2>
+        <div class="code-block">
+          <div class="code-block-header">Terminal 1</div>
+          <pre><code>apizit-linking preview . --port 8080</code></pre>
+        </div>
+        <p>Keep that process running. From another terminal:</p>
+        <div class="code-block">
+          <div class="code-block-header">Terminal 2</div>
+          <pre><code>curl http://127.0.0.1:8080/hello</code></pre>
+        </div>
+        <div class="code-block">
+          <div class="code-block-header">Response · 200 OK</div>
+          <pre><code>{"message":"Hello from APIZIT Linking!"}</code></pre>
+        </div>
+        <p>Stop the preview with <kbd>Ctrl</kbd>+<kbd>C</kbd>.</p>
+
+        <div class="callout callout-warning">
+          <p>
+            <strong>Local development only.</strong> Preview binds to
+            <code>127.0.0.1</code> by default. It is not a production server,
+            authentication layer, or sandbox. Starting it imports and executes trusted
+            customer code in the server process.
+          </p>
+        </div>
+
+        <h2 id="next">Where to go next</h2>
+        <ul class="link-list">
+          <li>
+            <a href="/apizit-linking-examples/examples/">
+              Exercise path, query, body, package, and CRUD examples
+            </a>
+          </li>
+          <li>
+            <a href="/apizit-linking-examples/reference/linking-yaml/">
+              Learn the complete V1 linking contract
+            </a>
+          </li>
+          <li>
+            <a href="/apizit-linking-examples/reference/cli/">
+              See every validate and preview option
+            </a>
+          </li>
+        </ul>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>
+          APIZIT Linking 0.3.1 public beta ·
+          <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a>
+        </p>
+        <ul class="footer-links">
+          <li><a href="https://pypi.org/project/apizit-linking/">PyPI</a></li>
+          <li>
+            <a href="https://github.com/chipsi44/apizit-linking-examples">GitHub</a>
+          </li>
+          <li><a href="/apizit-linking-examples/sitemap.xml">Sitemap</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Example API catalogue — APIZIT Linking</title>
+    <meta
+      name="description"
+      content="Six public, forkable APIZIT Linking projects covering path and query parameters, JSON bodies, errors, packages, and task CRUD."
+    >
+    <meta name="theme-color" content="#0c1428">
+    <link
+      rel="canonical"
+      href="https://chipsi44.github.io/apizit-linking-examples/examples/"
+    >
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="APIZIT Linking">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Example API catalogue — APIZIT Linking">
+    <meta
+      property="og:description"
+      content="Fork and run six independent APIs that exercise the APIZIT Linking V1 contract."
+    >
+    <meta
+      property="og:url"
+      content="https://chipsi44.github.io/apizit-linking-examples/examples/"
+    >
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="APIZIT Linking example APIs">
+    <meta
+      name="twitter:description"
+      content="Six public projects, 10 routes, and no framework imports in business code."
+    >
+    <link rel="stylesheet" href="/apizit-linking-examples/assets/styles.css">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "CollectionPage",
+            "name": "APIZIT Linking example API catalogue",
+            "url": "https://chipsi44.github.io/apizit-linking-examples/examples/",
+            "description": "A collection of independent Python API projects linked declaratively with APIZIT Linking.",
+            "mainEntity": {
+              "@type": "ItemList",
+              "numberOfItems": 6,
+              "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Hello World"},
+                {"@type": "ListItem", "position": 2, "name": "Path and query parameters"},
+                {"@type": "ListItem", "position": 3, "name": "JSON body"},
+                {"@type": "ListItem", "position": 4, "name": "Error handling"},
+                {"@type": "ListItem", "position": 5, "name": "Multi-module API"},
+                {"@type": "ListItem", "position": 6, "name": "Task API"}
+              ]
+            }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Examples",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/examples/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/apizit-linking-examples/" aria-label="APIZIT Linking home">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span class="brand-copy">
+            <span class="brand-name">APIZIT Linking</span>
+            <span class="brand-subtitle">Documentation</span>
+          </span>
+        </a>
+        <nav class="primary-nav" aria-label="Primary">
+          <ul>
+            <li><a href="/apizit-linking-examples/">Home</a></li>
+            <li><a href="/apizit-linking-examples/quickstart/">Quickstart</a></li>
+            <li>
+              <a href="/apizit-linking-examples/reference/linking-yaml/">YAML reference</a>
+            </li>
+            <li><a href="/apizit-linking-examples/reference/cli/">CLI</a></li>
+            <li>
+              <a href="/apizit-linking-examples/examples/" aria-current="page">
+                Examples
+              </a>
+            </li>
+            <li><a href="/apizit-linking-examples/guides/">Guides</a></li>
+            <li><a href="/apizit-linking-examples/limits/">V1 limits</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <header class="page-heading">
+        <div class="container">
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+              <li><a href="/apizit-linking-examples/">Home</a></li>
+              <li aria-current="page">Examples</li>
+            </ol>
+          </nav>
+          <p class="eyebrow">Six projects · Ten routes</p>
+          <h1>Forkable example APIs</h1>
+          <p class="lede">
+            Every project has its own manifest and framework-independent Python code.
+            Copy one, run it as-is, or pin it as an APIZIT integration fixture.
+          </p>
+        </div>
+      </header>
+
+      <div class="container article">
+        <div class="callout callout-note">
+          <p>
+            All examples target <strong>APIZIT Linking 0.3.1</strong>. Their business
+            modules import neither APIZIT Linking, FastAPI, nor Flask.
+          </p>
+        </div>
+
+        <h2 id="catalogue">Project catalogue</h2>
+        <div class="card-grid wide">
+          <article class="card">
+            <p class="eyebrow">Repository root · 1 route</p>
+            <h3>Hello World</h3>
+            <p>The smallest complete function-to-route project.</p>
+            <ul class="tag-list">
+              <li>GET</li>
+              <li>module:function</li>
+              <li>preview</li>
+            </ul>
+            <p>
+              <a href="https://github.com/chipsi44/apizit-linking-examples">
+                View project on GitHub
+              </a>
+            </p>
+          </article>
+
+          <article class="card">
+            <p class="eyebrow">examples/path-and-query-parameters · 1 route</p>
+            <h3>Path and query parameters</h3>
+            <p>
+              Explicit request sources, <code>int</code>/<code>bool</code> conversion,
+              and a Python default.
+            </p>
+            <ul class="tag-list">
+              <li>path</li>
+              <li>query</li>
+              <li>defaults</li>
+            </ul>
+            <p>
+              <a
+                href="https://github.com/chipsi44/apizit-linking-examples/tree/main/examples/path-and-query-parameters"
+              >
+                View project on GitHub
+              </a>
+            </p>
+          </article>
+
+          <article class="card">
+            <p class="eyebrow">examples/json-body · 1 route</p>
+            <h3>JSON body</h3>
+            <p>
+              Required and optional top-level body fields with typed conversion,
+              nullable values, and defaults.
+            </p>
+            <ul class="tag-list">
+              <li>POST</li>
+              <li>body</li>
+              <li>list[str]</li>
+            </ul>
+            <p>
+              <a
+                href="https://github.com/chipsi44/apizit-linking-examples/tree/main/examples/json-body"
+              >
+                View project on GitHub
+              </a>
+            </p>
+          </article>
+
+          <article class="card">
+            <p class="eyebrow">examples/error-handling · 1 route</p>
+            <h3>Error handling</h3>
+            <p>
+              Structured request-resolution failures and the generic boundary for an
+              unhandled business exception.
+            </p>
+            <ul class="tag-list">
+              <li>400</li>
+              <li>500</li>
+              <li>conversion</li>
+            </ul>
+            <p>
+              <a
+                href="https://github.com/chipsi44/apizit-linking-examples/tree/main/examples/error-handling"
+              >
+                View project on GitHub
+              </a>
+            </p>
+          </article>
+
+          <article class="card">
+            <p class="eyebrow">examples/multi-module-api · 1 route</p>
+            <h3>Multi-module API</h3>
+            <p>
+              A dotted target inside a Python package, with a package-relative import
+              performed by the linked function.
+            </p>
+            <ul class="tag-list">
+              <li>package</li>
+              <li>dotted target</li>
+              <li>relative import</li>
+            </ul>
+            <p>
+              <a
+                href="https://github.com/chipsi44/apizit-linking-examples/tree/main/examples/multi-module-api"
+              >
+                View project on GitHub
+              </a>
+            </p>
+          </article>
+
+          <article class="card">
+            <p class="eyebrow">examples/task-api · 5 routes</p>
+            <h3>Task API</h3>
+            <p>
+              A realistic CRUD-style service using path, query, and body inputs with
+              process-local state.
+            </p>
+            <ul class="tag-list">
+              <li>GET</li>
+              <li>POST</li>
+              <li>PATCH</li>
+              <li>DELETE</li>
+            </ul>
+            <p>
+              <a
+                href="https://github.com/chipsi44/apizit-linking-examples/tree/main/examples/task-api"
+              >
+                View project on GitHub
+              </a>
+            </p>
+          </article>
+        </div>
+
+        <h2 id="routes">Route matrix</h2>
+        <div class="table-wrap wide">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Project</th>
+                <th scope="col">Method</th>
+                <th scope="col">Path</th>
+                <th scope="col">Linked function</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Hello World</td>
+                <td><span class="method">GET</span></td>
+                <td><code>/hello</code></td>
+                <td><code>hello:hello</code></td>
+              </tr>
+              <tr>
+                <td>Path and query</td>
+                <td><span class="method">GET</span></td>
+                <td><code>/users/{user_id}/greeting</code></td>
+                <td><code>greetings:get_greeting</code></td>
+              </tr>
+              <tr>
+                <td>JSON body</td>
+                <td><span class="method">POST</span></td>
+                <td><code>/products</code></td>
+                <td><code>products:create_product</code></td>
+              </tr>
+              <tr>
+                <td>Error handling</td>
+                <td><span class="method">GET</span></td>
+                <td><code>/divide</code></td>
+                <td><code>calculator:divide</code></td>
+              </tr>
+              <tr>
+                <td>Multi-module API</td>
+                <td><span class="method">GET</span></td>
+                <td><code>/products/{product_id}/quote</code></td>
+                <td><code>catalog.service:quote</code></td>
+              </tr>
+              <tr>
+                <td rowspan="5">Task API</td>
+                <td><span class="method">GET</span></td>
+                <td><code>/tasks</code></td>
+                <td><code>tasks:list_tasks</code></td>
+              </tr>
+              <tr>
+                <td><span class="method">POST</span></td>
+                <td><code>/tasks</code></td>
+                <td><code>tasks:create_task</code></td>
+              </tr>
+              <tr>
+                <td><span class="method">GET</span></td>
+                <td><code>/tasks/{task_id}</code></td>
+                <td><code>tasks:get_task</code></td>
+              </tr>
+              <tr>
+                <td><span class="method">PATCH</span></td>
+                <td><code>/tasks/{task_id}</code></td>
+                <td><code>tasks:update_task</code></td>
+              </tr>
+              <tr>
+                <td><span class="method">DELETE</span></td>
+                <td><code>/tasks/{task_id}</code></td>
+                <td><code>tasks:delete_task</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="run">Validate or run any project</h2>
+        <div class="code-block">
+          <pre><code>python -m pip install -r requirements.txt
+
+apizit-linking validate examples/task-api
+apizit-linking preview examples/task-api --port 8080</code></pre>
+        </div>
+        <p>
+          Replace <code>task-api</code> with any directory name in the catalogue.
+          Each project README includes its routes, request examples, expected responses,
+          tests, and specific limitations.
+        </p>
+
+        <div class="cta-panel wide">
+          <div>
+            <h3>Use the whole repository as a test fixture</h3>
+            <p>
+              The integration suite compiles every manifest, rejects framework imports
+              in business files, invokes all routes through the actual ASGI adapter, and
+              runs the complete task lifecycle.
+            </p>
+          </div>
+          <a
+            class="button"
+            href="https://github.com/chipsi44/apizit-linking-examples"
+          >
+            Fork on GitHub
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>
+          APIZIT Linking 0.3.1 public beta ·
+          <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a>
+        </p>
+        <ul class="footer-links">
+          <li><a href="https://pypi.org/project/apizit-linking/">PyPI</a></li>
+          <li>
+            <a href="https://github.com/chipsi44/apizit-linking-examples">GitHub</a>
+          </li>
+          <li><a href="/apizit-linking-examples/sitemap.xml">Sitemap</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

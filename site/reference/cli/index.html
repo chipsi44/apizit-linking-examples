@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CLI reference — APIZIT Linking</title>
+    <meta
+      name="description"
+      content="Reference for apizit-linking validate and preview commands, options, JSON output, local network safety, and exit behavior."
+    >
+    <meta name="theme-color" content="#0c1428">
+    <link
+      rel="canonical"
+      href="https://chipsi44.github.io/apizit-linking-examples/reference/cli/"
+    >
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="APIZIT Linking">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="CLI reference — APIZIT Linking">
+    <meta
+      property="og:description"
+      content="Validate declarative linking projects and run the local preview from the command line."
+    >
+    <meta
+      property="og:url"
+      content="https://chipsi44.github.io/apizit-linking-examples/reference/cli/"
+    >
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="APIZIT Linking CLI reference">
+    <meta
+      name="twitter:description"
+      content="Complete validate and preview command reference for version 0.3.1."
+    >
+    <link rel="stylesheet" href="/apizit-linking-examples/assets/styles.css">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "TechArticle",
+            "headline": "APIZIT Linking CLI reference",
+            "description": "Reference for the APIZIT Linking validate and preview commands.",
+            "url": "https://chipsi44.github.io/apizit-linking-examples/reference/cli/",
+            "proficiencyLevel": "Beginner",
+            "dependencies": "APIZIT Linking 0.3.1",
+            "inLanguage": "en"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "CLI reference",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/reference/cli/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/apizit-linking-examples/" aria-label="APIZIT Linking home">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span class="brand-copy">
+            <span class="brand-name">APIZIT Linking</span>
+            <span class="brand-subtitle">Documentation</span>
+          </span>
+        </a>
+        <nav class="primary-nav" aria-label="Primary">
+          <ul>
+            <li><a href="/apizit-linking-examples/">Home</a></li>
+            <li><a href="/apizit-linking-examples/quickstart/">Quickstart</a></li>
+            <li>
+              <a href="/apizit-linking-examples/reference/linking-yaml/">YAML reference</a>
+            </li>
+            <li>
+              <a href="/apizit-linking-examples/reference/cli/" aria-current="page">
+                CLI
+              </a>
+            </li>
+            <li><a href="/apizit-linking-examples/examples/">Examples</a></li>
+            <li><a href="/apizit-linking-examples/guides/">Guides</a></li>
+            <li><a href="/apizit-linking-examples/limits/">V1 limits</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <header class="page-heading">
+        <div class="container">
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+              <li><a href="/apizit-linking-examples/">Home</a></li>
+              <li>Reference</li>
+              <li aria-current="page">CLI</li>
+            </ol>
+          </nav>
+          <p class="eyebrow">Command line</p>
+          <h1>Validate and preview projects</h1>
+          <p class="lede">
+            Check the linking contract statically, emit machine-readable results, or
+            run a local development server.
+          </p>
+        </div>
+      </header>
+
+      <article class="container article">
+        <h2 id="installation">Installation</h2>
+        <p>Install only the compiler and runtime engine:</p>
+        <div class="code-block">
+          <pre><code>python -m pip install "apizit-linking==0.3.1"</code></pre>
+        </div>
+        <p>Include the FastAPI adapter and Uvicorn local server for preview:</p>
+        <div class="code-block">
+          <pre><code>python -m pip install "apizit-linking[preview]==0.3.1"</code></pre>
+        </div>
+
+        <h2 id="validate">The <code>validate</code> command</h2>
+        <div class="code-block">
+          <div class="code-block-header">Synopsis</div>
+          <pre><code>apizit-linking validate [TARGET] [--project-root DIRECTORY] [--json]</code></pre>
+        </div>
+        <p>
+          <code>TARGET</code> defaults to the current directory. It may be a project
+          directory or a specific <code>apizit_linking.yaml</code>,
+          <code>.yml</code>, or <code>.json</code> file.
+        </p>
+        <div class="table-wrap wide">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Argument</th>
+                <th scope="col">Default</th>
+                <th scope="col">Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>TARGET</code></td>
+                <td><code>.</code></td>
+                <td>Project directory or a linking manifest file.</td>
+              </tr>
+              <tr>
+                <td><code>--project-root DIRECTORY</code></td>
+                <td>Resolved from target</td>
+                <td>Root used to resolve <code>module:function</code> references.</td>
+              </tr>
+              <tr>
+                <td><code>--json</code></td>
+                <td>Off</td>
+                <td>Write a machine-readable compilation result to standard output.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 id="validate-examples">Examples</h3>
+        <div class="code-block">
+          <pre><code># Discover a manifest in the current directory
+apizit-linking validate .
+
+# Validate an independent example directory
+apizit-linking validate examples/task-api
+
+# Resolve a specific manifest against an explicit project root
+apizit-linking validate config/apizit_linking.yaml --project-root .
+
+# Emit JSON for CI or another tool
+apizit-linking validate . --json</code></pre>
+        </div>
+
+        <h3 id="json-output">JSON result</h3>
+        <p>
+          JSON mode includes the resolved file and project root, manifest version,
+          compiled runtime routes, and aggregated diagnostics:
+        </p>
+        <div class="code-block">
+          <pre><code>{
+  "valid": true,
+  "file": "/project/apizit_linking.yaml",
+  "project_root": "/project",
+  "version": 1,
+  "routes": [
+    {
+      "index": 0,
+      "path": "/hello",
+      "method": "GET",
+      "function": "hello:hello",
+      "module": "hello",
+      "function_name": "hello",
+      "parameters": {}
+    }
+  ],
+  "diagnostics": []
+}</code></pre>
+        </div>
+        <p>
+          Validation exits with status <code>0</code> when the definition is valid and
+          <code>1</code> when blocking diagnostics are present.
+        </p>
+
+        <h2 id="preview">The <code>preview</code> command</h2>
+        <div class="code-block">
+          <div class="code-block-header">Synopsis</div>
+          <pre><code>apizit-linking preview [TARGET]
+  [--project-root DIRECTORY]
+  [--host HOST]
+  [--port PORT]
+  [--allow-network]</code></pre>
+        </div>
+        <p>
+          Preview validates first, then imports the customer modules and serves the
+          compiled routes through the optional FastAPI adapter.
+        </p>
+        <div class="table-wrap wide">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Argument</th>
+                <th scope="col">Default</th>
+                <th scope="col">Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>TARGET</code></td>
+                <td><code>.</code></td>
+                <td>Project directory or linking manifest file.</td>
+              </tr>
+              <tr>
+                <td><code>--project-root DIRECTORY</code></td>
+                <td>Resolved from target</td>
+                <td>Root used for local function imports.</td>
+              </tr>
+              <tr>
+                <td><code>--host HOST</code></td>
+                <td><code>127.0.0.1</code></td>
+                <td>Network interface for the development server.</td>
+              </tr>
+              <tr>
+                <td><code>--port PORT</code></td>
+                <td><code>8000</code></td>
+                <td>TCP port from <code>1</code> through <code>65535</code>.</td>
+              </tr>
+              <tr>
+                <td><code>--allow-network</code></td>
+                <td>Off</td>
+                <td>Explicitly permit binding to a non-loopback interface.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 id="preview-examples">Examples</h3>
+        <div class="code-block">
+          <pre><code># Local loopback preview
+apizit-linking preview . --port 8080
+
+# Preview one project in the gallery
+apizit-linking preview examples/json-body --port 8080
+
+# Deliberately expose the development server on the local network
+apizit-linking preview . --host 0.0.0.0 --port 8080 --allow-network</code></pre>
+        </div>
+
+        <div class="callout callout-warning">
+          <p>
+            <strong>Network safety:</strong> preview refuses a non-loopback
+            <code>--host</code> unless <code>--allow-network</code> is also present.
+            That flag only acknowledges exposure; it does not add authentication,
+            encryption, sandboxing, or production hardening.
+          </p>
+        </div>
+
+        <h2 id="exit-behavior">Exit behavior</h2>
+        <div class="table-wrap wide">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Status</th>
+                <th scope="col">Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>0</code></td>
+                <td>Validation succeeded, or preview stopped normally.</td>
+              </tr>
+              <tr>
+                <td><code>1</code></td>
+                <td>
+                  Invalid linking definition or failure while loading/starting the
+                  linked project.
+                </td>
+              </tr>
+              <tr>
+                <td><code>2</code></td>
+                <td>
+                  Invalid CLI usage, missing preview dependencies, invalid port, or
+                  non-loopback binding without <code>--allow-network</code>.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="ci">Use in CI</h2>
+        <p>
+          Pin the beta version, validate each independent project, and let the non-zero
+          exit status fail the job:
+        </p>
+        <div class="code-block">
+          <pre><code>python -m pip install "apizit-linking==0.3.1"
+apizit-linking validate .
+
+for manifest in examples/*/apizit_linking.yaml; do
+  apizit-linking validate "$(dirname "$manifest")"
+done</code></pre>
+        </div>
+
+        <ul class="link-list">
+          <li>
+            <a href="/apizit-linking-examples/reference/linking-yaml/">
+              Read the manifest contract
+            </a>
+          </li>
+          <li>
+            <a href="/apizit-linking-examples/quickstart/">
+              Run validate and preview end to end
+            </a>
+          </li>
+          <li>
+            <a href="/apizit-linking-examples/limits/">
+              Understand preview and runtime boundaries
+            </a>
+          </li>
+        </ul>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>
+          APIZIT Linking 0.3.1 public beta ·
+          <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a>
+        </p>
+        <ul class="footer-links">
+          <li><a href="https://pypi.org/project/apizit-linking/">PyPI</a></li>
+          <li>
+            <a href="https://github.com/chipsi44/apizit-linking-examples">GitHub</a>
+          </li>
+          <li><a href="/apizit-linking-examples/sitemap.xml">Sitemap</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

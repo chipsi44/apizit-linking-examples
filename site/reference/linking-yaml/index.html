@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Linking YAML reference — APIZIT Linking</title>
+    <meta
+      name="description"
+      content="Reference for the APIZIT Linking V1 manifest: routes, module:function targets, parameter sources, defaults, conversion, and validation."
+    >
+    <meta name="theme-color" content="#0c1428">
+    <link
+      rel="canonical"
+      href="https://chipsi44.github.io/apizit-linking-examples/reference/linking-yaml/"
+    >
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="APIZIT Linking">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Linking YAML reference — APIZIT Linking">
+    <meta
+      property="og:description"
+      content="The complete public V1 contract for declaratively linking Python functions to HTTP."
+    >
+    <meta
+      property="og:url"
+      content="https://chipsi44.github.io/apizit-linking-examples/reference/linking-yaml/"
+    >
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="APIZIT Linking YAML reference">
+    <meta
+      name="twitter:description"
+      content="Routes, parameter sources, defaults, conversion, validation, and V1 rules."
+    >
+    <link rel="stylesheet" href="/apizit-linking-examples/assets/styles.css">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "TechArticle",
+            "headline": "APIZIT Linking V1 YAML reference",
+            "description": "Reference for the APIZIT Linking V1 declarative HTTP binding contract.",
+            "url": "https://chipsi44.github.io/apizit-linking-examples/reference/linking-yaml/",
+            "proficiencyLevel": "Intermediate",
+            "dependencies": "APIZIT Linking 0.3.1",
+            "inLanguage": "en"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "YAML reference",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/reference/linking-yaml/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/apizit-linking-examples/" aria-label="APIZIT Linking home">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span class="brand-copy">
+            <span class="brand-name">APIZIT Linking</span>
+            <span class="brand-subtitle">Documentation</span>
+          </span>
+        </a>
+        <nav class="primary-nav" aria-label="Primary">
+          <ul>
+            <li><a href="/apizit-linking-examples/">Home</a></li>
+            <li><a href="/apizit-linking-examples/quickstart/">Quickstart</a></li>
+            <li>
+              <a
+                href="/apizit-linking-examples/reference/linking-yaml/"
+                aria-current="page"
+              >
+                YAML reference
+              </a>
+            </li>
+            <li><a href="/apizit-linking-examples/reference/cli/">CLI</a></li>
+            <li><a href="/apizit-linking-examples/examples/">Examples</a></li>
+            <li><a href="/apizit-linking-examples/guides/">Guides</a></li>
+            <li><a href="/apizit-linking-examples/limits/">V1 limits</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <header class="page-heading">
+        <div class="container">
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+              <li><a href="/apizit-linking-examples/">Home</a></li>
+              <li>Reference</li>
+              <li aria-current="page">Linking YAML</li>
+            </ol>
+          </nav>
+          <p class="eyebrow">V1 configuration</p>
+          <h1>Linking YAML reference</h1>
+          <p class="lede">
+            The versioned contract that maps HTTP routes and request values to ordinary
+            Python function parameters.
+          </p>
+        </div>
+      </header>
+
+      <article class="container article">
+        <div class="callout">
+          <p>
+            This reference describes the contract supported by
+            <strong>APIZIT Linking 0.3.1</strong>. Unknown fields and unknown versions
+            are blocking validation errors.
+          </p>
+        </div>
+
+        <h2 id="file-discovery">Manifest discovery</h2>
+        <p>
+          When a target is a directory, APIZIT Linking searches its root in this
+          compatibility order:
+        </p>
+        <ol>
+          <li><code>apizit_linking.yaml</code></li>
+          <li><code>apizit_linking.yml</code></li>
+          <li><code>apizit_linking.json</code></li>
+        </ol>
+        <p>
+          YAML is the canonical documentation format. The manifest is named
+          <code>apizit_linking</code>, not <code>linking_apizit</code>.
+        </p>
+
+        <h2 id="root-contract">Root contract</h2>
+        <div class="code-block">
+          <div class="code-block-header">apizit_linking.yaml</div>
+          <pre><code>version: 1
+
+runtime:
+  language: python
+  version: "3.12"
+
+routes:
+  - path: /customers/{customer_id}
+    method: PATCH
+    function: customer_service:update_customer
+    parameters:
+      customer_id:
+        source:
+          location: path
+          name: customer_id
+      display_name:
+        source:
+          location: body
+          name: name</code></pre>
+        </div>
+        <div class="table-wrap wide">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Field</th>
+                <th scope="col">Required</th>
+                <th scope="col">V1 rule</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>version</code></td>
+                <td>Yes</td>
+                <td>Must be the integer <code>1</code>.</td>
+              </tr>
+              <tr>
+                <td><code>runtime</code></td>
+                <td>No</td>
+                <td>Optional Python runtime metadata.</td>
+              </tr>
+              <tr>
+                <td><code>routes</code></td>
+                <td>Yes</td>
+                <td>A non-empty list of closed route objects.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 id="runtime">Runtime metadata</h3>
+        <p>
+          <code>runtime.language</code> is <code>python</code>.
+          <code>runtime.version</code> is an optional quoted Python minor version in
+          <code>major.minor</code> form, such as <code>"3.12"</code>.
+        </p>
+        <p>
+          The standalone compiler validates the syntax but does not select
+          infrastructure. A deployment platform must decide which runtimes it supports.
+          APIZIT currently accepts Python 3.12 and uses 3.12 when the field is omitted.
+        </p>
+
+        <h2 id="routes">Route objects</h2>
+        <div class="table-wrap wide">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Field</th>
+                <th scope="col">Meaning</th>
+                <th scope="col">Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>path</code></td>
+                <td>
+                  Absolute HTTP path. Placeholders use matching
+                  <code>{parameter_name}</code> segments.
+                </td>
+                <td><code>/customers/{customer_id}</code></td>
+              </tr>
+              <tr>
+                <td><code>method</code></td>
+                <td>
+                  <code>GET</code>, <code>POST</code>, <code>PUT</code>,
+                  <code>PATCH</code>, <code>DELETE</code>, <code>OPTIONS</code>, or
+                  <code>HEAD</code>.
+                </td>
+                <td><code>PATCH</code></td>
+              </tr>
+              <tr>
+                <td><code>function</code></td>
+                <td>
+                  Canonical dotted <code>module:function</code> target relative to the
+                  project root.
+                </td>
+                <td><code>catalog.service:quote</code></td>
+              </tr>
+              <tr>
+                <td><code>parameters</code></td>
+                <td>Optional mapping from Python parameter name to request binding.</td>
+                <td><code>customer_id: …</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Methods are canonical in uppercase. The compiler accepts legacy lowercase
+          methods and normalizes them. Linked functions must be top-level functions in a
+          Python module or package inside the project root.
+        </p>
+
+        <h3 id="route-ordering">Collisions and route ordering</h3>
+        <p>
+          Static paths are more specific than placeholders. For example,
+          <code>/customers/search</code> wins over
+          <code>/customers/{customer_id}</code>, regardless of declaration order.
+          Duplicate routes and overlapping patterns with no safe specificity order are
+          rejected during validation.
+        </p>
+
+        <h2 id="explicit-sources">Explicit parameter sources</h2>
+        <p>
+          The canonical binding object maps one external request value to one Python
+          parameter:
+        </p>
+        <div class="code-block">
+          <div class="code-block-header">Explicit body binding</div>
+          <pre><code>parameters:
+  customer_name:
+    source:
+      location: body
+      name: name</code></pre>
+        </div>
+        <p>
+          Here, JSON body field <code>name</code> becomes Python argument
+          <code>customer_name</code>. When a source is explicit, only that source is
+          inspected; there is no fallback.
+        </p>
+        <div class="table-wrap wide">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Location</th>
+                <th scope="col">Reads from</th>
+                <th scope="col">Name matching</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>path</code></td>
+                <td>Route placeholder</td>
+                <td>Exact</td>
+              </tr>
+              <tr>
+                <td><code>query</code></td>
+                <td>URL query string</td>
+                <td>Exact</td>
+              </tr>
+              <tr>
+                <td><code>header</code></td>
+                <td>HTTP request header</td>
+                <td>Case-insensitive</td>
+              </tr>
+              <tr>
+                <td><code>body</code></td>
+                <td>Top-level JSON object field</td>
+                <td>Exact</td>
+              </tr>
+              <tr>
+                <td><code>form</code></td>
+                <td>Form field</td>
+                <td>Exact</td>
+              </tr>
+              <tr>
+                <td><code>file</code></td>
+                <td>Multipart file field</td>
+                <td>Exact</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout callout-warning">
+          <p>
+            One route cannot require a JSON <code>body</code> parameter together with
+            <code>form</code> or <code>file</code>. Those request encodings are
+            incompatible, so validation reports
+            <code>INCOMPATIBLE_REQUEST_SOURCES</code>.
+          </p>
+        </div>
+
+        <h2 id="automatic-mode">Automatic parameter resolution</h2>
+        <p>
+          If a Python parameter has no explicit source, V1 searches for its Python name
+          in this deterministic order:
+        </p>
+        <div class="code-block">
+          <pre><code>path &gt; query &gt; header &gt; body &gt; form &gt; file</code></pre>
+        </div>
+        <p>
+          The first present value wins. Explicit bindings are recommended for public
+          contracts because they document intent and do not depend on precedence.
+        </p>
+
+        <h2 id="defaults-and-null">Missing values, defaults, and null</h2>
+        <ul>
+          <li>
+            A missing required parameter produces <code>PARAMETER_NOT_FOUND</code>, or
+            <code>PARAMETER_NOT_FOUND_IN_SOURCE</code> for an explicit binding.
+          </li>
+          <li>
+            If the Python function defines a default, an absent input is omitted from
+            the call so Python applies that default.
+          </li>
+          <li>
+            <code>T | None</code> is still required unless the function also defines a
+            default.
+          </li>
+          <li>Missing, JSON <code>null</code>, and an empty string are distinct.</li>
+          <li>
+            JSON <code>null</code> is accepted only for a nullable annotation.
+          </li>
+        </ul>
+
+        <h2 id="types">Built-in conversion</h2>
+        <p>
+          V1 converts common request representations according to the Python
+          annotation:
+        </p>
+        <ul>
+          <li><code>str</code>, <code>int</code>, <code>float</code>, and <code>bool</code>;</li>
+          <li>nullable unions such as <code>str | None</code>;</li>
+          <li>JSON lists, including typed <code>list[T]</code> items;</li>
+          <li>JSON objects, including typed <code>dict[K, V]</code> entries.</li>
+        </ul>
+        <p>
+          Invalid present values produce <code>INVALID_PARAMETER</code>. Unknown or
+          custom annotations currently receive the adapter-provided value unchanged.
+        </p>
+
+        <h2 id="signatures">Supported function signatures</h2>
+        <p>
+          Normal positional-or-keyword parameters and keyword-only parameters are
+          supported. Python defaults and sync or async functions are supported.
+          Positional-only parameters, <code>*args</code>, and <code>**kwargs</code> are
+          rejected because HTTP inputs are resolved by name.
+        </p>
+
+        <h2 id="validation">What static validation checks</h2>
+        <p>
+          Validation parses source code and aggregates diagnostics for the document,
+          route, module file, top-level function, signature, configured parameters,
+          sources, path bindings, and route collisions. Customer modules are not
+          imported or executed.
+        </p>
+        <div class="callout callout-note">
+          <p>
+            Runtime module loading uses a project-private namespace to prevent
+            same-named modules from different projects colliding. This is import
+            isolation, not a security sandbox.
+          </p>
+        </div>
+
+        <h2 id="compatibility">Compatibility behavior</h2>
+        <p>
+          The official schema requires <code>version: 1</code>. For migration, the
+          Python compiler currently interprets a missing version as V1 and emits an
+          <code>IMPLICIT_VERSION</code> warning. Historical extensionless slash targets
+          can also produce migration warnings; new files should always use dotted
+          <code>module:function</code> targets.
+        </p>
+
+        <ul class="link-list">
+          <li>
+            <a href="/apizit-linking-examples/reference/cli/">
+              Validate this contract from the CLI
+            </a>
+          </li>
+          <li>
+            <a href="/apizit-linking-examples/examples/">
+              See each request source in runnable projects
+            </a>
+          </li>
+          <li>
+            <a href="/apizit-linking-examples/limits/">
+              Review V1 response and runtime boundaries
+            </a>
+          </li>
+        </ul>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>
+          APIZIT Linking 0.3.1 public beta ·
+          <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a>
+        </p>
+        <ul class="footer-links">
+          <li><a href="https://pypi.org/project/apizit-linking/">PyPI</a></li>
+          <li>
+            <a href="https://github.com/chipsi44/apizit-linking-examples">GitHub</a>
+          </li>
+          <li><a href="/apizit-linking-examples/sitemap.xml">Sitemap</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

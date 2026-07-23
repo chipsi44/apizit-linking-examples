@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>APIZIT Linking — Keep the code. Add the API.</title>
+    <meta
+      name="description"
+      content="Expose plain Python functions as HTTP APIs with one declarative file. No decorators or web-framework imports in your business code."
+    >
+    <meta name="theme-color" content="#0c1428">
+    <link rel="canonical" href="https://chipsi44.github.io/apizit-linking-examples/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="APIZIT Linking">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="APIZIT Linking — Keep the code. Add the API.">
+    <meta
+      property="og:description"
+      content="Map plain Python functions to HTTP routes without decorators or framework imports in business code."
+    >
+    <meta
+      property="og:url"
+      content="https://chipsi44.github.io/apizit-linking-examples/"
+    >
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="APIZIT Linking — Keep the code. Add the API.">
+    <meta
+      name="twitter:description"
+      content="Declarative HTTP binding for plain Python functions."
+    >
+    <link rel="stylesheet" href="/apizit-linking-examples/assets/styles.css">
+    <link
+      rel="alternate"
+      type="text/plain"
+      href="/apizit-linking-examples/llms.txt"
+      title="Machine-readable APIZIT Linking documentation index"
+    >
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "APIZIT Linking",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Cross-platform",
+        "softwareVersion": "0.3.1",
+        "description": "A declarative Python-to-HTTP binding engine that keeps business code independent from web frameworks.",
+        "url": "https://chipsi44.github.io/apizit-linking-examples/",
+        "downloadUrl": "https://pypi.org/project/apizit-linking/",
+        "sameAs": [
+          "https://pypi.org/project/apizit-linking/",
+          "https://github.com/chipsi44/apizit-linking-examples"
+        ],
+        "license": "https://www.apache.org/licenses/LICENSE-2.0",
+        "programmingLanguage": "Python",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/apizit-linking-examples/" aria-label="APIZIT Linking home">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span class="brand-copy">
+            <span class="brand-name">APIZIT Linking</span>
+            <span class="brand-subtitle">Documentation</span>
+          </span>
+        </a>
+        <nav class="primary-nav" aria-label="Primary">
+          <ul>
+            <li><a href="/apizit-linking-examples/" aria-current="page">Home</a></li>
+            <li><a href="/apizit-linking-examples/quickstart/">Quickstart</a></li>
+            <li>
+              <a href="/apizit-linking-examples/reference/linking-yaml/">YAML reference</a>
+            </li>
+            <li><a href="/apizit-linking-examples/reference/cli/">CLI</a></li>
+            <li><a href="/apizit-linking-examples/examples/">Examples</a></li>
+            <li><a href="/apizit-linking-examples/guides/">Guides</a></li>
+            <li><a href="/apizit-linking-examples/limits/">V1 limits</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Version 0.3.1 · Public beta</p>
+            <h1>Keep the code. Add the API.</h1>
+            <p class="lede">
+              Map ordinary Python functions to HTTP routes in one declarative file.
+              Validate the contract, preview it locally, and keep decorators and web
+              framework imports out of your business code.
+            </p>
+            <div class="hero-actions">
+              <a class="button" href="/apizit-linking-examples/quickstart/">
+                Run the quickstart
+              </a>
+              <a
+                class="button button-secondary"
+                href="https://github.com/chipsi44/apizit-linking-examples/fork"
+              >
+                Fork the examples
+              </a>
+            </div>
+            <p class="hero-note">
+              Python 3.10+ · Apache-2.0 · Preview runs locally on 127.0.0.1
+            </p>
+          </div>
+
+          <div
+            class="code-card"
+            role="group"
+            aria-label="Python function and its linking manifest"
+          >
+            <div class="code-card-header">
+              <span>hello.py</span>
+              <span>business code</span>
+            </div>
+            <pre><code><span class="token-key">def</span> hello() -&gt; dict[str, str]:
+    <span class="token-key">return</span> {
+        <span class="token-string">"message"</span>: <span class="token-string">"Hello from APIZIT Linking!"</span>
+    }</code></pre>
+            <hr class="code-divider">
+            <div class="code-card-header">
+              <span>apizit_linking.yaml</span>
+              <span>HTTP contract</span>
+            </div>
+            <pre><code><span class="token-key">version:</span> <span class="token-value">1</span>
+<span class="token-key">routes:</span>
+  - <span class="token-key">path:</span> <span class="token-string">/hello</span>
+    <span class="token-key">method:</span> <span class="token-value">GET</span>
+    <span class="token-key">function:</span> <span class="token-string">hello:hello</span></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-surface" aria-labelledby="workflow-title">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">One explicit boundary</p>
+            <h2 id="workflow-title">From Python function to local HTTP route</h2>
+            <p>
+              The function stays reusable in tests, scripts, batch jobs, or another
+              adapter. HTTP concerns live in a small, versioned manifest.
+            </p>
+          </div>
+          <ol class="step-grid">
+            <li>
+              <strong>Keep the function</strong>
+              Start with normal typed Python. No handler wrapper is required.
+            </li>
+            <li>
+              <strong>Describe the route</strong>
+              Link its path, method, function, and input sources in YAML.
+            </li>
+            <li>
+              <strong>Validate statically</strong>
+              Catch missing functions, invalid bindings, and route collisions.
+            </li>
+            <li>
+              <strong>Preview locally</strong>
+              Exercise the real HTTP adapter from your terminal or API client.
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="designed-for-title">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Designed for separation</p>
+            <h2 id="designed-for-title">HTTP is an adapter, not your domain</h2>
+            <p>
+              APIZIT Linking is useful when Python logic already exists or must remain
+              independent from how it is exposed.
+            </p>
+          </div>
+          <div class="card-grid">
+            <article class="card">
+              <h3>No code decorators</h3>
+              <p>
+                Functions do not need APIZIT Linking, FastAPI, or Flask imports. The
+                manifest points to them using <code>module:function</code>.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Explicit request mapping</h3>
+              <p>
+                Bind Python parameters to path, query, header, body, form, or file
+                inputs without passing a request object into business logic.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Validation before import</h3>
+              <p>
+                The compiler inspects Python source with the AST. Validation does not
+                import or execute the linked customer modules.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-surface" aria-labelledby="learn-title">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Choose your path</p>
+            <h2 id="learn-title">Learn by running real projects</h2>
+            <p>
+              Start with Hello World at the repository root, then explore typed inputs,
+              packages, error behavior, and a five-route task API.
+            </p>
+          </div>
+          <div class="card-grid">
+            <a class="card card-link" href="/apizit-linking-examples/quickstart/">
+              <h3>Five-minute quickstart</h3>
+              <p>Install, validate, preview, and call the root project.</p>
+            </a>
+            <a class="card card-link" href="/apizit-linking-examples/examples/">
+              <h3>Six forkable APIs</h3>
+              <p>Browse 10 routes that exercise the supported V1 contract.</p>
+            </a>
+            <a class="card card-link" href="/apizit-linking-examples/guides/">
+              <h3>Architecture guides</h3>
+              <p>Apply Linking to existing functions, libraries, and layered code.</p>
+            </a>
+          </div>
+
+          <div class="cta-panel">
+            <div>
+              <h3>Know the beta boundary</h3>
+              <p>
+                Preview is a development server. V1 intentionally does not yet provide
+                declarative custom response statuses, complete OpenAPI contracts, or a
+                production security boundary.
+              </p>
+            </div>
+            <a class="button" href="/apizit-linking-examples/limits/">Read V1 limits</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>
+          APIZIT Linking 0.3.1 public beta ·
+          <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a>
+        </p>
+        <ul class="footer-links">
+          <li><a href="https://pypi.org/project/apizit-linking/">PyPI</a></li>
+          <li>
+            <a href="https://github.com/chipsi44/apizit-linking-examples">GitHub</a>
+          </li>
+          <li><a href="/apizit-linking-examples/llms.txt">LLM index</a></li>
+          <li><a href="/apizit-linking-examples/sitemap.xml">Sitemap</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

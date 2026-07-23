@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Architecture guides — APIZIT Linking</title>
+    <meta
+      name="description"
+      content="Practical guides for exposing existing Python functions over HTTP while keeping business logic independent from FastAPI."
+    >
+    <meta name="theme-color" content="#0c1428">
+    <link
+      rel="canonical"
+      href="https://chipsi44.github.io/apizit-linking-examples/guides/"
+    >
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="APIZIT Linking">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Architecture guides — APIZIT Linking">
+    <meta
+      property="og:description"
+      content="Use declarative linking to expose existing Python code without adding web-framework imports."
+    >
+    <meta
+      property="og:url"
+      content="https://chipsi44.github.io/apizit-linking-examples/guides/"
+    >
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="APIZIT Linking architecture guides">
+    <meta
+      name="twitter:description"
+      content="From existing Python functions and libraries to declaratively linked HTTP APIs."
+    >
+    <link rel="stylesheet" href="/apizit-linking-examples/assets/styles.css">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "CollectionPage",
+            "name": "APIZIT Linking architecture guides",
+            "url": "https://chipsi44.github.io/apizit-linking-examples/guides/",
+            "description": "Practical guides for applying APIZIT Linking to existing Python code.",
+            "mainEntity": {
+              "@type": "ItemList",
+              "numberOfItems": 3,
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Expose a Python function as an HTTP API without decorators",
+                  "url": "https://chipsi44.github.io/apizit-linking-examples/guides/expose-python-function-as-http-api-without-decorators/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Keep Python business logic independent from FastAPI",
+                  "url": "https://chipsi44.github.io/apizit-linking-examples/guides/keep-python-business-logic-independent-from-fastapi/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": "Turn a Python library into an API with YAML",
+                  "url": "https://chipsi44.github.io/apizit-linking-examples/guides/turn-python-library-into-api-with-yaml/"
+                }
+              ]
+            }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Guides",
+                "item": "https://chipsi44.github.io/apizit-linking-examples/guides/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/apizit-linking-examples/" aria-label="APIZIT Linking home">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span class="brand-copy">
+            <span class="brand-name">APIZIT Linking</span>
+            <span class="brand-subtitle">Documentation</span>
+          </span>
+        </a>
+        <nav class="primary-nav" aria-label="Primary">
+          <ul>
+            <li><a href="/apizit-linking-examples/">Home</a></li>
+            <li><a href="/apizit-linking-examples/quickstart/">Quickstart</a></li>
+            <li>
+              <a href="/apizit-linking-examples/reference/linking-yaml/">YAML reference</a>
+            </li>
+            <li><a href="/apizit-linking-examples/reference/cli/">CLI</a></li>
+            <li><a href="/apizit-linking-examples/examples/">Examples</a></li>
+            <li>
+              <a href="/apizit-linking-examples/guides/" aria-current="page">
+                Guides
+              </a>
+            </li>
+            <li><a href="/apizit-linking-examples/limits/">V1 limits</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <header class="page-heading">
+        <div class="container">
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+              <li><a href="/apizit-linking-examples/">Home</a></li>
+              <li aria-current="page">Guides</li>
+            </ol>
+          </nav>
+          <p class="eyebrow">Practical architecture</p>
+          <h1>Keep HTTP outside the business code</h1>
+          <p class="lede">
+            Apply the declarative linking boundary to existing functions, layered
+            Python services, and reusable libraries.
+          </p>
+        </div>
+      </header>
+
+      <div class="container article">
+        <h2 id="guides">Guides</h2>
+        <div class="card-grid wide">
+          <a
+            class="card card-link"
+            href="/apizit-linking-examples/guides/expose-python-function-as-http-api-without-decorators/"
+          >
+            <p class="eyebrow">Start from one function</p>
+            <h3>Expose a Python function as an HTTP API without decorators</h3>
+            <p>
+              Map an unchanged typed function to a route, validate the manifest, and
+              call it through local preview.
+            </p>
+          </a>
+          <a
+            class="card card-link"
+            href="/apizit-linking-examples/guides/keep-python-business-logic-independent-from-fastapi/"
+          >
+            <p class="eyebrow">Separate domain and transport</p>
+            <h3>Keep Python business logic independent from FastAPI</h3>
+            <p>
+              Decide when route decorators belong in the application and when HTTP
+              should remain an external adapter.
+            </p>
+          </a>
+          <a
+            class="card card-link"
+            href="/apizit-linking-examples/guides/turn-python-library-into-api-with-yaml/"
+          >
+            <p class="eyebrow">Start from a package</p>
+            <h3>Turn a Python library into an API with YAML</h3>
+            <p>
+              Link functions in a multi-module package while preserving normal
+              absolute, relative, and lazy imports.
+            </p>
+          </a>
+        </div>
+
+        <h2 id="reference">Need the exact contract?</h2>
+        <p>
+          The guides explain architectural choices. Use the reference when you need
+          field-level rules or complete command options.
+        </p>
+        <ul class="link-list">
+          <li>
+            <a href="/apizit-linking-examples/reference/linking-yaml/">
+              Linking YAML reference
+            </a>
+          </li>
+          <li>
+            <a href="/apizit-linking-examples/reference/cli/">
+              Validate and preview CLI reference
+            </a>
+          </li>
+          <li>
+            <a href="/apizit-linking-examples/examples/">
+              Runnable example catalogue
+            </a>
+          </li>
+        </ul>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>
+          APIZIT Linking 0.3.1 public beta ·
+          <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a>
+        </p>
+        <ul class="footer-links">
+          <li><a href="https://pypi.org/project/apizit-linking/">PyPI</a></li>
+          <li>
+            <a href="https://github.com/chipsi44/apizit-linking-examples">GitHub</a>
+          </li>
+          <li><a href="/apizit-linking-examples/sitemap.xml">Sitemap</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>
