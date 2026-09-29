@@ -25,6 +25,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
           enable-cache: true
       - run: uv venv
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22.23.3
       - run: uv pip install --python .venv/bin/python -r requirements.txt -r requirements-test.txt
       - name: Confirm the published APIZIT Linking version
         run: |
@@ -36,4 +39,8 @@ jobs:
           for manifest in examples/*/apizit_linking.yaml; do
             .venv/bin/apizit-linking validate "$(dirname "$manifest")"
           done
+      - name: Build and test portable documentation
+        run: |
+          node scripts/build-docs.cjs
+          node --test tests/*.test.cjs
       - run: .venv/bin/python -m unittest discover -s tests -p "test_*.py"

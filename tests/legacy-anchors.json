@@ -1,0 +1,174 @@
+{
+  "examples": [
+    "main-content",
+    "catalogue",
+    "routes",
+    "run"
+  ],
+  "guides/expose-python-function-as-http-api-without-decorators": [
+    "main-content",
+    "what-you-will-build",
+    "plain-python",
+    "linking-yaml",
+    "validate-preview",
+    "how-it-works",
+    "v1-limits",
+    "next-steps"
+  ],
+  "guides": [
+    "main-content",
+    "guides",
+    "reference"
+  ],
+  "guides/keep-python-business-logic-independent-from-fastapi": [
+    "main-content",
+    "boundary",
+    "business-function",
+    "http-binding",
+    "run",
+    "why",
+    "v1-limits",
+    "related-resources"
+  ],
+  "guides/turn-python-library-into-api-with-yaml": [
+    "main-content",
+    "fit",
+    "library",
+    "manifest",
+    "verify",
+    "requirements",
+    "limits",
+    "continue"
+  ],
+  "index": [
+    "main-content",
+    "workflow-title",
+    "designed-for-title",
+    "learn-title"
+  ],
+  "limits": [
+    "main-content",
+    "response-control",
+    "request-errors",
+    "business-errors",
+    "body-models",
+    "signatures",
+    "openapi",
+    "preview-boundary",
+    "trusted-code",
+    "deployment",
+    "example-state",
+    "choose"
+  ],
+  "migrations/0.3-to-0.4": [
+    "main-content",
+    "before",
+    "install",
+    "manifest",
+    "artifact",
+    "signature",
+    "generators",
+    "apizit",
+    "verify",
+    "rollback"
+  ],
+  "migrations/0.4-to-0.5": [
+    "main-content",
+    "final-install",
+    "unchanged",
+    "recompile",
+    "responses",
+    "project-owner",
+    "apizit-repin",
+    "rollback",
+    "release-source"
+  ],
+  "migrations": [
+    "main-content",
+    "available",
+    "model",
+    "policy"
+  ],
+  "quickstart": [
+    "main-content",
+    "get-the-project",
+    "activate",
+    "install",
+    "inspect",
+    "validate",
+    "preview",
+    "next"
+  ],
+  "reference/cli": [
+    "main-content",
+    "installation",
+    "validate",
+    "validate-examples",
+    "json-output",
+    "preview",
+    "preview-examples",
+    "exit-behavior",
+    "ci"
+  ],
+  "reference/compatibility": [
+    "main-content",
+    "four-contracts",
+    "python-api",
+    "manifest",
+    "diagnostics",
+    "artifacts",
+    "semver"
+  ],
+  "reference/linking-yaml": [
+    "main-content",
+    "editor-schema",
+    "vscode-schema",
+    "pycharm-schema",
+    "file-discovery",
+    "root-contract",
+    "runtime",
+    "routes",
+    "route-ordering",
+    "explicit-sources",
+    "automatic-mode",
+    "defaults-and-null",
+    "types",
+    "signatures",
+    "validation",
+    "compatibility"
+  ],
+  "releases/0.4.0": [
+    "main-content",
+    "install",
+    "highlights",
+    "compatibility",
+    "migration",
+    "limits"
+  ],
+  "releases/0.5.0": [
+    "main-content",
+    "install-command",
+    "observed-behavior",
+    "compatibility",
+    "documentary-responses",
+    "apizit",
+    "release-gates",
+    "candidate-history"
+  ],
+  "releases": [
+    "main-content",
+    "channels",
+    "published",
+    "migration",
+    "install-current"
+  ],
+  "security": [
+    "main-content",
+    "supported",
+    "private-report",
+    "report-content",
+    "scope",
+    "trust-boundary",
+    "public-bugs"
+  ]
+}

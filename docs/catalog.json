@@ -1,0 +1,146 @@
+{
+  "version": 1,
+  "engine_version": "0.5.0",
+  "python_support": "3.10–3.14",
+  "license": "Apache-2.0",
+  "pages": [
+    {
+      "slug": "index",
+      "title": "Python APIs with clear context for AI",
+      "summary": "Build Python APIs with a separate HTTP manifest, focused AI-assisted tasks and a route map that people and coding agents can inspect and validate.",
+      "group": "Start here"
+    },
+    {
+      "slug": "quickstart",
+      "title": "From plain Python to local HTTP",
+      "summary": "Install APIZIT Linking, validate a plain Python function, and preview it as a local HTTP API.",
+      "group": "Start here"
+    },
+    {
+      "slug": "guides/ai-assisted-development",
+      "title": "Build a Python API with an AI assistant",
+      "summary": "Build and test plain Python first, define the HTTP contract separately, then validate and preview an API with a focused AI-assisted workflow.",
+      "group": "Build and diagnose"
+    },
+    {
+      "slug": "guides/trace-route-to-python",
+      "title": "Trace an HTTP route back to Python",
+      "summary": "Follow an HTTP method and path through the route manifest to module:function, source files and dependencies in the correct deployed revision.",
+      "group": "Build and diagnose"
+    },
+    {
+      "slug": "guides",
+      "title": "Keep HTTP outside the business code",
+      "summary": "Practical guides for exposing existing Python functions over HTTP while keeping business logic independent from FastAPI.",
+      "group": "Build and diagnose"
+    },
+    {
+      "slug": "guides/expose-python-function-as-http-api-without-decorators",
+      "title": "Expose a Python function as an HTTP API without decorators",
+      "summary": "Expose an unchanged Python function as a local HTTP API with one YAML file—no FastAPI decorators, request objects, or framework imports.",
+      "group": "Build and diagnose"
+    },
+    {
+      "slug": "guides/keep-python-business-logic-independent-from-fastapi",
+      "title": "Keep Python business logic independent from FastAPI",
+      "summary": "Keep Python business logic free of FastAPI imports and decorators while exposing it through a declarative APIZIT Linking YAML route.",
+      "group": "Build and diagnose"
+    },
+    {
+      "slug": "guides/turn-python-library-into-api-with-yaml",
+      "title": "Turn a Python library into an API with YAML",
+      "summary": "Expose a multi-module Python library through HTTP routes declared in YAML, with static validation and a local API preview.",
+      "group": "Build and diagnose"
+    },
+    {
+      "slug": "examples",
+      "title": "Forkable example APIs",
+      "summary": "Six public, forkable APIZIT Linking projects covering path and query parameters, JSON bodies, errors, packages, and task CRUD.",
+      "group": "Examples"
+    },
+    {
+      "slug": "limits",
+      "title": "V1 limits and boundaries",
+      "summary": "Honest boundaries of APIZIT Linking 0.5.0: documentary responses, error behavior, type conversion, preview safety, OpenAPI, and deployment scope.",
+      "group": "Choose Linking"
+    },
+    {
+      "slug": "comparisons/flask",
+      "title": "APIZIT Linking vs Flask: choose your HTTP boundary",
+      "summary": "Compare equivalent Python APIs in Linking and Flask, their route organization, validation and extension points, and decide which boundary fits.",
+      "group": "Choose Linking"
+    },
+    {
+      "slug": "comparisons/fastapi",
+      "title": "APIZIT Linking vs FastAPI: choose your API contract",
+      "summary": "Compare equivalent Linking and FastAPI APIs, plain function reuse, parameter binding, response validation and the limits of documentary OpenAPI.",
+      "group": "Choose Linking"
+    },
+    {
+      "slug": "reference/linking-yaml",
+      "title": "Linking YAML reference",
+      "summary": "Reference for the APIZIT Linking V1 manifest: routes, module:function targets, parameter sources, defaults, conversion, and validation.",
+      "group": "Reference"
+    },
+    {
+      "slug": "reference/cli",
+      "title": "Validate and preview projects",
+      "summary": "Reference for apizit-linking validate and preview commands, options, JSON output, local network safety, and exit behavior.",
+      "group": "Reference"
+    },
+    {
+      "slug": "reference/compatibility",
+      "title": "Compatibility policy",
+      "summary": "Compatibility guarantees for APIZIT Linking package releases, Python adapter APIs, manifest schemas, diagnostics, and generated runtime artifacts.",
+      "group": "Reference"
+    },
+    {
+      "slug": "releases",
+      "title": "Release notes",
+      "summary": "Canonical APIZIT Linking release notes, stable package status, migration links, and exact public installation channels.",
+      "group": "Releases"
+    },
+    {
+      "slug": "releases/0.4.0",
+      "title": "APIZIT Linking 0.4.0",
+      "summary": "Retrospective release notes for APIZIT Linking 0.4.0: closed runtime artifacts, strict signature drift checks, schema v1, and adapter migration.",
+      "group": "Releases"
+    },
+    {
+      "slug": "releases/0.5.0",
+      "title": "APIZIT Linking 0.5.0",
+      "summary": "Published APIZIT Linking 0.5.0 release notes: useful documentary OpenAPI, minimal response descriptions, multi-OS wheel gates, and migration guidance.",
+      "group": "Releases"
+    },
+    {
+      "slug": "migrations",
+      "title": "Migration guides",
+      "summary": "Version-by-version APIZIT Linking migration guides for manifests, generated runtime artifacts, Python adapters, and APIZIT deployment pins.",
+      "group": "Migrations"
+    },
+    {
+      "slug": "migrations/0.3-to-0.4",
+      "title": "Migrate from 0.3 to 0.4",
+      "summary": "Step-by-step APIZIT Linking 0.3-to-0.4 migration for canonical manifests, closed runtime artifacts, strict signatures, and non-vendored adapters.",
+      "group": "Migrations"
+    },
+    {
+      "slug": "migrations/0.4-to-0.5",
+      "title": "Migrate 0.4.0 to final 0.5.0",
+      "summary": "Migrate APIZIT Linking 0.4.0 to final 0.5.0 with exact pins, recompiled artifact v1 outputs, documentary responses, and non-vendored adapters.",
+      "group": "Migrations"
+    },
+    {
+      "slug": "security",
+      "title": "Security policy",
+      "summary": "Supported APIZIT Linking security versions, private vulnerability reporting status, disclosure rules, scope, and safe public bug-report guidance.",
+      "group": "Trust and support"
+    },
+    {
+      "slug": "faq",
+      "title": "APIZIT Linking questions, answered",
+      "summary": "Find answers about installation, Python compatibility, AI assistants, static validation, HTTP limits and independence from APIZIT hosting.",
+      "group": "Trust and support"
+    }
+  ]
+}
