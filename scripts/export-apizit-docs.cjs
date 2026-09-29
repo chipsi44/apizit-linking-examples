@@ -4,11 +4,12 @@ const {execFileSync}=require("node:child_process");
 const {sha256}=require("./docs.cjs");
 const ROOT=path.resolve(__dirname,"..");
 function expectedExport() {
+    const readText = file => Buffer.from(fs.readFileSync(file,"utf8").replace(/\r\n/g,"\n"));
     const catalog=JSON.parse(fs.readFileSync(path.join(ROOT,"docs/catalog.json"),"utf8"));
     const files=new Map();
-    for(const file of ["catalog.json","llms-source.txt",...catalog.pages.map(p=>p.slug+".md")]) files.set(file,fs.readFileSync(path.join(ROOT,"docs",file)));
-    for(const file of ["docs.cjs","docs-renderer.cjs"]) files.set(file,fs.readFileSync(path.join(ROOT,"scripts",file)));
-    files.set("schema/apizit-linking-v1.schema.json",fs.readFileSync(path.join(ROOT,"schema/apizit-linking-v1.schema.json")));
+    for(const file of ["catalog.json","llms-source.txt",...catalog.pages.map(p=>p.slug+".md")]) files.set(file,readText(path.join(ROOT,"docs",file)));
+    for(const file of ["docs.cjs","docs-renderer.cjs"]) files.set(file,readText(path.join(ROOT,"scripts",file)));
+    files.set("schema/apizit-linking-v1.schema.json",readText(path.join(ROOT,"schema/apizit-linking-v1.schema.json")));
     const sourceCommit=execFileSync("git",["-c","safe.directory="+ROOT.replaceAll("\\","/"),"rev-parse","HEAD"],{cwd:ROOT,encoding:"utf8"}).trim();
     const tracked=execFileSync("git",["-c","safe.directory="+ROOT.replaceAll("\\","/"),"status","--porcelain","--","docs","scripts","schema"],{cwd:ROOT,encoding:"utf8"}).trim();
     const provenance={version:1,source_repository:"https://github.com/chipsi44/apizit-linking-examples",source_commit:sourceCommit,source_dirty:Boolean(tracked),files:Object.fromEntries([...files].map(([name,data])=>[name,sha256(data)]))};
