@@ -1,4 +1,4 @@
-# APIZIT Linking examples
+# APIZIT Linking — Python APIs with clear context for AI
 
 [![CI](https://github.com/chipsi44/apizit-linking-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/chipsi44/apizit-linking-examples/actions/workflows/ci.yml)
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-2357c6)](https://chipsi44.github.io/apizit-linking-examples/)
@@ -183,3 +183,13 @@ Fork the repository, keep each project minimal and infrastructure-independent,
 add or update its HTTP integration test, then open a pull request.
 
 Licensed under Apache-2.0.
+
+## Clear context for people and coding agents
+
+Write and test ordinary Python first; bind it to HTTP second. One manifest maps each method and route pattern to module:function, so a developer or assistant can follow a request to its entry point. Static validation and JSON diagnostics check the supported HTTP contract without importing business code. OpenAPI response annotations remain documentary. These boundaries help review and diagnosis; any measured gains in tokens, speed or accuracy depend on the project.
+
+[Run the quickstart](https://chipsi44.github.io/apizit-linking-examples/quickstart/), [build with an AI assistant](https://chipsi44.github.io/apizit-linking-examples/guides/ai-assisted-development/), [trace a route](https://chipsi44.github.io/apizit-linking-examples/guides/trace-route-to-python/) or compare [Flask](https://chipsi44.github.io/apizit-linking-examples/comparisons/flask/) and [FastAPI](https://chipsi44.github.io/apizit-linking-examples/comparisons/fastapi/). Linking works without an APIZIT hosting account.
+
+## Single-source documentation
+
+Edit docs/catalog.json and its English Markdown pages. Run node scripts/build-docs.cjs before the tests. Generated site/ is not edited or versioned. The [maintenance guide](docs/README.md) explains stable anchors, offline export, parity checking and the future official-domain switch. GitHub Pages remains the public access while the same content is prepared in APIZIT's protected /linking/ space. Markdown, catalog.json and llms.txt support agent consultation; no search ranking or indexing result is promised.

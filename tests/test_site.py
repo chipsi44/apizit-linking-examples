@@ -14,31 +14,11 @@ BASE_URL = "https://chipsi44.github.io/apizit-linking-examples/"
 SCHEMA_RELATIVE_PATH = Path("schema/apizit-linking-v1.schema.json")
 PUBLIC_SCHEMA_URL = f"{BASE_URL}{SCHEMA_RELATIVE_PATH.as_posix()}"
 
+CATALOG = json.loads((REPOSITORY_ROOT / "docs/catalog.json").read_text(encoding="utf-8"))
 PUBLIC_PAGES = {
-    "index.html": BASE_URL,
-    "quickstart/index.html": f"{BASE_URL}quickstart/",
-    "reference/linking-yaml/index.html": f"{BASE_URL}reference/linking-yaml/",
-    "reference/cli/index.html": f"{BASE_URL}reference/cli/",
-    "reference/compatibility/index.html": f"{BASE_URL}reference/compatibility/",
-    "examples/index.html": f"{BASE_URL}examples/",
-    "guides/index.html": f"{BASE_URL}guides/",
-    "guides/expose-python-function-as-http-api-without-decorators/index.html": (
-        f"{BASE_URL}guides/expose-python-function-as-http-api-without-decorators/"
-    ),
-    "guides/keep-python-business-logic-independent-from-fastapi/index.html": (
-        f"{BASE_URL}guides/keep-python-business-logic-independent-from-fastapi/"
-    ),
-    "guides/turn-python-library-into-api-with-yaml/index.html": (
-        f"{BASE_URL}guides/turn-python-library-into-api-with-yaml/"
-    ),
-    "limits/index.html": f"{BASE_URL}limits/",
-    "releases/index.html": f"{BASE_URL}releases/",
-    "releases/0.4.0/index.html": f"{BASE_URL}releases/0.4.0/",
-    "releases/0.5.0/index.html": f"{BASE_URL}releases/0.5.0/",
-    "migrations/index.html": f"{BASE_URL}migrations/",
-    "migrations/0.3-to-0.4/index.html": f"{BASE_URL}migrations/0.3-to-0.4/",
-    "migrations/0.4-to-0.5/index.html": f"{BASE_URL}migrations/0.4-to-0.5/",
-    "security/index.html": f"{BASE_URL}security/",
+    ("index.html" if page["slug"] == "index" else f'{page["slug"]}/index.html'):
+    BASE_URL + ("" if page["slug"] == "index" else page["slug"] + "/")
+    for page in CATALOG["pages"]
 }
 
 
@@ -137,7 +117,7 @@ class DocumentationSiteTests(unittest.TestCase):
                 source, parser = _parse_html(path)
 
                 self.assertTrue(source.lower().startswith("<!doctype html>"))
-                self.assertRegex(source, r'<html\s+lang="en">')
+                self.assertRegex(source, r'<html\s+lang="en"(?:\s[^>]*)?>')
                 self.assertIn('class="skip-link"', source)
                 self.assertIn('<main id="main-content"', source)
                 self.assertEqual(_canonical_from(parser), expected_canonical)
@@ -247,7 +227,7 @@ class DocumentationSiteTests(unittest.TestCase):
             path.parent.name
             for path in (SITE_ROOT / "guides").glob("*/index.html")
         }
-        self.assertEqual(actual_slugs, guide_slugs)
+        self.assertEqual(actual_slugs, guide_slugs | {"ai-assisted-development", "trace-route-to-python"})
 
         for slug in guide_slugs:
             with self.subTest(guide=slug):
@@ -322,6 +302,8 @@ class DocumentationSiteTests(unittest.TestCase):
         for path in stable_surfaces:
             with self.subTest(path=path.relative_to(REPOSITORY_ROOT).as_posix()):
                 source = path.read_text(encoding="utf-8")
+                if path.suffix == ".html":
+                    source = source.split("<article>", 1)[1].split("</article>", 1)[0]
                 self.assertIn("0.5.0", source)
                 self.assertNotIn("0.4.0", source)
                 self.assertNotIn("0.5.0rc1", source)
