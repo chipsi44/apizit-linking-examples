@@ -1,3 +1,3 @@
-docs/** text eol=lf
-scripts/*.cjs text eol=lf
-docs/assets/*.jpg binary
+* text=auto eol=lf
+*.jpg binary
+*.png binary

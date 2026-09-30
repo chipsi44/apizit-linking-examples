@@ -2,7 +2,7 @@
 
 APIZIT Linking versions its package, manifest, and generated runtime artifact independently. This page defines which parts integrations can safely depend on.
 
-APIZIT Linking is still a pre-1.0 beta. Patch releases preserve their minor line; minor releases can refine beta APIs with migration notes. The stronger 1.x guarantees below begin with package 1.0.
+The 1.0 candidate evaluates the stable API described here; the 1.x guarantees take effect with the final 1.0 release. The preceding 0.5 line remains a beta contract.
 
 ## Four separate contracts {#four-contracts}
 
@@ -17,7 +17,7 @@ Package `0.4.x` can continue to consume a manifest declaring `version: 1`. Neith
 
 ## Supported Python adapter API {#python-api}
 
-The 0.4 adapter surface is intentionally small:
+The supported compiler/adapter surface includes:
 
 - `apizit_linking.discover_linking_file`
 - `apizit_linking.compile_linking_file`
@@ -65,3 +65,9 @@ Normal deprecations appear in release notes, emit `DeprecationWarning` for ident
 - [Read the canonical Linking YAML contract]({{docs}}/reference/linking-yaml/)
 - [Validate a project from the CLI]({{docs}}/reference/cli/)
 - [Review current product boundaries]({{docs}}/limits/)
+
+## V1 application and tooling surface
+
+The 1.0 contract additionally documents fastapi.create_app, create_app_from_compilation and create_app_from_routes; extensions.RuntimeExtensions, Provider, ExecutionContext and AccessDenied; limits.RequestLimits; and the routes/explain/export/diff CLI commands. Provider/guard call signatures and scope rules are documented in [resources]({{docs}}/reference/resources-and-permissions/). Imported internal helpers remain private.
+
+New optional manifest fields extend schema v1 while preserving existing meanings. The 1.0 runtime artifact uses format v2, including optional runtime factory data and explicit route contracts. Artifacts remain opaque and bound to their exact compiling engine. Contract-export format v1 is a separate inspection snapshot; conservative diff outcomes do not establish business compatibility. See [0.5 to 1.0]({{docs}}/migrations/0.5-to-1.0/).

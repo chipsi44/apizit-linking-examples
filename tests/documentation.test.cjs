@@ -17,7 +17,7 @@ test("the portable renderer escapes markup and retains explicit historical ancho
 test("both publications render the same article and keep all former anchors",()=>{
     const source=readDocumentation(path.join(root,"docs"),"/apizit-linking-examples/","https://chipsi44.github.io");
     const target=readDocumentation(path.join(root,"docs"),"/linking/","https://test.apizit.com");
-    assert.equal(source.pages.length,23);
+    assert.equal(source.pages.length,30);
     for(const [i,page] of source.pages.entries()){
         const normalized=page.html.replaceAll('href="/apizit-linking-examples/','href="/linking/');
         assert.equal(normalized,target.pages[i].html);

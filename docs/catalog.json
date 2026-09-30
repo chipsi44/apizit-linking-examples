@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine_version": "0.5.0",
+  "engine_version": "1.0.0rc1",
   "python_support": "3.10–3.14",
   "license": "Apache-2.0",
   "pages": [
@@ -26,6 +26,18 @@
       "slug": "guides/trace-route-to-python",
       "title": "Trace an HTTP route back to Python",
       "summary": "Follow an HTTP method and path through the route manifest to module:function, source files and dependencies in the correct deployed revision.",
+      "group": "Build and diagnose"
+    },
+    {
+      "slug": "guides/persistent-api",
+      "title": "Build a persistent API with models and permissions",
+      "summary": "Run a standalone SQLite API with nested models, owner-scoped permissions, correct HTTP responses and data retained after a process restart, without APIZIT.",
+      "group": "Build and diagnose"
+    },
+    {
+      "slug": "guides/standalone-serving",
+      "title": "Serve Linking independently of APIZIT",
+      "summary": "Create an ASGI application, configure lifecycle and explicit request limits, and serve a Linking JSON API with your own server and database.",
       "group": "Build and diagnose"
     },
     {
@@ -55,13 +67,13 @@
     {
       "slug": "examples",
       "title": "Forkable example APIs",
-      "summary": "Six public, forkable APIZIT Linking projects covering path and query parameters, JSON bodies, errors, packages, and task CRUD.",
+      "summary": "Seven forkable Linking projects: path/query, JSON, errors, packages, task CRUD and a standalone persistent API with models and permissions.",
       "group": "Examples"
     },
     {
       "slug": "limits",
       "title": "V1 limits and boundaries",
-      "summary": "Honest boundaries of APIZIT Linking 0.5.0: documentary responses, error behavior, type conversion, preview safety, OpenAPI, and deployment scope.",
+      "summary": "Current Linking 1.0 candidate boundaries: models, HTTP policies, resources, permissions, request bounds, standalone persistence and unsupported streaming.",
       "group": "Choose Linking"
     },
     {
@@ -73,7 +85,7 @@
     {
       "slug": "comparisons/fastapi",
       "title": "APIZIT Linking vs FastAPI: choose your API contract",
-      "summary": "Compare equivalent Linking and FastAPI APIs, plain function reuse, parameter binding, response validation and the limits of documentary OpenAPI.",
+      "summary": "Compare equivalent Linking and FastAPI APIs, typed models, providers, security, response validation and the choice between external manifests and native Python operations.",
       "group": "Choose Linking"
     },
     {
@@ -83,9 +95,27 @@
       "group": "Reference"
     },
     {
+      "slug": "reference/models",
+      "title": "Typed request and response models",
+      "summary": "Opt in to nested request models, JSON pointers, dataclasses, constrained fields and typed response filtering using the optional Pydantic extra.",
+      "group": "Reference"
+    },
+    {
+      "slug": "reference/responses",
+      "title": "HTTP responses and business errors",
+      "summary": "Declare success statuses, safe response headers and constant public exception mappings while keeping business functions independent of HTTP.",
+      "group": "Reference"
+    },
+    {
+      "slug": "reference/resources-and-permissions",
+      "title": "Resources, permissions and application lifecycle",
+      "summary": "Inject request or application resources, authenticate and authorize with fail-closed guards, and configure ASGI lifespan or middleware outside business functions.",
+      "group": "Reference"
+    },
+    {
       "slug": "reference/cli",
       "title": "Validate and preview projects",
-      "summary": "Reference for apizit-linking validate and preview commands, options, JSON output, local network safety, and exit behavior.",
+      "summary": "Validate, preview and reload projects; inspect routes, locate Python source, export typed HTTP contracts and conservatively gate proposed changes.",
       "group": "Reference"
     },
     {
@@ -141,6 +171,19 @@
       "title": "APIZIT Linking questions, answered",
       "summary": "Find answers about installation, Python compatibility, AI assistants, static validation, HTTP limits and independence from APIZIT hosting.",
       "group": "Trust and support"
+    },
+    {
+      "slug": "releases/1.0.0",
+      "title": "Linking 1.0 release candidate",
+      "summary": "Evaluate the Linking 1.0 candidate: optional typed models, declarative HTTP responses, resources, guards, route inspection and conservative contract checks.",
+      "group": "Release and trust"
+    },
+    {
+      "slug": "migrations/0.5-to-1.0",
+      "title": "Migrate from Linking 0.5 to 1.0",
+      "summary": "Keep manifest v1 and legacy conversion, opt into new typed/HTTP policies explicitly, and regenerate runtime artifacts with the exact 1.0 engine.",
+      "group": "Release and trust"
     }
-  ]
+  ],
+  "release_channel": "release candidate"
 }

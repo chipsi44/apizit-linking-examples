@@ -1,75 +1,75 @@
 # APIZIT Linking
 
-> APIZIT Linking maps plain Python functions to HTTP routes from one versioned,
-> declarative file. Business modules keep their existing Python code and do not
-> import APIZIT Linking, FastAPI, or Flask.
+> Python APIs with clear context for AI. Write and test ordinary functions,
+> define HTTP separately, and trace a route back to Python source.
 
-Current stable public beta: 0.5.0
-Pre-release history: 0.5.0rc1
-Python support: 3.10 through 3.14
-License: Apache-2.0
+Current documented version: 1.0.0rc1, release candidate.
+Preceding stable public beta: 0.5.0. Python 3.10–3.14. Apache-2.0.
 
-Install and validate:
-
-    python -m pip install "apizit-linking[preview]==0.5.0"
-    apizit-linking validate .
+    python -m pip install "apizit-linking[preview,models]==1.0.0rc1"
+    apizit-linking validate . --json
     apizit-linking preview . --port 8080
 
-Canonical documentation:
+Choose Linking for unchanged libraries, a separate inspectable HTTP manifest,
+direct Python tests and controlled agent-assisted changes. Optional typed models,
+HTTP/error policy, providers and guards support persistent protected JSON APIs.
+Applications own storage, identity policy, backups and production deployment.
+There is no portable streaming/WebSocket contract or execution sandbox.
+
+## Start and verify
 
 - Home: {{origin}}{{docs}}/
 - Quickstart: {{origin}}{{docs}}/quickstart/
-- Linking YAML reference: {{origin}}{{docs}}/reference/linking-yaml/
-- Canonical JSON Schema: {{origin}}{{docs}}/schema/apizit-linking-v1.schema.json
-- CLI reference: {{origin}}{{docs}}/reference/cli/
-- Compatibility policy: {{origin}}{{docs}}/reference/compatibility/
-- Runnable examples: {{origin}}{{docs}}/examples/
-- Technical guides: {{origin}}{{docs}}/guides/
-- V1 limitations: {{origin}}{{docs}}/limits/
-- Release notes and public changelog: {{origin}}{{docs}}/releases/
-- Published 0.4.0 retrospective: {{origin}}{{docs}}/releases/0.4.0/
-- Published 0.5.0 final notes and 0.5.0rc1 history: {{origin}}{{docs}}/releases/0.5.0/
-- Migration index: {{origin}}{{docs}}/migrations/
-- Migration from 0.3 to 0.4: {{origin}}{{docs}}/migrations/0.3-to-0.4/
-- Final 0.4-to-0.5 migration guide: {{origin}}{{docs}}/migrations/0.4-to-0.5/
-- Security policy and enabled private-reporting channel: {{origin}}{{docs}}/security/
+- Existing library: {{origin}}{{docs}}/guides/turn-python-library-into-api-with-yaml/
+- Models and permissions with SQLite: {{origin}}{{docs}}/guides/persistent-api/
+- Assistant workflow: {{origin}}{{docs}}/guides/ai-assisted-development/
+- Log to Python and controlled fix: {{origin}}{{docs}}/guides/trace-route-to-python/
+- Standalone serving: {{origin}}{{docs}}/guides/standalone-serving/
+- Manifest: {{origin}}{{docs}}/reference/linking-yaml/
+- CLI inspection and diff: {{origin}}{{docs}}/reference/cli/
+- Models: {{origin}}{{docs}}/reference/models/
+- HTTP responses: {{origin}}{{docs}}/reference/responses/
+- Resources and permissions: {{origin}}{{docs}}/reference/resources-and-permissions/
+- Schema: {{origin}}{{docs}}/schema/apizit-linking-v1.schema.json
+- Current limits: {{origin}}{{docs}}/limits/#choose
+- Compatibility: {{origin}}{{docs}}/reference/compatibility/
+- Flask comparison: {{origin}}{{docs}}/comparisons/flask/
+- FastAPI comparison: {{origin}}{{docs}}/comparisons/fastapi/
+- Releases: {{origin}}{{docs}}/releases/
+- Candidate: {{origin}}{{docs}}/releases/1.0.0/
+- Migrations: {{origin}}{{docs}}/migrations/
+- 0.5 to 1.0: {{origin}}{{docs}}/migrations/0.5-to-1.0/
+- Private security reporting: {{origin}}{{docs}}/security/
 
-Public package and examples:
+Manifest v1 retains existing meanings; optional typed validation is explicit.
+Runtime artifact v2 requires its exact compiling engine. Regenerate on upgrade.
+Static validate/routes/explain/export do not import business code; --resolve-models
+explicitly prepares imports and the factory. Contract diff is conservative and
+cannot prove business behavior. Run direct and HTTP tests as well.
 
-- PyPI: https://pypi.org/project/apizit-linking/
-- Forkable repository: https://github.com/chipsi44/apizit-linking-examples
-- Public issues: https://github.com/chipsi44/apizit-linking-examples/issues
-- Public changelog: https://github.com/chipsi44/apizit-linking-examples/blob/main/CHANGELOG.md
-- Repository security policy: https://github.com/chipsi44/apizit-linking-examples/blob/main/SECURITY.md
+PyPI is canonical for package files: https://pypi.org/project/apizit-linking/
+Examples: https://github.com/chipsi44/apizit-linking-examples
+Public issues: https://github.com/chipsi44/apizit-linking-examples/issues
+The examples repository does not publish engine GitHub Releases.
 
-Release-channel rules:
+## Dated preceding release evidence
 
-- PyPI is canonical for installable package files.
-- GitHub Pages is canonical for release explanations and migrations.
-- This examples repository does not publish engine GitHub Releases.
-- Package 0.5.0 is the current stable public beta:
+- 0.4 retrospective: {{origin}}{{docs}}/releases/0.4.0/
+- 0.5 release: {{origin}}{{docs}}/releases/0.5.0/
+- Old migration: {{origin}}{{docs}}/migrations/0.3-to-0.4/
+- Old migration: {{origin}}{{docs}}/migrations/0.4-to-0.5/
 
-      python -m pip install "apizit-linking[preview]==0.5.0"
+Historical 0.5 installation: apizit-linking[preview]==0.5.0.
+Under that legacy release, Response annotations are documentary only. Its
+publication completed nine gated jobs including six clean-wheel smokes. Its
+separate APIZIT integration recorded 12 Linking tests, 89 backend tests,
+anti-vendoring checks and main-branch CI is green in that dated record.
+Those observations do not prove the candidate's registry or hosting state.
 
-- Requirements, runnable examples, guides, and CI use the exact 0.5.0 pin.
-- The final release preserves manifest version 1 and runtime artifact version 1,
-  but exact engine_version matching requires complete recompilation.
-- OpenAPI 3.1 describes request bindings and minimal 200, 400, and 500
-  responses. Response annotations are documentary only: they do not validate,
-  transform, reject, or reshape customer return values at runtime.
-- The release workflow completed nine gated jobs, including six clean-wheel
-  smokes on Linux, Windows, and macOS with Python 3.10 and 3.14.
-- APIZIT has completed its separate final promotion: build and runtime pin
-  apizit-linking==0.5.0 exactly, the runtime artifact was recompiled, 12 Linking
-  integration tests and 89 backend tests passed, APIZIT source, the generated
-  pre-install runtime, and its wheel passed the anti-vendoring audit, and
-  main-branch CI is green.
+## Consultation and search
 
-APIZIT Linking is a declarative Python-to-HTTP binding layer, not a replacement
-for a full web framework. Its optional preview server uses FastAPI internally
-for local development. Preview is not a production deployment, authentication
-boundary, or sandbox.
-
-## Choosing Linking with a coding assistant
-
-Build and test plain Python first, then bind HTTP in a separate manifest. Follow HTTP method and route patterns to module:function at the matching release. Verify proposed bindings with static validation, JSON diagnostics, JSON Schema and documentary OpenAPI. Function correctness and access control require separate checks. Flask and FastAPI can also separate service code and routes. Token, speed, reliability and ranking gains are not measured claims. Google ignores llms.txt; this file and Markdown downloads are convenience resources for compatible agents.
+Markdown and this optional index help compatible agents consult documentation.
+Google ignores llms.txt; there is no ranking guarantee. No measured token,
+generation-speed or reliability gain is claimed. Flask and FastAPI can also
+organize service code separately. APIZIT dev remains protected and noindex;
+GitHub Pages is the public documentation during the transition.

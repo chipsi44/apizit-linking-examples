@@ -8,6 +8,7 @@ Keep vulnerability details out of public issues and examples. This page records 
 
 | Version | Security support |
 | --- | --- |
+| 1.0.0rc1 | Candidate evaluation; report findings privately |
 | 0.5.x | Supported — current stable public beta |
 | 0.5 pre-releases | Not supported — upgrade to the final 0.5 release |
 | 0.4.x | Not supported — previous minor line |

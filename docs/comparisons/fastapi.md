@@ -2,7 +2,7 @@
 
 Choose APIZIT Linking when a separate manifest should adapt ordinary Python functions to HTTP. Choose FastAPI directly when its request models, dependencies, security integration and response contracts belong in your application architecture.
 
-Linking 0.5.0 offers an optional FastAPI adapter. The distinction is between a declarative binding contract and direct use of FastAPI's features.
+The Linking 1.0 candidate offers an optional FastAPI adapter. The distinction is between a declarative binding contract and direct use of FastAPI's features.
 
 ## Compare the same business function
 
@@ -28,7 +28,7 @@ routes:
           name: name
 ```
 
-Install `apizit-linking[preview]==0.5.0`, validate and start preview. `GET /hello/Ada` returns HTTP 200 with `{"message": "Hello, Ada!"}`.
+Install `apizit-linking[preview,models]==1.0.0rc1`, validate and start preview. `GET /hello/Ada` returns HTTP 200 with `{"message": "Hello, Ada!"}`.
 
 A direct FastAPI adapter lives in `app.py`:
 
@@ -47,13 +47,13 @@ Both service layers remain plain Python. Linking changes where the mapping is de
 
 ## Compare the contracts
 
-| Decision | APIZIT Linking 0.5.0 | Direct FastAPI |
+| Decision | APIZIT Linking 1.0 candidate | Direct FastAPI |
 | --- | --- | --- |
 | HTTP interface | YAML or JSON referencing `module:function` | Python path-operation registration |
 | Business imports | No Linking or framework import required | Separate service modules need no framework import |
-| Request input | Documented primitive conversion and explicit or automatic sources | Models, constraints and dependency injection |
+| Request input | Legacy conversion or opt-in nested typed models and explicit sources | Models, constraints and dependency injection |
 | OpenAPI | Generated 3.1 document from the compiled Linking contract | Generated from operations and models |
-| Return annotations | Documentary; no annotation-based response validation by Linking | Response models can validate, serialize and filter |
+| Return annotations | Documentary by default; explicit typed validation can serialize and filter | Response models can validate, serialize and filter |
 | Binding errors | Documented structured 400 errors | Framework validation commonly returns 422 |
 | Scope | Focused binding layer and optional adapter | Broader HTTP application features |
 
@@ -75,12 +75,16 @@ The [validator]({{docs}}/reference/cli/) checks supported targets and signatures
 
 ## Choose FastAPI when its features matter
 
-Direct FastAPI fits rich models, constraints, dependencies, security dependencies, custom response statuses and response behavior. A well-organized existing app can already offer a clear service boundary.
+Direct FastAPI fits teams that prefer its Python operations, native dependency/security system, model integration and mature ecosystem. A well-organized existing app can already offer a clear service boundary.
 
-Linking V1 cannot declare custom success statuses, headers or business-exception mappings. Its OpenAPI return schemas are documentary. Keep those differences visible in an assistant-generated design.
+Linking 1.0 supplies explicit typed models, providers, guards, response statuses/headers and domain-error mappings through its manifest and composition module. Its native boundary remains different from FastAPI's decorators and Depends. Legacy return schemas remain documentary; typed routes enforce their declared model. Streaming and WebSockets have no portable Linking contract in this release.
 
 ## Try one real operation
 
 Compare successful inputs, missing values, unsupported types, domain exceptions and output contracts. Include an operation that needs more than a greeting if your project does.
 
 The [business logic guide]({{docs}}/guides/keep-python-business-logic-independent-from-fastapi/) demonstrates tests and explicit JSON body binding. Follow [AI-assisted development]({{docs}}/guides/ai-assisted-development/) and [fit and limits]({{docs}}/limits/#choose) before deciding.
+
+## Evaluate more than a greeting
+
+Try [the same persistent operation]({{docs}}/guides/persistent-api/) with both designs: nested input, declared output, owner-scoped lookup, a transaction and domain errors. Compare organization, migration effort and the checks your team needs. The release microbenchmark is a local ASGI scalar test, not evidence of a speed advantage. Linking's reason to choose it is the separate inspectable contract, not a claim that FastAPI is hard for an agent to understand.

@@ -2,7 +2,7 @@
 
 The versioned contract that maps HTTP routes and request values to ordinary Python function parameters.
 
-This reference describes the contract supported by **APIZIT Linking 0.5.0**. Unknown fields and unknown versions are blocking validation errors.
+This reference describes the contract supported by **APIZIT Linking 1.0.0rc1**. Unknown fields and unknown versions are blocking validation errors.
 
 ## Editor validation {#editor-schema}
 
@@ -64,12 +64,13 @@ routes:
 | Field | Required | V1 rule |
 | --- | --- | --- |
 | `version` | Yes | Must be the integer `1`. |
-| `runtime` | No | Optional Python runtime metadata. |
-| `routes` | Yes | A non-empty list of closed route objects. |
+| `runtime` | No | Optional Python metadata and a runtime composition factory. |
+| `routes` | Unless includes supply routes | Closed route objects; the expanded map must be non-empty. |
+| `includes` | No | Project-local route files with literal optional prefixes. |
 
 ### Runtime metadata {#runtime}
 
-`runtime.language` is `python`. `runtime.version` is an optional quoted Python minor version in `major.minor` form, such as `"3.12"`.
+`runtime.language` is `python`. `runtime.factory` can reference a synchronous zero-argument RuntimeExtensions factory as module:function. `runtime.version` is an optional quoted Python minor version in `major.minor` form, such as `"3.12"`.
 
 The standalone compiler validates the syntax but does not select infrastructure. A deployment platform must decide which runtimes it supports. APIZIT currently accepts Python 3.12 and uses 3.12 when the field is omitted.
 
@@ -164,3 +165,19 @@ The official schema accepts canonical authoring forms only. For migration, the c
 - [See each request source in runnable projects]({{docs}}/examples/)
 - [Review V1 response and runtime boundaries]({{docs}}/limits/)
 - [Read the package, schema, diagnostics, and artifact compatibility policy]({{docs}}/reference/compatibility/)
+
+## Typed and HTTP policy fields
+
+| Route field | Contract |
+| --- | --- |
+| validation | Optional `typed`; omitted retains legacy conversion |
+| response | Optional status, headers and registered adapter |
+| errors | Ordered exception/status/code/message mappings |
+| dependencies | Python argument -> named provider; no simultaneous HTTP source |
+| security | Ordered named guards; all must succeed |
+
+Body sources accept optional pointer: an RFC 6901 selector, with empty string selecting the whole body. Sources without pointers retain top-level behavior. See [models]({{docs}}/reference/models/), [responses]({{docs}}/reference/responses/) and [resources/permissions]({{docs}}/reference/resources-and-permissions/) for executable contracts.
+
+## Route-file composition
+
+includes is a list of closed `{file, prefix}` objects. Files resolve relative to their containing manifest and must remain within the project; cycles and more than 16 levels/128 files fail. Included files accept version, routes and includes; runtime belongs in the root. Prefixes are literal paths starting with / without a trailing slash. Compilation expands one effective map and checks collisions. Security and dependency policy stay explicit on each route.

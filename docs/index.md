@@ -59,20 +59,20 @@ The declared routes share one map. An assistant or developer can inspect it befo
 
 Static validation inspects Python syntax and supported signatures without importing customer modules. It detects missing targets, incompatible bindings and route collisions. Structured diagnostics give a human or agent a concrete correction to make.
 
-OpenAPI 3.1 describes the supported request contract. Response schemas remain documentary rather than runtime enforcement.
+Export the effective route map, locate a function with `explain`, and compare a proposed contract with `diff`. Explicit `validation: typed` prepares request and response validators from the same Pydantic adapters used by OpenAPI. Legacy routes retain their existing conversion behavior.
 
 ## Install a reproducible version {#install}
 
-Current documented package: **0.5.0, public beta**. Supported Python: **3.10–3.14**. License: **Apache-2.0**.
+Current documented package: **1.0.0rc1, release candidate**. Evaluate this exact candidate before adopting 1.0; 0.5.0 remains the preceding stable beta. Supported Python: **3.10–3.14**. License: **Apache-2.0**.
 
 ```text
-python -m pip install "apizit-linking[preview]==0.5.0"
+python -m pip install "apizit-linking[preview,models]==1.0.0rc1"
 apizit-linking validate .
 apizit-linking validate . --json
 apizit-linking preview . --port 8080
 ```
 
-The core requires PyYAML; preview adds the optional FastAPI adapter and local server. Preview imports and executes the project. Run it on reviewed code with development data.
+The core requires PyYAML; preview adds the optional FastAPI adapter and local server, and the optional `models` extra enables typed contracts. Preview imports and executes the project. Run it on reviewed code with development data.
 
 ## Choose your next step {#learn-title}
 
@@ -82,6 +82,7 @@ The core requires PyYAML; preview adds the optional FastAPI adapter and local se
 | An assistant is helping write a new API | [AI-assisted development]({{docs}}/guides/ai-assisted-development/) |
 | A request failed | [Trace a route to Python]({{docs}}/guides/trace-route-to-python/) |
 | You are choosing an HTTP architecture | [Compare Flask]({{docs}}/comparisons/flask/) and [FastAPI]({{docs}}/comparisons/fastapi/) |
+| You need a persistent, protected API | [Standalone SQLite API]({{docs}}/guides/persistent-api/) |
 | You need exact configuration behavior | [YAML reference]({{docs}}/reference/linking-yaml/) |
 
 ## Know where Linking fits

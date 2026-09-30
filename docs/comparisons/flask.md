@@ -2,7 +2,7 @@
 
 Choose APIZIT Linking when you want to expose ordinary Python functions through a separate, versioned HTTP manifest. Choose Flask when you want its general web application model and need its HTTP features.
 
-Both can support a clean service layer. This comparison concerns where you declare the interface and what Linking 0.5.0 covers, rather than which framework is universally better.
+Both can support a clean service layer. This comparison concerns where you declare the interface and what the Linking 1.0 candidate covers, rather than which framework is universally better.
 
 ## Compare the same operation
 
@@ -28,7 +28,7 @@ routes:
           name: name
 ```
 
-Install `apizit-linking[preview]==0.5.0`, run `apizit-linking validate .` and start `apizit-linking preview . --port 8080`. `GET /hello/Ada` returns HTTP 200 and `{"message": "Hello, Ada!"}`.
+Install `apizit-linking[preview,models]==1.0.0rc1`, run `apizit-linking validate .` and start `apizit-linking preview . --port 8080`. `GET /hello/Ada` returns HTTP 200 and `{"message": "Hello, Ada!"}`.
 
 With Flask, a separate `app.py` adapts the same function:
 
@@ -47,13 +47,13 @@ The business module is equally reusable. Flask's registration is Python; Linking
 
 ## Compare maintenance decisions
 
-| Decision | APIZIT Linking 0.5.0 | Flask |
+| Decision | APIZIT Linking 1.0 candidate | Flask |
 | --- | --- | --- |
 | Business functions | Linked directly from a manifest | Can be called from separate handlers |
 | Route declaration | Versioned YAML or JSON | Decorators or Python registration |
 | Route investigation | Manifest method, pattern and `module:function` | Registered route map, endpoint and project layout |
 | Static Linking validation | Checks targets and bindings without imports | Depends on project tools and tests |
-| Response flexibility | V1 successes use 200; no configurable headers or business-exception mapping | Application code can choose statuses, headers and response behavior |
+| Response flexibility | Explicit success status/headers and domain-error mappings; optional typed output | Application code can choose statuses, headers and response behavior |
 | Broader application needs | Focused Python-to-HTTP scope | Templates, sessions, hooks and extensions |
 
 Flask supports [blueprints](https://flask.palletsprojects.com/en/stable/blueprints/) and an inspectable route map. Its [API reference](https://flask.palletsprojects.com/en/stable/api/) documents registration and responses. Calling Flask impossible to navigate would be inaccurate.
@@ -76,10 +76,14 @@ Run the [quickstart]({{docs}}/quickstart/) and [examples]({{docs}}/examples/). V
 
 Use Flask directly when templates, sessions, extensions, request hooks or flexible HTTP responses are central. An established Flask app does not need rewriting merely because a manifest is convenient.
 
-Linking preview uses FastAPI internally and does not implement every Flask feature. Authentication and production operations belong to the application or hosting adapter.
+Linking preview uses FastAPI internally and does not implement every Flask feature. Named guards and injected principals implement an application-defined authentication/authorization boundary. Linking supplies lifecycle hooks; production operations and identity services still belong to the application or hosting adapter.
 
 ## Verify one representative route
 
 Keep the operation's direct Python tests and compare the interfaces. Exercise normal responses, invalid inputs, domain failures and required response statuses. If V1 lacks an essential requirement, that is useful evidence for choosing Flask.
 
 Continue with [the AI workflow]({{docs}}/guides/ai-assisted-development/), [route diagnosis]({{docs}}/guides/trace-route-to-python/), [FastAPI]({{docs}}/comparisons/fastapi/) and [fit and limits]({{docs}}/limits/#choose).
+
+## Compare a protected persistent operation
+
+The [SQLite guide]({{docs}}/guides/persistent-api/) demonstrates nested models, request resources, owner permissions and 201/204/404/409. Flask can implement the same behavior with handlers, application extensions and a service layer. Keep the successful operation equivalent and compare the declared boundary, tests and maintenance effort. No universal token, reliability or speed gain is established by the architectural difference.

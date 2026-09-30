@@ -14,7 +14,7 @@ hello-api/
 └── hello.py
 ```
 
-The commands below use only the V1 contract available in APIZIT Linking 0.5.0. For a reproducible deployment, pin the exact version you have tested.
+The commands below use only the V1 contract retained by the Linking 1.0 candidate. For a reproducible deployment, pin the exact version you have tested.
 
 <a id="plain-python"></a>
 
@@ -64,7 +64,7 @@ See the full [Linking YAML reference]({{docs}}/reference/linking-yaml/) for path
 From inside `hello-api`, use an activated Python environment and install the preview:
 
 ```text
-python -m pip install "apizit-linking[preview]==0.5.0"
+python -m pip install "apizit-linking[preview,models]==1.0.0rc1"
 ```
 
 Then validate the project:
@@ -115,12 +115,12 @@ The HTTP framework is an adapter around the function, not a dependency inside it
 
 ## V1 limits you should know
 
-V1 does not declare response status codes, response headers, configurable response schemas, authentication, or business-exception mappings. A normal return is `200 OK`; request binding errors are structured `400` responses; an unhandled business exception becomes a generic `500` in preview.
+This initial manifest uses legacy conversion and default 200. The 1.0 candidate can explicitly declare success statuses/headers, domain-error mappings, typed models and permission guards; each is a separate policy choice. Unmapped business errors return a generic JSON 500.
 
 - The preview is a local development tool, not a production security boundary.
 - Customer modules are trusted Python code; import isolation is not a sandbox.
-- JSON-body binding addresses top-level fields. Nested selectors and rich model validation are not part of V1.
-- Generated OpenAPI describes request bindings and minimal responses, but return schemas are documentary only and are not enforced at runtime.
+- A binding without a pointer selects a top-level JSON field. Opt into JSON pointers and typed models when the input needs a nested contract.
+- Legacy return schemas remain documentary. validation: typed prepares runtime input/output adapters and their OpenAPI schemas explicitly.
 
 Read the complete [V1 limits]({{docs}}/limits/) before choosing a production adapter.
 

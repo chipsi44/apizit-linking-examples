@@ -2,7 +2,7 @@
 
 APIZIT Linking gives an assistant two explicit jobs: implement ordinary Python behavior, then bind it to HTTP in a manifest. Keep those jobs reviewable, supply focused context and verify the generated result yourself.
 
-You need Python 3.10–3.14, a terminal and an editor. The assistant is optional: a developer can follow the same steps. All Linking commands here use published version 0.5.0.
+You need Python 3.10–3.14, a terminal and an editor. The assistant is optional: a developer can follow the same steps. All Linking commands here use release candidate 1.0.0rc1.
 
 ## Start with precise behavior
 
@@ -66,8 +66,8 @@ Supply the tested signature, intended route and [parameter-source reference]({{d
 Create a version: 1 apizit_linking.yaml.
 Expose pricing:calculate_subtotal as POST /quotes.
 Bind unit_price and quantity explicitly from top-level JSON body fields.
-Keep pricing.py unchanged. Use the published Linking 0.5.0 contract.
-Do not invent a response configuration block.
+Keep pricing.py unchanged. Use the documented Linking 1.0 candidate contract.
+Leave legacy conversion enabled for this first operation; add HTTP policies explicitly.
 ```
 
 The manifest becomes:
@@ -94,7 +94,7 @@ The separate diff makes the method, exposed function and sources easy to inspect
 ## Validate the proposed contract
 
 ```text
-python -m pip install "apizit-linking[preview]==0.5.0"
+python -m pip install "apizit-linking[preview,models]==1.0.0rc1"
 apizit-linking validate .
 apizit-linking validate . --json
 ```
@@ -126,7 +126,7 @@ with urlopen(request) as response:
     assert json.load(response) == {"subtotal": 25.0}
 ```
 
-Also send `quantity: "many"`. Linking should return HTTP 400 with `INVALID_PARAMETER` before invoking the function. Sending `quantity: 0` passes integer conversion and reaches the business exception, which becomes a generic HTTP 500 in preview. V1 does not map `ValueError` to a custom client-error status.
+Also send `quantity: "many"`. Linking should return HTTP 400 with `INVALID_PARAMETER` before invoking the function. Sending `quantity: 0` passes integer conversion and reaches the business exception, which becomes a generic HTTP 500 in preview. This first manifest deliberately leaves the exception unmapped. Add an explicit errors policy when ValueError should represent a client-domain error.
 
 Primitive conversion and domain validation are separate concerns. Check that distinction when reviewing an assistant's claim that validation is complete.
 
@@ -137,3 +137,24 @@ Review the function and direct tests, then the manifest's exposure and sources, 
 The workflow gives people and assistants clear checkpoints and a smaller relevant contract for each task. It does not guarantee lower token usage, faster generation or fewer bugs; those outcomes need project-specific measurement.
 
 Continue with [route diagnosis]({{docs}}/guides/trace-route-to-python/), [examples]({{docs}}/examples/) and [V1 limits]({{docs}}/limits/). Compare [Flask]({{docs}}/comparisons/flask/) and [FastAPI]({{docs}}/comparisons/fastapi/) before selecting a framework.
+
+## Check a controlled modification
+
+Take an exported baseline before asking the assistant to change behavior:
+
+```text
+apizit-linking export . --output before.json
+```
+
+Give the assistant the affected function, its tests and the matching route. Ask it to preserve the HTTP contract, update the direct tests for the intended behavior and run validation. Then:
+
+```text
+python -m unittest test_pricing
+apizit-linking validate . --json
+apizit-linking export . --output after.json
+apizit-linking diff before.json after.json --json
+```
+
+An unchanged HTTP contract passes; changing a declared status, binding or required signature is a review gate. Exit 1 indicates a changed/removed contract; exit 2 indicates invalid exports or unresolved typed model changes. For typed routes take both snapshots with --resolve-models, which imports project code in a controlled environment. A compatible contract does not prove correct calculations or permissions.
+
+For the next operation, use [nested models]({{docs}}/reference/models/), [explicit HTTP errors]({{docs}}/reference/responses/) or [the persistent API]({{docs}}/guides/persistent-api/). Keep the three jobs visible: Python behavior, HTTP policy and verification.

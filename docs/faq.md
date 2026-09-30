@@ -1,6 +1,6 @@
 # APIZIT Linking questions, answered
 
-These answers describe the published 0.5.0 public beta. Linking maps ordinary Python functions to HTTP through a versioned configuration file.
+These answers describe the Linking 1.0 release candidate; 0.5.0 remains the preceding stable beta. Linking maps ordinary Python functions to HTTP through a versioned configuration file.
 
 ## Is Linking a Python API framework?
 
@@ -24,14 +24,14 @@ No. The manifest references a top-level function using dotted `module:function` 
 
 ## Can I find code from an HTTP log?
 
-Use the method, path and correct release's manifest to identify the target. Its dependencies, tests and data may be needed to explain a failure. Linking does not define a universal log format or a complete call graph.
+Use the method, path and correct release's manifest to identify the target. Its dependencies, tests and data may be needed to explain a failure. The requests logger emits JSON events with a request ID, matched pattern, route ID and source fingerprint. `explain` locates the Python file and line; it does not reconstruct a complete call graph or prove the cause of an error.
 
 Follow [route diagnosis]({{docs}}/guides/trace-route-to-python/).
 
 ## How do I install and check a project?
 
 ```text
-python -m pip install "apizit-linking[preview]==0.5.0"
+python -m pip install "apizit-linking[preview,models]==1.0.0rc1"
 apizit-linking validate .
 apizit-linking validate . --json
 apizit-linking preview . --port 8080
@@ -45,18 +45,26 @@ Static validation parses syntax without importing customer modules. Preview impo
 
 ## Can I return 201 or map an exception to 404?
 
-V1 cannot declare custom success statuses, response headers or business-exception mappings. Returned values use 200, supported binding failures use structured 400 errors, and unhandled business exceptions become generic 500 responses in preview.
+Yes. response declares success status/headers; errors maps named domain exceptions to constant public 4xx/5xx errors. 204/205/HEAD omit a body. Unmapped failures become a generic JSON 500.
 
-OpenAPI return schemas are documentary. Read [the limits]({{docs}}/limits/) before adopting it.
+Legacy return schemas remain documentary; explicit typed routes validate and serialize their output. Read [the limits]({{docs}}/limits/) before adopting it.
 
 ## Do I need an APIZIT account or paid plan?
 
 No. The package and examples are independent of APIZIT. APIZIT is one platform that consumes Linking for managed launches; its access and commercial terms are separate.
 
-The Apache-2.0 package is on [PyPI](https://pypi.org/project/apizit-linking/0.5.0/). APIZIT remains prelaunch with protected technical environments.
+The Apache-2.0 package is on [PyPI](https://pypi.org/project/apizit-linking/1.0.0rc1/). APIZIT remains prelaunch with protected technical environments.
 
 ## Where are examples and support?
 
 Use [YAML]({{docs}}/reference/linking-yaml/), [CLI]({{docs}}/reference/cli/), [compatibility]({{docs}}/reference/compatibility/) and [examples]({{docs}}/examples/).
 
 Ask public questions in [GitHub issues](https://github.com/chipsi44/apizit-linking-examples/issues). Follow [security]({{docs}}/security/) for vulnerabilities, and [releases]({{docs}}/releases/) and [migrations]({{docs}}/migrations/) before changing pins.
+
+## Does Linking provide persistence and permissions?
+
+Providers inject application-owned resources and principals; ordered guards enforce application policy and fail closed on missing configuration. The [standalone persistent API]({{docs}}/guides/persistent-api/) uses nested models, SQLite transactions and owner permissions without APIZIT. Linking does not provision a database, identity provider, ORM, backups or migrations.
+
+## Can an agent check its change automatically?
+
+Yes: validate, export the route/HTTP contract, run business tests and compare with diff. Resolved exports prepare typed models explicitly. The comparison gates changed contracts conservatively and reports unresolved model changes; it does not prove business behavior, absence of vulnerabilities or improved AI efficiency.

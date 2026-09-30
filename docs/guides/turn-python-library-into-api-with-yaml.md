@@ -52,7 +52,7 @@ def quote(product_id: int, discount: float = 0.0) -> dict[str, float | int]:
     }
 ```
 
-The relative import occurs inside `quote`. APIZIT Linking 0.5.0 keeps a project-private import namespace available during invocation, so this normal lazy package import resolves without placing the project root permanently on `sys.path`.
+The relative import occurs inside `quote`. APIZIT Linking keeps a project-private import namespace available during invocation, so this normal lazy package import resolves without placing the project root permanently on `sys.path`.
 
 Before adding HTTP, check the library directly:
 
@@ -99,7 +99,7 @@ The path value is converted to `int`, and the query value is converted to `float
 Install the preview extra and run the static compiler:
 
 ```text
-python -m pip install "apizit-linking[preview]==0.5.0"
+python -m pip install "apizit-linking[preview,models]==1.0.0rc1"
 apizit-linking validate .
 ```
 
@@ -149,15 +149,9 @@ If an existing function has an incompatible signature or returns a domain-specif
 
 ## V1 limits and the production boundary
 
-The discount guard in this example raises `ValueError` for values outside 0–100. V1 does not map that business exception to a stable HTTP 4xx response; the local preview returns a generic 500. Only missing or invalid request bindings have a guaranteed structured 400 response.
+The example keeps legacy binding and a plain Python function. Its default successful response is 200; request conversion failures use 400 and unmapped domain exceptions use a generic JSON 500. The 1.0 candidate adds explicit response/errors policies, optional nested models, injected resources and guards. Add those policies deliberately and test their behavior. Preview imports trusted code and provides no production sandbox.
 
-- No declarative response status, response headers, or typed response contract.
-- No nested JSON selector or rich domain-model validation.
-- No authentication, authorization, rate limiting, metering, or deployment.
-- Import namespaces prevent project-name collisions but do not sandbox trusted Python code.
-- The preview binds to loopback by default and is a development tool, not a production server recommendation.
-
-Review the [complete V1 limits]({{docs}}/limits/) and use a platform adapter when you need production infrastructure or policy.
+The [persistent API]({{docs}}/guides/persistent-api/) exercises models, transactions and permissions. [Current limits]({{docs}}/limits/) distinguish the supported contract from streaming, identity-provider and storage responsibilities.
 
 ## Continue learning {#continue}
 
