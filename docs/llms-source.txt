@@ -3,10 +3,10 @@
 > Python APIs with clear context for AI. Write and test ordinary functions,
 > define HTTP separately, and trace a route back to Python source.
 
-Current documented version: 1.0.0rc1, release candidate.
+Current documented version: 1.0.1, verified stable release.
 Preceding stable public beta: 0.5.0. Python 3.10–3.14. Apache-2.0.
 
-    python -m pip install "apizit-linking[preview,models]==1.0.0rc1"
+    python -m pip install "apizit-linking[preview,models]==1.0.1"
     apizit-linking validate . --json
     apizit-linking preview . --port 8080
 
@@ -64,7 +64,7 @@ Under that legacy release, Response annotations are documentary only. Its
 publication completed nine gated jobs including six clean-wheel smokes. Its
 separate APIZIT integration recorded 12 Linking tests, 89 backend tests,
 anti-vendoring checks and main-branch CI is green in that dated record.
-Those observations do not prove the candidate's registry or hosting state.
+Those observations do not prove the current registry or hosting state.
 
 ## Consultation and search
 

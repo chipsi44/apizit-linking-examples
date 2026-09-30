@@ -37,9 +37,9 @@ Locally, the integration suite compiles and invokes them all:
 python -m unittest discover -s tests -p "test_*.py" -v
 ```
 
-All projects are qualified against the exact Linking 1.0.0rc1 candidate pin.
+All projects are qualified against the exact Linking 1.0.1 stable pin.
 
 
-## Linking 1.0 candidate
+## Linking 1.0 stable release
 
-The current gallery evaluates 1.0.0rc1. Original business files retain their legacy contract; the new [persistent API](persistent-api/README.md) adds nested models, SQLite resources, owner permissions and explicit HTTP responses without APIZIT. Route inspection and contract diff support controlled changes. See the current public documentation and migration guide; preceding 0.5 release evidence below is historical.
+The current gallery runs the verified stable 1.0.1 release. Original business files retain their legacy contract; the new [persistent API](persistent-api/README.md) adds nested models, SQLite resources, owner permissions and explicit HTTP responses without APIZIT. Route inspection and contract diff support controlled changes. See the current public documentation and migration guide; preceding 0.5 release evidence below is historical.

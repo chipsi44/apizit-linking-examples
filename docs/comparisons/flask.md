@@ -2,7 +2,7 @@
 
 Choose APIZIT Linking when you want to expose ordinary Python functions through a separate, versioned HTTP manifest. Choose Flask when you want its general web application model and need its HTTP features.
 
-Both can support a clean service layer. This comparison concerns where you declare the interface and what the Linking 1.0 candidate covers, rather than which framework is universally better.
+Both can support a clean service layer. This comparison concerns where you declare the interface and what the Linking 1.0 stable release covers, rather than which framework is universally better.
 
 ## Compare the same operation
 
@@ -28,7 +28,7 @@ routes:
           name: name
 ```
 
-Install `apizit-linking[preview,models]==1.0.0rc1`, run `apizit-linking validate .` and start `apizit-linking preview . --port 8080`. `GET /hello/Ada` returns HTTP 200 and `{"message": "Hello, Ada!"}`.
+Install `apizit-linking[preview,models]==1.0.1`, run `apizit-linking validate .` and start `apizit-linking preview . --port 8080`. `GET /hello/Ada` returns HTTP 200 and `{"message": "Hello, Ada!"}`.
 
 With Flask, a separate `app.py` adapts the same function:
 
@@ -47,7 +47,7 @@ The business module is equally reusable. Flask's registration is Python; Linking
 
 ## Compare maintenance decisions
 
-| Decision | APIZIT Linking 1.0 candidate | Flask |
+| Decision | APIZIT Linking 1.0 stable release | Flask |
 | --- | --- | --- |
 | Business functions | Linked directly from a manifest | Can be called from separate handlers |
 | Route declaration | Versioned YAML or JSON | Decorators or Python registration |

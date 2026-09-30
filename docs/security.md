@@ -8,13 +8,14 @@ Keep vulnerability details out of public issues and examples. This page records 
 
 | Version | Security support |
 | --- | --- |
-| 1.0.0rc1 | Candidate evaluation; report findings privately |
-| 0.5.x | Supported — current stable public beta |
-| 0.5 pre-releases | Not supported — upgrade to the final 0.5 release |
+| 1.0.x | Supported — use the latest published patch, currently 1.0.1 |
+| 1.0 pre-releases | Not supported — upgrade to stable 1.0.1 |
+| 0.5.x | Historical beta — upgrade to the current minor line |
+| 0.5 pre-releases | Not supported — upgrade to stable 1.0.1 |
 | 0.4.x | Not supported — previous minor line |
 | 0.3.x and earlier | Not supported |
 
-Security fixes are provided for the latest published minor line only. Reproduce on its latest patch before reporting. Canonical package files come from [PyPI](https://pypi.org/project/apizit-linking/); the current stable public beta has a dedicated [0.5.0 page](https://pypi.org/project/apizit-linking/0.5.0/).
+Security fixes are provided for the latest published minor line only. Reproduce on its latest patch before reporting. Canonical package files come from [PyPI](https://pypi.org/project/apizit-linking/); the current stable release has a dedicated [1.0.1 page](https://pypi.org/project/apizit-linking/1.0.1/).
 
 ## Private reporting channel {#private-report}
 

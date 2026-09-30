@@ -33,7 +33,7 @@ routes:
         message: A task with that title already exists
 ```
 
-Validate and preview after installing the candidate. POST `{"title":"Read docs"}` and expect 201 with `Location: /tasks/1`. POST `{"title":"existing"}` and expect 409 with an `error` object containing the declared code and message. The private exception text is absent. An unconfigured exception becomes a generic JSON 500.
+Validate and preview after installing the exact stable release. POST `{"title":"Read docs"}` and expect 201 with `Location: /tasks/1`. POST `{"title":"existing"}` and expect 409 with an `error` object containing the declared code and message. The private exception text is absent. An unconfigured exception becomes a generic JSON 500.
 
 ## Status and headers
 
