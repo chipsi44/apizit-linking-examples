@@ -22,6 +22,7 @@ test("both publications render the same article and keep all former anchors",()=
     assert.equal(source.catalog.release_channel,isCandidate?"candidate":"stable");
     const publishedCatalog=JSON.parse(fs.readFileSync(path.join(root,"site/catalog.json"),"utf8"));
     assert.equal(publishedCatalog.release_channel,source.catalog.release_channel);
+    assert.ok(!fs.readFileSync(path.join(root,"site/llms.txt"),"utf8").includes("\r"));
     for(const [i,page] of source.pages.entries()){
         const normalized=page.html.replaceAll('href="/apizit-linking-examples/','href="/linking/');
         assert.equal(normalized,target.pages[i].html);

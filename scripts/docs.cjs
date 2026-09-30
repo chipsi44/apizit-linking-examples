@@ -60,7 +60,7 @@ function writeSupportFiles(outputRoot, sourceRoot, documentation, basePath, orig
         source_repository:"https://github.com/chipsi44/apizit-linking-examples",source_commit:sourceCommit,
         pages:pages.map(({slug,title,summary,group,url,markdownUrl,sha256})=>({slug,title,summary,group,url,markdown_url:markdownUrl,source_sha256:sha256}))
     },null,2) + "\n");
-    const historical = materialize(fs.readFileSync(path.join(sourceRoot, "llms-source.txt"), "utf8"), basePath, origin);
+    const historical = materialize(fs.readFileSync(path.join(sourceRoot, "llms-source.txt"), "utf8").replace(/\r\n/g, "\n"), basePath, origin);
     const index = "\n## Documentation pages and Markdown\n\n" + pages.map(page => "- [" + page.title + "](" + origin + page.markdownUrl + ")").join("\n") + "\n";
     fs.writeFileSync(path.join(outputRoot, "llms.txt"), historical + index);
 }
