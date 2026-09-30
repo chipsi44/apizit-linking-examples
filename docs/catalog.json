@@ -185,5 +185,5 @@
       "group": "Release and trust"
     }
   ],
-  "release_channel": "release candidate"
+  "release_channel": "candidate"
 }

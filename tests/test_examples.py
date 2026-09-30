@@ -20,6 +20,7 @@ PROJECTS = {
     "error-handling": REPOSITORY_ROOT / "examples" / "error-handling",
     "multi-module-api": REPOSITORY_ROOT / "examples" / "multi-module-api",
     "task-api": REPOSITORY_ROOT / "examples" / "task-api",
+    "persistent-api": REPOSITORY_ROOT / "examples" / "persistent-api",
 }
 
 EXPECTED_ROUTES = {
@@ -29,6 +30,13 @@ EXPECTED_ROUTES = {
     "error-handling": {("GET", "/divide")},
     "multi-module-api": {("GET", "/products/{product_id}/quote")},
     "task-api": {
+        ("GET", "/tasks"),
+        ("POST", "/tasks"),
+        ("GET", "/tasks/{task_id}"),
+        ("PATCH", "/tasks/{task_id}"),
+        ("DELETE", "/tasks/{task_id}"),
+    },
+    "persistent-api": {
         ("GET", "/tasks"),
         ("POST", "/tasks"),
         ("GET", "/tasks/{task_id}"),
@@ -46,6 +54,7 @@ BUSINESS_FILES = (
     REPOSITORY_ROOT / "examples" / "multi-module-api" / "catalog" / "pricing.py",
     REPOSITORY_ROOT / "examples" / "multi-module-api" / "catalog" / "service.py",
     REPOSITORY_ROOT / "examples" / "task-api" / "tasks.py",
+    REPOSITORY_ROOT / "examples" / "persistent-api" / "service.py",
 )
 
 

@@ -18,10 +18,16 @@ test("both publications render the same article and keep all former anchors",()=
     const source=readDocumentation(path.join(root,"docs"),"/apizit-linking-examples/","https://chipsi44.github.io");
     const target=readDocumentation(path.join(root,"docs"),"/linking/","https://test.apizit.com");
     assert.equal(source.pages.length,30);
+    const isCandidate=/rc\d+$/.test(source.catalog.engine_version);
+    assert.equal(source.catalog.release_channel,isCandidate?"candidate":"stable");
+    const publishedCatalog=JSON.parse(fs.readFileSync(path.join(root,"site/catalog.json"),"utf8"));
+    assert.equal(publishedCatalog.release_channel,source.catalog.release_channel);
     for(const [i,page] of source.pages.entries()){
         const normalized=page.html.replaceAll('href="/apizit-linking-examples/','href="/linking/');
         assert.equal(normalized,target.pages[i].html);
         const html=fs.readFileSync(path.join(root,"site",page.slug==="index"?"":page.slug,"index.html"),"utf8");
+        assert.ok(html.includes(isCandidate?"Release candidate":"Stable release"));
+        assert.ok(!html.includes(isCandidate?"Stable release":"Release candidate"));
         assert.equal(html.split("<article>")[1].split("</article>")[0],page.html);
         const download=fs.readFileSync(path.join(root,"site/markdown",page.slug+".md"),"utf8");
         assert.equal(download,page.markdown);

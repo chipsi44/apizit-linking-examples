@@ -22,8 +22,8 @@ def command(*arguments):
     return subprocess.run(CLI + list(map(str, arguments)), capture_output=True, text=True)
 
 
-def request(port, path, *, key=None, body=None, method="GET"):
-    headers = {"X-API-Key": key} if key else {}
+def request(port, path, *, key=None, body=None, method="GET", extra_headers=None):
+    headers = {**({"X-API-Key": key} if key else {}), **(extra_headers or {})}
     if body is not None:
         headers["Content-Type"] = "application/json"
     req = Request(
@@ -41,6 +41,47 @@ def request(port, path, *, key=None, body=None, method="GET"):
 
 
 class PersistentJourneyTests(unittest.TestCase):
+    def test_documented_bearer_recipe_verifies_tokens_and_application_permissions(self):
+        import time
+        import jwt
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            slug = "reference/resources-and-permissions"
+            (root / "auth.py").write_text(blocks(slug, "python")[1], encoding="utf-8")
+            (root / "service.py").write_text(blocks(slug, "python")[2], encoding="utf-8")
+            (root / "apizit_linking.yaml").write_text(blocks(slug, "yaml")[1], encoding="utf-8")
+            self.assertTrue(validate(root)["valid"])
+            secret = "local-test-fixture-" * 4
+            environment = {**os.environ, "LINKING_DEMO_JWT_SECRET": secret}
+            now = int(time.time())
+            claims = {"sub": "alice", "iss": "urn:linking-demo", "aud": "linking-demo-api",
+                      "iat": now, "nbf": now, "exp": now + 300}
+            def token(changes=None, *, key=secret, algorithm="HS256"):
+                return jwt.encode({**claims, **(changes or {})}, key, algorithm=algorithm)
+            with preview(root, environment) as port:
+                def call(value=None, *, path="/identity", method="GET"):
+                    headers = {"Authorization": "Bearer " + value} if value else {}
+                    return request(port, path, method=method, extra_headers=headers)
+                self.assertEqual(call()[0], 401)
+                self.assertEqual(call(token())[1], {"user": "alice"})
+                self.assertEqual(call(token(), path="/writer", method="POST")[0], 200)
+                bob = token({"sub": "bob", "role": "writer"})
+                self.assertEqual(call(bob)[1], {"user": "bob"})
+                self.assertEqual(call(bob, path="/writer", method="POST")[0], 403)
+                for invalid in [
+                    token({"exp": now - 60}), token({"nbf": now + 600}),
+                    token({"iss": "urn:foreign"}), token({"aud": "foreign"}),
+                    token({"sub": "mallory"}), token({"sub": None}),
+                    token(key="wrong-key-" * 8), token(algorithm="HS384"),
+                    token(key=None, algorithm="none"), "malformed.token",
+                ]:
+                    status, body, _ = call(invalid)
+                    self.assertEqual(status, 401)
+                    self.assertNotIn(invalid, json.dumps(body))
+                missing = {key: value for key, value in claims.items() if key != "exp"}
+                self.assertEqual(call(jwt.encode(missing, secret, algorithm="HS256"))[0], 401)
+
     def test_documented_persistent_api_survives_server_restart(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -63,6 +104,20 @@ class PersistentJourneyTests(unittest.TestCase):
                 self.assertEqual(request(port, "/tasks", method="POST", body=payload, key="journey-reader")[0], 403)
                 self.assertEqual(request(port, "/tasks/1", key="journey-other")[0], 404)
                 self.assertEqual(request(port, "/tasks", method="POST", body=payload, key="journey-writer")[0], 409)
+                changed = {"title": "Read docs", "details": {"label": "Home"}}
+                status, task, _ = request(port, "/tasks/1", method="PATCH", body=changed, key="journey-writer")
+                self.assertEqual(status, 200)
+                second = {"title": "Test pagination", "details": {"label": "Work"}}
+                self.assertEqual(request(port, "/tasks", method="POST", body=second, key="journey-writer")[0], 201)
+                status, page, _ = request(port, "/tasks?limit=1&offset=1", key="journey-reader")
+                self.assertEqual(status, 200)
+                self.assertEqual(len(page), 1)
+                self.assertEqual(page[0]["title"], "Test pagination")
+                self.assertNotIn("owner", page[0])
+                self.assertEqual(len(request(port, "/tasks", key="journey-reader")[1]), 2)
+                self.assertEqual(request(port, "/tasks", key="journey-other")[1], [])
+                for query in ["limit=0", "limit=101", "limit=abc", "offset=-1", "offset=1000001"]:
+                    self.assertEqual(request(port, "/tasks?" + query, key="journey-reader")[0], 400, query)
                 invalid = {"title": "Invalid", "details": {"label": "x"}}
                 self.assertEqual(request(port, "/tasks", method="POST", body=invalid, key="journey-writer")[0], 400)
             with preview(root, environment) as port:
@@ -71,6 +126,7 @@ class PersistentJourneyTests(unittest.TestCase):
                 self.assertEqual(request(port, "/tasks", method="PUT", key="journey-writer")[0], 405)
                 self.assertEqual(request(port, "/tasks/1", method="DELETE", key="journey-writer")[:2], (204, None))
                 self.assertEqual(request(port, "/tasks/1", key="journey-reader")[0], 404)
+                self.assertEqual(len(request(port, "/tasks", key="journey-reader")[1]), 1)
 
     def test_models_and_response_reference_examples_execute(self):
         for slug in ["reference/models", "reference/responses"]:

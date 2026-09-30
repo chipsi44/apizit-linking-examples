@@ -6,6 +6,18 @@
   "routes": [
     {
       "path": "/tasks",
+      "method": "GET",
+      "function": "service:list_tasks",
+      "validation": "typed",
+      "dependencies": {"database": "database", "user": "user"},
+      "security": ["authenticated"],
+      "parameters": {
+        "limit": {"source": {"location": "query", "name": "limit"}},
+        "offset": {"source": {"location": "query", "name": "offset"}}
+      }
+    },
+    {
+      "path": "/tasks",
       "method": "POST",
       "function": "service:create",
       "validation": "typed",
