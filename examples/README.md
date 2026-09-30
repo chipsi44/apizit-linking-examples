@@ -4,7 +4,7 @@ Every subdirectory is an independent APIZIT Linking project with its own Python
 business code, `apizit_linking.yaml`, routes, requests, responses, and
 limitations.
 
-The repository root contains the sixth project, Hello World.
+The repository root contains Hello World; six additional projects cover legacy and typed APIs.
 
 ## Projects
 
@@ -15,6 +15,7 @@ The repository root contains the sixth project, Hello World.
 | [Error handling](error-handling/README.md) | 1 | request `400`, business `500` |
 | [Multi-module API](multi-module-api/README.md) | 1 | dotted target, package, relative import |
 | [Task API](task-api/README.md) | 5 | GET/POST/PATCH/DELETE, path/query/body, state |
+| [Persistent API](persistent-api/README.md) | 4 | nested models, SQLite transactions, owner permissions, 201/204/domain errors |
 
 ## Validate or run one project
 
@@ -36,4 +37,9 @@ Locally, the integration suite compiles and invokes them all:
 python -m unittest discover -s tests -p "test_*.py" -v
 ```
 
-All projects target the capabilities available in APIZIT Linking 0.5.0.
+All projects are qualified against the exact Linking 1.0.0rc1 candidate pin.
+
+
+## Linking 1.0 candidate
+
+The current gallery evaluates 1.0.0rc1. Original business files retain their legacy contract; the new [persistent API](persistent-api/README.md) adds nested models, SQLite resources, owner permissions and explicit HTTP responses without APIZIT. Route inspection and contract diff support controlled changes. See the current public documentation and migration guide; preceding 0.5 release evidence below is historical.

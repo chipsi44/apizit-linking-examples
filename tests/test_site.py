@@ -83,7 +83,8 @@ class DocumentationSiteTests(unittest.TestCase):
         self.assertEqual(schema["$schema"], "https://json-schema.org/draft/2020-12/schema")
         self.assertEqual(schema["$id"], PUBLIC_SCHEMA_URL)
         self.assertEqual(schema["properties"]["version"]["const"], 1)
-        self.assertNotIn("response", schema["$defs"]["route"]["properties"])
+        self.assertIn("response", schema["$defs"]["route"]["properties"])
+        self.assertIn("dependencies", schema["$defs"]["route"]["properties"])
 
     def test_compatibility_policy_names_each_public_contract(self) -> None:
         policy = (
@@ -214,7 +215,7 @@ class DocumentationSiteTests(unittest.TestCase):
         )
 
         homepage = (SITE_ROOT / "index.html").read_text(encoding="utf-8")
-        self.assertIn('"softwareVersion": "0.5.0"', homepage)
+        self.assertIn(f'"softwareVersion": "{CATALOG["engine_version"]}"', homepage)
         self.assertNotIn('"codeRepository"', homepage)
 
     def test_three_search_guides_are_substantive_and_reproducible(self) -> None:
@@ -227,7 +228,7 @@ class DocumentationSiteTests(unittest.TestCase):
             path.parent.name
             for path in (SITE_ROOT / "guides").glob("*/index.html")
         }
-        self.assertEqual(actual_slugs, guide_slugs | {"ai-assisted-development", "trace-route-to-python"})
+        self.assertEqual(actual_slugs, guide_slugs | {"ai-assisted-development", "trace-route-to-python", "persistent-api", "standalone-serving"})
 
         for slug in guide_slugs:
             with self.subTest(guide=slug):
@@ -237,7 +238,7 @@ class DocumentationSiteTests(unittest.TestCase):
                 visible_text = re.sub(r"<[^>]+>", " ", source)
                 self.assertGreater(len(visible_text.split()), 650)
                 self.assertIn('"@type": "TechArticle"', source)
-                self.assertIn('apizit-linking[preview]==0.5.0', source)
+                self.assertIn(f'apizit-linking[preview,models]=={CATALOG["engine_version"]}', source)
 
     def test_release_migration_and_security_links_are_site_wide(self) -> None:
         required_links = (
@@ -288,11 +289,11 @@ class DocumentationSiteTests(unittest.TestCase):
         self.assertNotIn("final 0.5.0 is not published", combined)
         self.assertNotIn("PROMOTION_STATUS=PENDING", combined)
 
-    def test_stable_examples_guides_and_ci_are_pinned_to_0_5_0(self) -> None:
+    def test_current_examples_guides_and_ci_are_exactly_pinned(self) -> None:
         requirements = (REPOSITORY_ROOT / "requirements.txt").read_text(
             encoding="utf-8"
         )
-        self.assertEqual(requirements.strip(), "apizit-linking[preview]==0.5.0")
+        self.assertEqual(requirements.strip(), f"apizit-linking[preview,models]=={CATALOG['engine_version']}")
 
         stable_surfaces = (
             REPOSITORY_ROOT / ".github" / "workflows" / "ci.yml",
@@ -304,7 +305,7 @@ class DocumentationSiteTests(unittest.TestCase):
                 source = path.read_text(encoding="utf-8")
                 if path.suffix == ".html":
                     source = source.split("<article>", 1)[1].split("</article>", 1)[0]
-                self.assertIn("0.5.0", source)
+                self.assertIn(CATALOG["engine_version"], source)
                 self.assertNotIn("0.4.0", source)
                 self.assertNotIn("0.5.0rc1", source)
 

@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "runtime": {
+    "factory": "bootstrap:configure"
+  },
+  "routes": [
+    {
+      "path": "/tasks",
+      "method": "POST",
+      "function": "service:create",
+      "validation": "typed",
+      "dependencies": {
+        "database": "database",
+        "user": "user"
+      },
+      "security": [
+        "authenticated",
+        "write"
+      ],
+      "errors": [
+        {
+          "exception": "Missing",
+          "status": 404,
+          "code": "NOT_FOUND",
+          "message": "Task not found"
+        },
+        {
+          "exception": "Conflict",
+          "status": 409,
+          "code": "CONFLICT",
+          "message": "Task already exists"
+        }
+      ],
+      "parameters": {
+        "payload": {
+          "source": {
+            "location": "body",
+            "name": "payload",
+            "pointer": ""
+          }
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Location": "/tasks/{id}"
+        }
+      }
+    },
+    {
+      "path": "/tasks/{task_id}",
+      "method": "GET",
+      "function": "service:read",
+      "validation": "typed",
+      "dependencies": {
+        "database": "database",
+        "user": "user"
+      },
+      "security": [
+        "authenticated"
+      ],
+      "errors": [
+        {
+          "exception": "Missing",
+          "status": 404,
+          "code": "NOT_FOUND",
+          "message": "Task not found"
+        },
+        {
+          "exception": "Conflict",
+          "status": 409,
+          "code": "CONFLICT",
+          "message": "Task already exists"
+        }
+      ],
+      "parameters": {
+        "task_id": {
+          "source": {
+            "location": "path",
+            "name": "task_id"
+          }
+        }
+      }
+    },
+    {
+      "path": "/tasks/{task_id}",
+      "method": "PATCH",
+      "function": "service:update",
+      "validation": "typed",
+      "dependencies": {
+        "database": "database",
+        "user": "user"
+      },
+      "security": [
+        "authenticated",
+        "write"
+      ],
+      "errors": [
+        {
+          "exception": "Missing",
+          "status": 404,
+          "code": "NOT_FOUND",
+          "message": "Task not found"
+        },
+        {
+          "exception": "Conflict",
+          "status": 409,
+          "code": "CONFLICT",
+          "message": "Task already exists"
+        }
+      ],
+      "parameters": {
+        "payload": {
+          "source": {
+            "location": "body",
+            "name": "payload",
+            "pointer": ""
+          }
+        },
+        "task_id": {
+          "source": {
+            "location": "path",
+            "name": "task_id"
+          }
+        }
+      }
+    },
+    {
+      "path": "/tasks/{task_id}",
+      "method": "DELETE",
+      "function": "service:remove",
+      "validation": "typed",
+      "dependencies": {
+        "database": "database",
+        "user": "user"
+      },
+      "security": [
+        "authenticated",
+        "write"
+      ],
+      "errors": [
+        {
+          "exception": "Missing",
+          "status": 404,
+          "code": "NOT_FOUND",
+          "message": "Task not found"
+        },
+        {
+          "exception": "Conflict",
+          "status": 409,
+          "code": "CONFLICT",
+          "message": "Task already exists"
+        }
+      ],
+      "parameters": {
+        "task_id": {
+          "source": {
+            "location": "path",
+            "name": "task_id"
+          }
+        }
+      },
+      "response": {
+        "status": 204
+      }
+    }
+  ]
+}

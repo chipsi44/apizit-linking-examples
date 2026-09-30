@@ -8,6 +8,7 @@ before reporting or evaluating a vulnerability.
 
 | Version | Supported |
 | --- | --- |
+| 1.0.0rc1 | Candidate evaluation; report findings privately |
 | 0.5.x | Yes — current stable beta |
 | 0.5 pre-releases | No — upgrade to the final 0.5 release |
 | 0.4.x | No — previous minor line |

@@ -2,7 +2,7 @@
 
 A Linking manifest maps HTTP methods and route patterns to Python functions. Use it to find the declared target before searching the rest of the project. An AI assistant and a human investigator can follow the same process.
 
-This guide uses version 0.5.0 and the [multi-module example](https://github.com/chipsi44/apizit-linking-examples/tree/main/examples/multi-module-api). You need Python 3.10–3.14 and a checkout of the example. No APIZIT account is required.
+This guide uses version 1.0.0rc1 and the [multi-module example](https://github.com/chipsi44/apizit-linking-examples/tree/main/examples/multi-module-api). You need Python 3.10–3.14 and a checkout of the example. No APIZIT account is required.
 
 ## Begin with the right evidence
 
@@ -92,7 +92,7 @@ The assistant may still need more imports, configuration or data. Let evidence d
 From the cloned examples repository:
 
 ```text
-python -m pip install "apizit-linking[preview]==0.5.0"
+python -m pip install "apizit-linking[preview,models]==1.0.0rc1"
 apizit-linking validate examples/multi-module-api --json
 apizit-linking preview examples/multi-module-api --port 8080
 ```
@@ -120,3 +120,16 @@ Rerun direct tests, validation and the original request after a fix. Check neigh
 Flask and FastAPI also expose route information and support organized service layers. Linking's particular convention keeps declared customer routes and Python targets together in a manifest before application startup.
 
 Continue with [YAML]({{docs}}/reference/linking-yaml/), [CLI diagnostics]({{docs}}/reference/cli/), [AI-assisted development]({{docs}}/guides/ai-assisted-development/) and [fit and limits]({{docs}}/limits/#choose).
+
+## Use an observed route event
+
+Configure logger `apizit_linking.requests` at INFO to collect JSON events. A successful matched request includes request_id, method, route pattern, function, route_id, status, duration_ms and source_fingerprint. X-Request-ID carries the same generated ID. Input values, headers, query strings and concrete URLs are absent.
+
+```text
+apizit-linking explain examples/multi-module-api --method GET --path /products/42/quote --json
+apizit-linking routes examples/multi-module-api --json
+```
+
+Expect `catalog.service:quote`, `catalog/service.py` and a one-based function line. Compare the export's source_fingerprint with the observed event and inspect the correct source snapshot. A path and function reference identify an entry point, not the entire failure cause. Investigate dependencies and data through controlled tests.
+
+Export the contract before a correction, run direct business and HTTP tests, export again and run diff. A response-contract change is rejected automatically; an internal correction still needs its behavior tests. See [the AI workflow]({{docs}}/guides/ai-assisted-development/) and [CLI reference]({{docs}}/reference/cli/).

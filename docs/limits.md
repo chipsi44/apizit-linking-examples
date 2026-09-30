@@ -1,83 +1,51 @@
 # V1 limits and boundaries
 
-APIZIT Linking has a deliberately focused contract. These are the current limits to consider before choosing it for a project.
+Linking 1.0 is a focused JSON API framework for ordinary Python functions. Its separate manifest, route inspection and explicit runtime policy help humans and agents review an API. This page describes the candidate; historical [0.5 behavior]({{docs}}/releases/0.5.0/) remains documented for existing users.
 
-**The key distinction:** Linking keeps business code independent from a web framework. It does not claim that the preview runtime itself has no framework or that every HTTP concern is already supported.
+## Declare successful responses {#response-control}
 
-## Successful responses use HTTP 200 {#response-control}
+`response` declares a 2xx status and safe headers. `201` can include `Location`; `204`, `205` and HEAD omit a body. Header templates accept flat returned field names. Missing fields and unsafe values fail with a generic 500. Named response adapters live in the runtime registry and must honor the declared status. There is no declarative cookie/session policy or streaming response contract. See [responses]({{docs}}/reference/responses/).
 
-V1 serializes normal returned values as successful HTTP `200 OK` responses. A linking manifest cannot yet declare custom success statuses such as `201 Created` or `204 No Content`, custom response headers, cookies, or a typed response envelope.
+## Request errors remain structured {#request-errors}
 
-The Task API therefore returns a created task with status 200 and represents a missing task as an application-level JSON object with status 200. The examples do not import FastAPI response classes to hide this boundary.
+Missing bindings and invalid legacy conversions return 400 with stable error codes. Typed field errors return `INVALID_MODEL`, field paths and error types, with generic messages and no input values. No automatic fallback occurs for an explicitly selected source or JSON pointer. Unmatched URLs return a real 404; unsupported methods return 405.
 
-## Request errors are structured 400 responses {#request-errors}
+## Business errors have explicit mappings {#business-errors}
 
-Missing or invalid request parameters are resolved before the function is invoked and become structured `400` responses:
+Map named exceptions to constant public 4xx/5xx codes and messages. Runtime startup resolves exceptions in the linked function's module; it rejects unknown mappings. Unmapped errors and invalid typed outputs return a generic JSON 500. A mapping does not prove that the business rule or authorization is correct.
 
-```json
-{
-  "error": {
-    "code": "PARAMETER_NOT_FOUND_IN_SOURCE",
-    "message": "Required field 'name' was not found in request source 'body'.",
-    "parameter": "customer_name",
-    "external_name": "name",
-    "source": "body"
-  }
-}
-```
+## Typed bodies are opt-in {#body-models}
 
-V1 exposes stable codes including `PARAMETER_NOT_FOUND`, `PARAMETER_NOT_FOUND_IN_SOURCE`, and `INVALID_PARAMETER`. Minor beta releases may add diagnostic codes or metadata fields.
+Legacy routes retain primitive/list/dictionary conversion. `validation: typed` uses the optional Pydantic extra for nested models, dataclasses, unions, dates, UUIDs, aliases and field constraints. Body bindings support RFC 6901 pointers, including `pointer: ""` for a whole JSON value. An unannotated parameter or return uses Any. Response filtering requires an appropriate declared return type. Mutable model instances follow Pydantic's `revalidate_instances` policy; configure `always` when constraints must be rechecked. See [models]({{docs}}/reference/models/).
 
-## Unhandled business exceptions become generic 500 responses {#business-errors}
+## Supported function signatures {#signatures}
 
-The core engine does not map arbitrary business exceptions to HTTP statuses. In the FastAPI adapter, an unhandled exception crosses the application boundary as a generic `500 Internal Server Error`. Its private message is not returned to the HTTP caller.
+Top-level sync and async functions support positional-or-keyword and keyword-only arguments with defaults. Positional-only arguments, variadic arguments, synchronous generators and async generators are rejected. Function decorators that change the runtime signature can prevent startup.
 
-Declarative mappings such as `TaskNotFound → 404` are not part of V1.
+## OpenAPI and runtime validation {#openapi}
 
-## Body bindings target top-level fields {#body-models}
+Static compilation never imports code and cannot prove custom model schemas. Resolved OpenAPI requires explicit runtime imports and uses the same prepared adapters as typed validation. Legacy response annotations remain documentary. Nested pointers are exposed through `x-apizit-body-pointers`; their general JSON request shape is left unconstrained rather than claiming an inaccurate schema. Reusable factories disable documentation routes unless `docs=True`.
 
-A `body` source selects a top-level property from a JSON object. V1 does not define nested JSON selectors, Pydantic-style object models, discriminated unions, field constraints, aliases beyond the external source name, or response-model validation.
+## Preview and bounded execution {#preview-boundary}
 
-It converts primitive annotations, nullable unions, lists, and dictionaries. Custom annotations receive the adapter-provided value unchanged.
+Preview binds to loopback unless `--allow-network` is supplied. `--reload` uses fresh workers; static errors retain the preceding worker, while runtime preparation failures can interrupt availability. Windows restarts cannot guarantee application lifespan cleanup. Preview provides no TLS, network isolation or production deployment.
 
-## Some Python signatures are intentionally unsupported {#signatures}
+Opt in to `RuntimeExtensions(limits=RequestLimits(...))` for received-body, query-pair, collection, nesting and concurrency limits. Async deadlines cover only the async business function. Synchronous cancellation waits for thread completion before closing its resources; arbitrary Python threads cannot be forcibly stopped. Custom validators, providers and guards own their execution behavior. See [standalone serving]({{docs}}/guides/standalone-serving/).
 
-HTTP values are bound by parameter name, so positional-only parameters, `*args`, and `**kwargs` are rejected. Normal positional-or-keyword parameters, keyword-only parameters, Python defaults, and sync or async functions are supported.
+## Trusted runtime code {#trusted-code}
 
-## OpenAPI is useful documentation, not response enforcement {#openapi}
+Private import namespaces prevent module-name collisions; they are not a sandbox. Factories, imports, validators, guards and business functions run with the process's permissions. Serve immutable source directories and isolate untrusted execution outside the engine. A security scheme in OpenAPI describes a guard; it does not implement authentication.
 
-Version 0.5.0 generates OpenAPI 3.1 operations statically from the compiled route contract. It describes explicit and automatic request bindings, repeated values, defaults, nullability, and minimal `200`, `400`, and `500` responses. Preview exposes Swagger UI, ReDoc, and `/openapi.json`, relocating those URLs if a linked route would shadow them.
+## Deployment remains a separate decision {#deployment}
 
-Reusable FastAPI factories keep documentation routes disabled by default; adapter users must opt in with `docs=True`. Return annotations produce documentary schemas only: Linking does not install a FastAPI response model and does not validate, transform, reject, or reshape customer return values. There is no response block in manifest v1.
+Use the standalone ASGI adapter with your own server and database. Linking requires no APIZIT account or backend. APIZIT can adapt and pin a qualified package for managed launches; platform availability, metering, runtime storage and commercial terms are separate.
 
-## Preview is local development infrastructure {#preview-boundary}
+## Persistence belongs to resources {#example-state}
 
-`apizit-linking preview` validates, imports, and serves customer code in one local process. It binds to `127.0.0.1` by default and requires `--allow-network` before accepting a non-loopback host.
+The legacy task gallery uses process-local state. The new [persistent API]({{docs}}/guides/persistent-api/) uses owner-scoped SQLite transactions and survives an actual local process restart. SQLite requires a durable local filesystem; the example does not establish durability on an ephemeral managed runtime. Applications own schema migrations, backups and connection budgets.
 
-Preview is not an authentication layer, TLS endpoint, hardened production server, tenant boundary, resource sandbox, or safe runner for untrusted code.
+## When should you choose Linking? {#choose}
 
-## Import isolation is not a security sandbox {#trusted-code}
+Choose Linking for an existing Python library, domain services or a JSON API whose HTTP policy benefits from a separate inspectable map. Functions remain independently testable; providers inject resources and principals at the boundary. Agents can locate a route and check a proposed contract using the same tools as maintainers.
 
-Runtime loading isolates each project beneath a private Python module namespace. This prevents same-named modules from separate projects colliding and preserves normal package imports.
-
-Imported modules remain ordinary trusted Python. Their top-level code and linked functions can perform any operation allowed to the preview process.
-
-## The standalone package does not deploy infrastructure {#deployment}
-
-APIZIT Linking owns manifest discovery, static compilation, argument resolution, type conversion, function loading, invocation, and an optional FastAPI adapter. It does not itself own API Gateway, Lambda packaging, authentication, metering, or production deployment.
-
-APIZIT is one platform that can consume the compiled contract, but the Linking package does not depend on APIZIT.
-
-## Example state is not persistence {#example-state}
-
-The Task API stores records in a process-local dictionary. Restarting preview resets the data, and the example is not designed for concurrent or durable production storage.
-
-## When should you choose something else? {#choose}
-
-Use a full web framework directly when HTTP is the core of the application and you need its complete response model, middleware, security, dependency injection, WebSockets, or OpenAPI ecosystem today.
-
-Use APIZIT Linking when the important constraint is that existing domain, computation, data, or library functions remain transport-independent and the current V1 HTTP contract is sufficient.
-
-- [See these boundaries exercised honestly]({{docs}}/examples/)
-- [Review the exact supported manifest]({{docs}}/reference/linking-yaml/)
-- [Report a use case or limitation on GitHub](https://github.com/chipsi44/apizit-linking-examples/issues)
+Choose direct Flask or FastAPI when their native routing, dependency model or mature plugin ecosystem better matches your application. Direct frameworks also support service layers and route inventories. WebSockets, streaming, a built-in ORM, automatic migrations, an identity provider and non-Python business code are outside this release. Compare [Flask]({{docs}}/comparisons/flask/) and [FastAPI]({{docs}}/comparisons/fastapi/).

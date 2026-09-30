@@ -11,7 +11,7 @@ function materialize(markdown, basePath, origin = "") {
 function readDocumentation(root, basePath, origin = "") {
     if (!/^\/(?:[a-z0-9-]+\/)+$/.test(basePath)) throw new Error("Invalid documentation prefix.");
     const catalog = JSON.parse(fs.readFileSync(path.join(root, "catalog.json"), "utf8"));
-    if (catalog.version !== 1 || catalog.engine_version !== "0.5.0" || catalog.pages[0]?.slug !== "index") throw new Error("Unsupported Linking documentation catalogue.");
+    if (catalog.version !== 1 || !/^\d+\.\d+\.\d+(?:rc\d+)?$/.test(catalog.engine_version) || catalog.pages[0]?.slug !== "index") throw new Error("Unsupported Linking documentation catalogue.");
     const seen = new Set();
     const pages = catalog.pages.map(page => {
         if (!/^[a-z0-9.-]+(?:\/[a-z0-9.-]+)*$/.test(page.slug) || page.slug.split("/").some(s => s === "." || s === "..") || seen.has(page.slug)) throw new Error("Invalid or duplicate documentation page.");
@@ -36,7 +36,7 @@ function navigation(pages, basePath, currentSlug) {
 function structuredData(page, catalog, baseUrl) {
     const url = new URL(pagePath(page.slug), baseUrl).href;
     const content = page.slug === "index"
-        ? {"@type":"SoftwareApplication", name:"APIZIT Linking", applicationCategory:"DeveloperApplication", operatingSystem:"Cross-platform", softwareVersion:catalog.engine_version, programmingLanguage:"Python", license:"https://www.apache.org/licenses/LICENSE-2.0", downloadUrl:"https://pypi.org/project/apizit-linking/0.5.0/", url, description:page.summary}
+        ? {"@type":"SoftwareApplication", name:"APIZIT Linking", applicationCategory:"DeveloperApplication", operatingSystem:"Cross-platform", softwareVersion:catalog.engine_version, programmingLanguage:"Python", license:"https://www.apache.org/licenses/LICENSE-2.0", downloadUrl:"https://pypi.org/project/apizit-linking/" + catalog.engine_version + "/", url, description:page.summary}
         : {"@type":"TechArticle", headline:page.title, description:page.summary, url, inLanguage:"en", dependencies:"APIZIT Linking " + catalog.engine_version, author:{"@type":"Organization",name:"APIZIT Linking maintainers"}};
     return {"@context":"https://schema.org","@graph":[content, {"@type":"BreadcrumbList",itemListElement:[{"@type":"ListItem",position:1,name:"APIZIT Linking",item:baseUrl}, ...(page.slug === "index" ? [] : [{"@type":"ListItem",position:2,name:page.title,item:url}])]}]};
 }

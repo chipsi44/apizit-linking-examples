@@ -2,6 +2,11 @@
 
 A package version, manifest version, runtime-artifact version, and exact artifact engine identity are separate contracts. Use the guide for every minor upgrade instead of changing a pin in isolation.
 
+
+## Candidate migration
+
+[Migrate 0.5 to 1.0]({{docs}}/migrations/0.5-to-1.0/) with manifest v1 retained and runtime artifacts regenerated as format v2. Historical migrations below describe their own releases.
+
 ## Available migrations {#available}
 
 Published path

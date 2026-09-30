@@ -89,10 +89,10 @@ Type hints drive the supported primitive conversions. For example, the JSON stri
 
 ## 3. Validate and run the API
 
-Install the 0.5.0 preview extra, validate the static contract, then start the local server:
+Install the 1.0.0rc1 preview/models extras, validate the static contract, then start the local server:
 
 ```text
-python -m pip install "apizit-linking[preview]==0.5.0"
+python -m pip install "apizit-linking[preview,models]==1.0.0rc1"
 apizit-linking validate .
 apizit-linking preview . --port 8080
 ```
@@ -137,15 +137,9 @@ This design also keeps deployment choices open. APIZIT can consume the compiled 
 
 ## Where V1 stops
 
-Keeping business exceptions framework-independent is good architecture, but V1 does not yet map them to HTTP responses. Do not return an `{"error": ...}` dictionary and describe it as a 4xx response: without response-status support, it is still an HTTP 200.
+The example keeps legacy binding and a plain Python function. Its default successful response is 200; request conversion failures use 400 and unmapped domain exceptions use a generic JSON 500. The 1.0 candidate adds explicit response/errors policies, optional nested models, injected resources and guards. Add those policies deliberately and test their behavior. Preview imports trusted code and provides no production sandbox.
 
-- V1 cannot declare `201`, `204`, `404`, custom headers, or a configurable response schema. The minimal schema inferred for OpenAPI is documentary and is not enforced at runtime.
-- An unhandled domain exception becomes a generic `500` in preview; stable business-exception mapping is future work.
-- JSON input must be an object and bindings address top-level fields. Nested selectors and rich constraints are not available.
-- Unknown custom annotations are passed through rather than instantiated as domain or validation models.
-- The preview is for development. Authentication, metering, and production isolation belong to a platform adapter.
-
-Keep domain errors as ordinary Python exceptions or result types, test them directly, and consult the [V1 limits]({{docs}}/limits/) before exposing operations that require precise HTTP semantics.
+The [persistent API]({{docs}}/guides/persistent-api/) exercises models, transactions and permissions. [Current limits]({{docs}}/limits/) distinguish the supported contract from streaming, identity-provider and storage responsibilities.
 
 ## Related resources {#related-resources}
 

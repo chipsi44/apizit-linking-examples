@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import socket
 import subprocess
@@ -31,7 +32,7 @@ def validate(project: Path) -> dict:
 
 
 @contextmanager
-def preview(project: Path):
+def preview(project: Path, environment=None):
     with socket.socket() as reservation:
         reservation.bind(("127.0.0.1", 0))
         port = reservation.getsockname()[1]
@@ -39,6 +40,7 @@ def preview(project: Path):
         process = subprocess.Popen(
             CLI + ["preview", str(project), "--port", str(port)],
             stdout=logs, stderr=logs,
+            env=environment,
         )
         try:
             deadline = time.monotonic() + 20
@@ -55,7 +57,10 @@ def preview(project: Path):
                 raise AssertionError("Preview did not become ready.")
             yield port
         finally:
-            process.terminate()
+            if os.name == "nt":
+                subprocess.run(["taskkill", "/PID", str(process.pid), "/T", "/F"], capture_output=True)
+            else:
+                process.terminate()
             process.wait(timeout=10)
 
 
