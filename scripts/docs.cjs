@@ -12,6 +12,8 @@ function readDocumentation(root, basePath, origin = "") {
     if (!/^\/(?:[a-z0-9-]+\/)+$/.test(basePath)) throw new Error("Invalid documentation prefix.");
     const catalog = JSON.parse(fs.readFileSync(path.join(root, "catalog.json"), "utf8"));
     if (catalog.version !== 1 || !/^\d+\.\d+\.\d+(?:rc\d+)?$/.test(catalog.engine_version) || catalog.pages[0]?.slug !== "index") throw new Error("Unsupported Linking documentation catalogue.");
+    const releaseChannel = /rc\d+$/.test(catalog.engine_version) ? "candidate" : "stable";
+    if (catalog.release_channel !== releaseChannel) throw new Error("Documentation release channel differs from its engine version.");
     const seen = new Set();
     const pages = catalog.pages.map(page => {
         if (!/^[a-z0-9.-]+(?:\/[a-z0-9.-]+)*$/.test(page.slug) || page.slug.split("/").some(s => s === "." || s === "..") || seen.has(page.slug)) throw new Error("Invalid or duplicate documentation page.");
@@ -54,7 +56,7 @@ function writeSupportFiles(outputRoot, sourceRoot, documentation, basePath, orig
     fs.copyFileSync(schemaPath, path.join(outputRoot, "schema/apizit-linking-v1.schema.json"));
     fs.writeFileSync(path.join(outputRoot, "search-index.json"), JSON.stringify(search));
     fs.writeFileSync(path.join(outputRoot, "catalog.json"), JSON.stringify({
-        version:1,engine_version:catalog.engine_version,python_support:catalog.python_support,license:catalog.license,
+        version:1,engine_version:catalog.engine_version,release_channel:catalog.release_channel,python_support:catalog.python_support,license:catalog.license,
         source_repository:"https://github.com/chipsi44/apizit-linking-examples",source_commit:sourceCommit,
         pages:pages.map(({slug,title,summary,group,url,markdownUrl,sha256})=>({slug,title,summary,group,url,markdown_url:markdownUrl,source_sha256:sha256}))
     },null,2) + "\n");
