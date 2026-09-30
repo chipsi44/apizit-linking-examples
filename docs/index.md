@@ -89,7 +89,7 @@ The core requires PyYAML; preview adds the optional FastAPI adapter and local se
 
 Choose Linking when keeping Python independent from HTTP matters and its V1 contract covers your needs. Full web frameworks can also have excellent service layers and route maps; Linking makes the external manifest the default binding boundary.
 
-Custom response statuses and headers, business-exception mappings, streaming, WebSockets and rich model validation are outside V1. Read [fit and limits]({{docs}}/limits/#choose).
+V1 supports declared response statuses and headers, safe business-exception mappings, optional typed models, injected resources and permissions. Streaming and WebSockets remain outside its JSON API contract. Read [fit and limits]({{docs}}/limits/#choose), [HTTP responses]({{docs}}/reference/responses/) and [typed models]({{docs}}/reference/models/) before choosing a validation mode.
 
 ## Run independently, explore hosting separately
 
