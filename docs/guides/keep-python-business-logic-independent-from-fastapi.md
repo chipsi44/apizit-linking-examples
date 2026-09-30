@@ -89,10 +89,10 @@ Type hints drive the supported primitive conversions. For example, the JSON stri
 
 ## 3. Validate and run the API
 
-Install the 1.0.0rc1 preview/models extras, validate the static contract, then start the local server:
+Install the 1.0.1 preview/models extras, validate the static contract, then start the local server:
 
 ```text
-python -m pip install "apizit-linking[preview,models]==1.0.0rc1"
+python -m pip install "apizit-linking[preview,models]==1.0.1"
 apizit-linking validate .
 apizit-linking preview . --port 8080
 ```
@@ -137,7 +137,7 @@ This design also keeps deployment choices open. APIZIT can consume the compiled 
 
 ## Where V1 stops
 
-The example keeps legacy binding and a plain Python function. Its default successful response is 200; request conversion failures use 400 and unmapped domain exceptions use a generic JSON 500. The 1.0 candidate adds explicit response/errors policies, optional nested models, injected resources and guards. Add those policies deliberately and test their behavior. Preview imports trusted code and provides no production sandbox.
+The example keeps legacy binding and a plain Python function. Its default successful response is 200; request conversion failures use 400 and unmapped domain exceptions use a generic JSON 500. The 1.0 release adds explicit response/errors policies, optional nested models, injected resources and guards. Add those policies deliberately and test their behavior. Preview imports trusted code and provides no production sandbox.
 
 The [persistent API]({{docs}}/guides/persistent-api/) exercises models, transactions and permissions. [Current limits]({{docs}}/limits/) distinguish the supported contract from streaming, identity-provider and storage responsibilities.
 

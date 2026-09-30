@@ -1,7 +1,7 @@
 # Build a persistent API with models and permissions
 
 
-Evaluate the exact `1.0.0rc1` candidate installed by the repository requirements.
+Use the verified stable `1.0.1` package installed by the repository requirements.
 The persistent example demonstrates a complete local JSON API without an APIZIT account: nested input/output models, SQLite transactions, bounded pagination, writer/reader permissions, owner-scoped lookup and meaningful HTTP statuses.
 
 ## Prerequisites and files

@@ -2,7 +2,7 @@
 
 Fork or clone a complete project, validate it without importing the business module, then start the local preview.
 
-**Prerequisite:** Python 3.10 or newer. The example pins `apizit-linking[preview,models]==1.0.0rc1` for repeatable behavior.
+**Prerequisite:** Python 3.10 or newer. The example pins `apizit-linking[preview,models]==1.0.1` for repeatable behavior.
 
 ## 1. Get the project {#get-the-project}
 
@@ -45,7 +45,7 @@ For validation without preview, the smaller core installation is sufficient:
 Core only
 
 ```text
-python -m pip install "apizit-linking==1.0.0rc1"
+python -m pip install "apizit-linking==1.0.1"
 ```
 
 ## 3. Inspect the complete project {#inspect}

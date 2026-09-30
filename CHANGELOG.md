@@ -12,6 +12,24 @@ migrations are published on
 
 - No unreleased documentation changes.
 
+## 1.0.1 - 2026-09-30
+
+- Verified stable PyPI wheel and source distribution; the allocated unpublished
+  v1.0.0 tag is preserved. Current examples, guides and CI pin 1.0.1.
+- Nested typed models, HTTP responses and domain errors, resource/permission
+  lifecycles, route inspection, contract diff, request bounds and local reload.
+- Corrected inline Annotated Field metadata comparison; changed constraints
+  still reject startup. Manifest v1 remains backward compatible; artifacts use v2.
+- Thirty single-source English pages and offline APIZIT export, candidate/stable
+  metadata, Markdown/catalogue/schema/llms resources and explicit limits.
+- Standalone library, SQLite/pagination/API key/bearer and diagnosis journeys
+  run without APIZIT. Hosting and commercial readiness are separate qualifications.
+
+## 1.0.1rc1 / 1.0.0rc1 - 2026-09-30
+
+- Public immutable candidates preceded the stable release and its verified gates.
+  The corrected candidate fixed the inline Annotated startup finding.
+
 ## 0.5.0 - 2026-07-23
 
 ### Added

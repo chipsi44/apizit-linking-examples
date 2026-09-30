@@ -31,7 +31,7 @@ jobs:
       - run: uv pip install --python .venv/bin/python -r requirements.txt -r requirements-test.txt
       - name: Confirm the published APIZIT Linking version
         run: |
-          .venv/bin/python -c "import importlib.metadata as m; assert m.version('apizit-linking') == '1.0.0rc1'"
+          .venv/bin/python -c "import importlib.metadata as m; assert m.version('apizit-linking') == '1.0.1'"
       - run: .venv/bin/apizit-linking validate .
       - name: Validate the additional projects
         shell: bash

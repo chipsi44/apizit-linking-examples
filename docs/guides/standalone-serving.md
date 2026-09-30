@@ -4,7 +4,7 @@ Linking is independently usable as an ASGI application. APIZIT hosting is option
 
 ## Prepare the application
 
-Install `apizit-linking[preview,models]==1.0.0rc1` for this candidate. Save `asgi.py` outside your linked business modules:
+Install `apizit-linking[preview,models]==1.0.1` for this stable release. Save `asgi.py` outside your linked business modules:
 
 ```python
 from pathlib import Path

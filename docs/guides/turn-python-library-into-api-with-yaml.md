@@ -99,7 +99,7 @@ The path value is converted to `int`, and the query value is converted to `float
 Install the preview extra and run the static compiler:
 
 ```text
-python -m pip install "apizit-linking[preview,models]==1.0.0rc1"
+python -m pip install "apizit-linking[preview,models]==1.0.1"
 apizit-linking validate .
 ```
 
@@ -149,7 +149,7 @@ If an existing function has an incompatible signature or returns a domain-specif
 
 ## V1 limits and the production boundary
 
-The example keeps legacy binding and a plain Python function. Its default successful response is 200; request conversion failures use 400 and unmapped domain exceptions use a generic JSON 500. The 1.0 candidate adds explicit response/errors policies, optional nested models, injected resources and guards. Add those policies deliberately and test their behavior. Preview imports trusted code and provides no production sandbox.
+The example keeps legacy binding and a plain Python function. Its default successful response is 200; request conversion failures use 400 and unmapped domain exceptions use a generic JSON 500. The 1.0 release adds explicit response/errors policies, optional nested models, injected resources and guards. Add those policies deliberately and test their behavior. Preview imports trusted code and provides no production sandbox.
 
 The [persistent API]({{docs}}/guides/persistent-api/) exercises models, transactions and permissions. [Current limits]({{docs}}/limits/) distinguish the supported contract from streaming, identity-provider and storage responsibilities.
 

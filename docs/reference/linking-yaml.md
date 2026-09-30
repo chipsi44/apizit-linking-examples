@@ -2,7 +2,7 @@
 
 The versioned contract that maps HTTP routes and request values to ordinary Python function parameters.
 
-This reference describes the contract supported by **APIZIT Linking 1.0.0rc1**. Unknown fields and unknown versions are blocking validation errors.
+This reference describes the contract supported by **APIZIT Linking 1.0.1**. Unknown fields and unknown versions are blocking validation errors.
 
 ## Editor validation {#editor-schema}
 

@@ -7,13 +7,13 @@ Check the linking contract statically, emit machine-readable results, or run a l
 Install only the compiler and runtime engine:
 
 ```text
-python -m pip install "apizit-linking==1.0.0rc1"
+python -m pip install "apizit-linking==1.0.1"
 ```
 
 Include the FastAPI adapter and Uvicorn local server for preview:
 
 ```text
-python -m pip install "apizit-linking[preview,models]==1.0.0rc1"
+python -m pip install "apizit-linking[preview,models]==1.0.1"
 ```
 
 ## The `validate` command {#validate}
@@ -125,7 +125,7 @@ apizit-linking preview . --host 0.0.0.0 --port 8080 --allow-network
 Pin the beta version, validate each independent project, and let the non-zero exit status fail the job:
 
 ```text
-python -m pip install "apizit-linking==1.0.0rc1"
+python -m pip install "apizit-linking==1.0.1"
 apizit-linking validate .
 
 for manifest in examples/*/apizit_linking.yaml; do

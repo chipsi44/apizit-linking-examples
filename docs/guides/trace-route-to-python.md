@@ -2,7 +2,7 @@
 
 A Linking manifest maps HTTP methods and route patterns to Python functions. Use it to find the declared target before searching the rest of the project. An AI assistant and a human investigator can follow the same process.
 
-This guide uses version 1.0.0rc1 and the [multi-module example](https://github.com/chipsi44/apizit-linking-examples/tree/main/examples/multi-module-api). You need Python 3.10–3.14 and a checkout of the example. No APIZIT account is required.
+This guide uses version 1.0.1 and the [multi-module example](https://github.com/chipsi44/apizit-linking-examples/tree/main/examples/multi-module-api). You need Python 3.10–3.14 and a checkout of the example. No APIZIT account is required.
 
 ## Begin with the right evidence
 
@@ -92,7 +92,7 @@ The assistant may still need more imports, configuration or data. Let evidence d
 From the cloned examples repository:
 
 ```text
-python -m pip install "apizit-linking[preview,models]==1.0.0rc1"
+python -m pip install "apizit-linking[preview,models]==1.0.1"
 apizit-linking validate examples/multi-module-api --json
 apizit-linking preview examples/multi-module-api --port 8080
 ```

@@ -2,7 +2,7 @@
 
 Every project has its own manifest and framework-independent Python code. Copy one, run it as-is, or pin it as an APIZIT integration fixture.
 
-The gallery is tested with **APIZIT Linking 1.0.0rc1**. The original examples retain legacy binding; the persistent example adds typed models and explicit HTTP/security policy. Their business modules import neither APIZIT Linking, FastAPI, nor Flask.
+The gallery is tested with **APIZIT Linking 1.0.1**. The original examples retain legacy binding; the persistent example adds typed models and explicit HTTP/security policy. Their business modules import neither APIZIT Linking, FastAPI, nor Flask.
 
 ## Project catalogue {#catalogue}
 

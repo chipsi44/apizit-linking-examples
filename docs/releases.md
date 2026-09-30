@@ -2,12 +2,12 @@
 
 PyPI is the source of installable package files. These pages are the canonical human-readable release history, with migrations kept next to every compatibility change.
 
-**Stable public beta: 0.5.0.** The final wheel and source distribution are published on [PyPI](https://pypi.org/project/apizit-linking/0.5.0/). That preceding release remains documented as historical evidence; current examples and guides evaluate the 1.0 candidate.
+**Historical stable beta: 0.5.0.** The final wheel and source distribution are published on [PyPI](https://pypi.org/project/apizit-linking/0.5.0/). That preceding release remains documented as historical evidence; current examples and guides use verified stable 1.0.1.
 
 
-## Current 1.0 candidate
+## Current stable 1.0 release
 
-[Evaluate 1.0.0rc1]({{docs}}/releases/1.0.0/) for typed models, explicit HTTP policy, resources, permissions and inspectable changes. 0.5.0 remains the preceding stable beta until final 1.0 is actually published.
+[Install verified stable 1.0.1]({{docs}}/releases/1.0.0/) for typed models, explicit HTTP policy, resources, permissions and inspectable changes. Both registry files and clean installation are verified; APIZIT hosting has its own delivery record.
 
 ## Two public channels, one role each {#channels}
 
@@ -50,7 +50,7 @@ The accompanying [final 0.4-to-0.5 migration guide]({{docs}}/migrations/0.4-to-0
 Terminal
 
 ```text
-python -m pip install "apizit-linking[preview,models]==1.0.0rc1"
+python -m pip install "apizit-linking[preview,models]==1.0.1"
 apizit-linking validate .
 apizit-linking preview . --port 8080
 ```

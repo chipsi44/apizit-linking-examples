@@ -14,7 +14,7 @@ hello-api/
 └── hello.py
 ```
 
-The commands below use only the V1 contract retained by the Linking 1.0 candidate. For a reproducible deployment, pin the exact version you have tested.
+The commands below use only the V1 contract retained by the Linking 1.0 stable release. For a reproducible deployment, pin the exact version you have tested.
 
 <a id="plain-python"></a>
 
@@ -64,7 +64,7 @@ See the full [Linking YAML reference]({{docs}}/reference/linking-yaml/) for path
 From inside `hello-api`, use an activated Python environment and install the preview:
 
 ```text
-python -m pip install "apizit-linking[preview,models]==1.0.0rc1"
+python -m pip install "apizit-linking[preview,models]==1.0.1"
 ```
 
 Then validate the project:
@@ -115,7 +115,7 @@ The HTTP framework is an adapter around the function, not a dependency inside it
 
 ## V1 limits you should know
 
-This initial manifest uses legacy conversion and default 200. The 1.0 candidate can explicitly declare success statuses/headers, domain-error mappings, typed models and permission guards; each is a separate policy choice. Unmapped business errors return a generic JSON 500.
+This initial manifest uses legacy conversion and default 200. The 1.0 release can explicitly declare success statuses/headers, domain-error mappings, typed models and permission guards; each is a separate policy choice. Unmapped business errors return a generic JSON 500.
 
 - The preview is a local development tool, not a production security boundary.
 - Customer modules are trusted Python code; import isolation is not a sandbox.

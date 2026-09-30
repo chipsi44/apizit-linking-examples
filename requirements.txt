@@ -1,1 +1,1 @@
-apizit-linking[preview,models]==1.0.0rc1
+apizit-linking[preview,models]==1.0.1

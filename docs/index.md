@@ -63,10 +63,10 @@ Export the effective route map, locate a function with `explain`, and compare a 
 
 ## Install a reproducible version {#install}
 
-Current documented package: **1.0.0rc1, release candidate**. Evaluate this exact candidate before adopting 1.0; 0.5.0 remains the preceding stable beta. Supported Python: **3.10–3.14**. License: **Apache-2.0**.
+Current documented package: **1.0.1, stable release**. Its wheel and source distribution are verified on PyPI; 0.5.0 remains historical migration evidence. Supported Python: **3.10–3.14**. License: **Apache-2.0**.
 
 ```text
-python -m pip install "apizit-linking[preview,models]==1.0.0rc1"
+python -m pip install "apizit-linking[preview,models]==1.0.1"
 apizit-linking validate .
 apizit-linking validate . --json
 apizit-linking preview . --port 8080

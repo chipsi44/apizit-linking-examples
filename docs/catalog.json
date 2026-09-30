@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine_version": "1.0.0rc1",
+  "engine_version": "1.0.1",
   "python_support": "3.10–3.14",
   "license": "Apache-2.0",
   "pages": [
@@ -73,7 +73,7 @@
     {
       "slug": "limits",
       "title": "V1 limits and boundaries",
-      "summary": "Current Linking 1.0 candidate boundaries: models, HTTP policies, resources, permissions, request bounds, standalone persistence and unsupported streaming.",
+      "summary": "Current Linking 1.0 stable boundaries: models, HTTP policies, resources, permissions, request bounds, standalone persistence and unsupported streaming.",
       "group": "Choose Linking"
     },
     {
@@ -174,8 +174,8 @@
     },
     {
       "slug": "releases/1.0.0",
-      "title": "Linking 1.0 release candidate",
-      "summary": "Evaluate the Linking 1.0 candidate: optional typed models, declarative HTTP responses, resources, guards, route inspection and conservative contract checks.",
+      "title": "Linking 1.0 stable release",
+      "summary": "Install verified stable Linking 1.0.1: typed models, explicit HTTP policies, resources, permissions, route-to-source diagnosis and checked migrations.",
       "group": "Release and trust"
     },
     {
@@ -185,5 +185,5 @@
       "group": "Release and trust"
     }
   ],
-  "release_channel": "candidate"
+  "release_channel": "stable"
 }

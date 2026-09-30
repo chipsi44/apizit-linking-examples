@@ -1,6 +1,6 @@
 # APIZIT Linking questions, answered
 
-These answers describe the Linking 1.0 release candidate; 0.5.0 remains the preceding stable beta. Linking maps ordinary Python functions to HTTP through a versioned configuration file.
+These answers describe the verified Linking 1.0.1 stable release; 0.5.0 remains historical migration evidence. Linking maps ordinary Python functions to HTTP through a versioned configuration file.
 
 ## Is Linking a Python API framework?
 
@@ -31,7 +31,7 @@ Follow [route diagnosis]({{docs}}/guides/trace-route-to-python/).
 ## How do I install and check a project?
 
 ```text
-python -m pip install "apizit-linking[preview,models]==1.0.0rc1"
+python -m pip install "apizit-linking[preview,models]==1.0.1"
 apizit-linking validate .
 apizit-linking validate . --json
 apizit-linking preview . --port 8080
@@ -53,7 +53,7 @@ Legacy return schemas remain documentary; explicit typed routes validate and ser
 
 No. The package and examples are independent of APIZIT. APIZIT is one platform that consumes Linking for managed launches; its access and commercial terms are separate.
 
-The Apache-2.0 package is on [PyPI](https://pypi.org/project/apizit-linking/1.0.0rc1/). APIZIT remains prelaunch with protected technical environments.
+The Apache-2.0 package is on [PyPI](https://pypi.org/project/apizit-linking/1.0.1/). APIZIT remains prelaunch with protected technical environments.
 
 ## Where are examples and support?
 

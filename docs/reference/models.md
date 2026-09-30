@@ -4,7 +4,7 @@ Add `validation: typed` when annotations should enforce the request and response
 
 ## Prerequisites
 
-Install `apizit-linking[preview,models]==1.0.0rc1` with Python 3.10–3.14. Save this business module as `service.py`:
+Install `apizit-linking[preview,models]==1.0.1` with Python 3.10–3.14. Save this business module as `service.py`:
 
 ```python
 from pydantic import BaseModel, Field
@@ -48,7 +48,7 @@ Run `apizit-linking validate . --json`, then `apizit-linking preview . --port 80
 
 Pydantic models, stdlib dataclasses, collections, unions, Optional, Literal, UUID, date and datetime use the installed Pydantic version's validation and serialization rules. This is an adapter choice, not a promise that an arbitrary annotation is portable to every future backend. Imports and unresolved annotations fail preparation before serving.
 
-In the published 1.0.0rc1 candidate, declare constrained Annotated types as module-level aliases, then use those names in function signatures. Inline `Annotated[int, Field(...)]` expressions can fail signature comparison even when unchanged. The persistent example uses PageLimit and PageOffset aliases. A correction is prepared for a later candidate; check [the release record]({{docs}}/releases/1.0.0/) before upgrading.
+Stable 1.0.1 supports both module-level constrained Annotated aliases and inline `Annotated[int, Field(...)]` expressions. Signature comparison checks supported metadata by value, so unchanged Field expressions prepare successfully while changed constraints still block startup. The persistent example uses PageLimit and PageOffset aliases for readability. See [the release record]({{docs}}/releases/1.0.0/) for the candidate fix.
 
 ## Response and schema guarantees
 

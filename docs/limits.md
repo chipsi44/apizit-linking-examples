@@ -1,6 +1,6 @@
 # V1 limits and boundaries
 
-Linking 1.0 is a focused JSON API framework for ordinary Python functions. Its separate manifest, route inspection and explicit runtime policy help humans and agents review an API. This page describes the candidate; historical [0.5 behavior]({{docs}}/releases/0.5.0/) remains documented for existing users.
+Linking 1.0 is a focused JSON API framework for ordinary Python functions. Its separate manifest, route inspection and explicit runtime policy help humans and agents review an API. This page describes stable 1.0.1; historical [0.5 behavior]({{docs}}/releases/0.5.0/) remains documented for existing users.
 
 ## Declare successful responses {#response-control}
 
@@ -20,7 +20,7 @@ Legacy routes retain primitive/list/dictionary conversion. `validation: typed` u
 
 ## Supported function signatures {#signatures}
 
-The 1.0.0rc1 candidate requires module-level aliases for constrained Annotated function parameters/returns when inline Field factories trigger a false signature mismatch. The public persistent example uses this supported form. See [current release findings]({{docs}}/releases/1.0.0/#candidate-findings-and-publication-status); the prepared correction remains unpublished.
+Stable 1.0.1 supports constrained Annotated aliases and inline Field expressions in function parameters/returns. Equivalent reconstructed metadata passes signature comparison; changed bounds, regex constraints and annotations still fail startup. The persistent example keeps readable PageLimit and PageOffset aliases. See [the release history]({{docs}}/releases/1.0.0/#candidate-findings-and-publication-status).
 
 Top-level sync and async functions support positional-or-keyword and keyword-only arguments with defaults. Positional-only arguments, variadic arguments, synchronous generators and async generators are rejected. Function decorators that change the runtime signature can prevent startup.
 

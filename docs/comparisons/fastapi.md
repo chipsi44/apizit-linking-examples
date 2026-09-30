@@ -2,7 +2,7 @@
 
 Choose APIZIT Linking when a separate manifest should adapt ordinary Python functions to HTTP. Choose FastAPI directly when its request models, dependencies, security integration and response contracts belong in your application architecture.
 
-The Linking 1.0 candidate offers an optional FastAPI adapter. The distinction is between a declarative binding contract and direct use of FastAPI's features.
+The Linking 1.0 stable release offers an optional FastAPI adapter. The distinction is between a declarative binding contract and direct use of FastAPI's features.
 
 ## Compare the same business function
 
@@ -28,7 +28,7 @@ routes:
           name: name
 ```
 
-Install `apizit-linking[preview,models]==1.0.0rc1`, validate and start preview. `GET /hello/Ada` returns HTTP 200 with `{"message": "Hello, Ada!"}`.
+Install `apizit-linking[preview,models]==1.0.1`, validate and start preview. `GET /hello/Ada` returns HTTP 200 with `{"message": "Hello, Ada!"}`.
 
 A direct FastAPI adapter lives in `app.py`:
 
@@ -47,7 +47,7 @@ Both service layers remain plain Python. Linking changes where the mapping is de
 
 ## Compare the contracts
 
-| Decision | APIZIT Linking 1.0 candidate | Direct FastAPI |
+| Decision | APIZIT Linking 1.0 stable release | Direct FastAPI |
 | --- | --- | --- |
 | HTTP interface | YAML or JSON referencing `module:function` | Python path-operation registration |
 | Business imports | No Linking or framework import required | Separate service modules need no framework import |

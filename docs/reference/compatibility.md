@@ -2,7 +2,7 @@
 
 APIZIT Linking versions its package, manifest, and generated runtime artifact independently. This page defines which parts integrations can safely depend on.
 
-The 1.0 candidate evaluates the stable API described here; the 1.x guarantees take effect with the final 1.0 release. The preceding 0.5 line remains a beta contract.
+The registry-verified 1.0.1 release establishes the documented 1.x Semantic Versioning contract. The preceding 0.5 line remains a beta contract.
 
 ## Four separate contracts {#four-contracts}
 

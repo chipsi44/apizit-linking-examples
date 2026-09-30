@@ -1,7 +1,7 @@
 # APIZIT Linking — Python APIs with clear context for AI
 
 [Documentation](https://chipsi44.github.io/apizit-linking-examples/) ·
-[PyPI candidate](https://pypi.org/project/apizit-linking/1.0.0rc1/) ·
+[PyPI release](https://pypi.org/project/apizit-linking/1.0.1/) ·
 [Fork the examples](https://github.com/chipsi44/apizit-linking-examples/fork)
 
 Write and test ordinary Python, define the HTTP contract separately, and follow
@@ -25,8 +25,8 @@ routes:
 
 ## Run the quickstart
 
-Use Python 3.10–3.14 and a virtual environment. Current gallery pin: 1.0.0rc1;
-evaluate the candidate before adopting 1.0. The preceding stable beta is 0.5.0.
+Use Python 3.10–3.14 and a virtual environment. Current stable gallery pin: 1.0.1.
+Verify the documented limits and your application before deploying; 0.5.0 is historical.
 
 ```text
 git clone https://github.com/chipsi44/apizit-linking-examples.git

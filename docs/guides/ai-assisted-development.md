@@ -2,7 +2,7 @@
 
 APIZIT Linking gives an assistant two explicit jobs: implement ordinary Python behavior, then bind it to HTTP in a manifest. Keep those jobs reviewable, supply focused context and verify the generated result yourself.
 
-You need Python 3.10–3.14, a terminal and an editor. The assistant is optional: a developer can follow the same steps. All Linking commands here use release candidate 1.0.0rc1.
+You need Python 3.10–3.14, a terminal and an editor. The assistant is optional: a developer can follow the same steps. All Linking commands here use stable 1.0.1.
 
 ## Start with precise behavior
 
@@ -66,7 +66,7 @@ Supply the tested signature, intended route and [parameter-source reference]({{d
 Create a version: 1 apizit_linking.yaml.
 Expose pricing:calculate_subtotal as POST /quotes.
 Bind unit_price and quantity explicitly from top-level JSON body fields.
-Keep pricing.py unchanged. Use the documented Linking 1.0 candidate contract.
+Keep pricing.py unchanged. Use the documented Linking 1.0 stable release contract.
 Leave legacy conversion enabled for this first operation; add HTTP policies explicitly.
 ```
 
@@ -94,7 +94,7 @@ The separate diff makes the method, exposed function and sources easy to inspect
 ## Validate the proposed contract
 
 ```text
-python -m pip install "apizit-linking[preview,models]==1.0.0rc1"
+python -m pip install "apizit-linking[preview,models]==1.0.1"
 apizit-linking validate .
 apizit-linking validate . --json
 ```
