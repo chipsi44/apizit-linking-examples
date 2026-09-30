@@ -1,4 +1,5 @@
 from sqlite3 import Connection, IntegrityError
+from typing import Annotated
 from pydantic import BaseModel, Field
 
 
@@ -25,6 +26,10 @@ class Conflict(Exception):
     pass
 
 
+PageLimit = Annotated[int, Field(ge=1, le=100)]
+PageOffset = Annotated[int, Field(ge=0, le=1_000_000)]
+
+
 def create(payload: TaskIn, database: Connection, user: str) -> TaskOut:
     try:
         cursor = database.execute(
@@ -48,6 +53,22 @@ def read(task_id: int, database: Connection, user: str) -> TaskOut:
     if row is None:
         raise Missing("private object information")
     return {"id": row[0], "title": row[1], "details": {"label": row[2]}, "owner": row[3]}
+
+
+def list_tasks(
+    database: Connection,
+    user: str,
+    limit: PageLimit = 20,
+    offset: PageOffset = 0,
+) -> list[TaskOut]:
+    rows = database.execute(
+        "SELECT id,title,label,owner FROM tasks WHERE owner=? ORDER BY id LIMIT ? OFFSET ?",
+        (user, limit, offset),
+    ).fetchall()
+    return [
+        {"id": row[0], "title": row[1], "details": {"label": row[2]}, "owner": row[3]}
+        for row in rows
+    ]
 
 
 def update(task_id: int, payload: TaskIn, database: Connection, user: str) -> TaskOut:

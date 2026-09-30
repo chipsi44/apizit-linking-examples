@@ -16,9 +16,11 @@ Map named exceptions to constant public 4xx/5xx codes and messages. Runtime star
 
 ## Typed bodies are opt-in {#body-models}
 
-Legacy routes retain primitive/list/dictionary conversion. `validation: typed` uses the optional Pydantic extra for nested models, dataclasses, unions, dates, UUIDs, aliases and field constraints. Body bindings support RFC 6901 pointers, including `pointer: ""` for a whole JSON value. An unannotated parameter or return uses Any. Response filtering requires an appropriate declared return type. Mutable model instances follow Pydantic's `revalidate_instances` policy; configure `always` when constraints must be rechecked. See [models]({{docs}}/reference/models/).
+Legacy routes retain primitive/list/dictionary conversion. `validation: typed` uses the optional Pydantic extra for nested models, dataclasses, unions, dates, UUIDs, aliases and field constraints. Body bindings support RFC 6901 pointers, including `pointer: ""` for a whole JSON value. Typed routes require annotations for each HTTP parameter and the return; missing annotations prevent preparation. Explicit Any permits unrestricted data and provides no response filtering. Legacy return annotations remain documentary. Mutable model instances follow Pydantic's `revalidate_instances` policy; configure `always` when constraints must be rechecked. See [models]({{docs}}/reference/models/).
 
 ## Supported function signatures {#signatures}
+
+The 1.0.0rc1 candidate requires module-level aliases for constrained Annotated function parameters/returns when inline Field factories trigger a false signature mismatch. The public persistent example uses this supported form. See [current release findings]({{docs}}/releases/1.0.0/#candidate-findings-and-publication-status); the prepared correction remains unpublished.
 
 Top-level sync and async functions support positional-or-keyword and keyword-only arguments with defaults. Positional-only arguments, variadic arguments, synchronous generators and async generators are rejected. Function decorators that change the runtime signature can prevent startup.
 
