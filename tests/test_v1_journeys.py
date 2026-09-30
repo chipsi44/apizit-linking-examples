@@ -64,6 +64,7 @@ class PersistentJourneyTests(unittest.TestCase):
                     headers = {"Authorization": "Bearer " + value} if value else {}
                     return request(port, path, method=method, extra_headers=headers)
                 self.assertEqual(call()[0], 401)
+                self.assertEqual(call()[2]["WWW-Authenticate"], 'Bearer realm="linking-demo"')
                 self.assertEqual(call(token())[1], {"user": "alice"})
                 self.assertEqual(call(token(), path="/writer", method="POST")[0], 200)
                 bob = token({"sub": "bob", "role": "writer"})
@@ -76,8 +77,9 @@ class PersistentJourneyTests(unittest.TestCase):
                     token(key="wrong-key-" * 8), token(algorithm="HS384"),
                     token(key=None, algorithm="none"), "malformed.token",
                 ]:
-                    status, body, _ = call(invalid)
+                    status, body, headers = call(invalid)
                     self.assertEqual(status, 401)
+                    self.assertEqual(headers["WWW-Authenticate"], 'Bearer realm="linking-demo"')
                     self.assertNotIn(invalid, json.dumps(body))
                 missing = {key: value for key, value in claims.items() if key != "exp"}
                 self.assertEqual(call(jwt.encode(missing, secret, algorithm="HS256"))[0], 401)
@@ -101,6 +103,9 @@ class PersistentJourneyTests(unittest.TestCase):
                 self.assertEqual(headers["Location"], f"/tasks/{task['id']}")
                 self.assertNotIn("owner", task)
                 self.assertEqual(request(port, "/tasks/1")[0], 401)
+                status, _, auth_headers = request(port, "/tasks/1", key="invalid-\u00ff")
+                self.assertEqual(status, 401)
+                self.assertEqual(auth_headers["WWW-Authenticate"], 'ApiKey realm="linking-demo"')
                 self.assertEqual(request(port, "/tasks", method="POST", body=payload, key="journey-reader")[0], 403)
                 self.assertEqual(request(port, "/tasks/1", key="journey-other")[0], 404)
                 self.assertEqual(request(port, "/tasks", method="POST", body=payload, key="journey-writer")[0], 409)
