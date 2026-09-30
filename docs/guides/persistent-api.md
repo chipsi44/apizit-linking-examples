@@ -85,7 +85,7 @@ Offset pagination is suitable for this small example. For large or frequently ch
 
 | Request | Expected outcome |
 | --- | --- |
-| Missing/wrong key | 401 |
+| Missing/wrong key | 401 and the demo's custom ApiKey WWW-Authenticate challenge |
 | Reader key on POST/PATCH/DELETE | 403 |
 | Another owner's key on an existing task | 404 |
 | Duplicate title for the same owner | 409 |

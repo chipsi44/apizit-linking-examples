@@ -15,6 +15,8 @@ POST /tasks with the writer X-API-Key and JSON
 GET the returned URL with the reader key. Stop and restart with the same database
 path to verify persistence. Reader writes return 403; another owner sees 404;
 duplicate titles return 409; invalid nested fields return 400; DELETE returns empty 204.
+Missing or invalid keys, including non-ASCII input, return 401 with the demo's
+custom ApiKey authentication challenge. Token values are never returned.
 GET /tasks?limit=20&offset=0 lists only the current owner's tasks. Limit is 1–100;
 offset is 0–1,000,000. Invalid pagination values return 400, and list outputs filter owner.
 

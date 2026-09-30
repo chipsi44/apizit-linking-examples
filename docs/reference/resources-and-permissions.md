@@ -52,6 +52,19 @@ import os
 import jwt
 from apizit_linking.extensions import AccessDenied, Provider, RuntimeExtensions
 
+class BearerChallenge:
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        async def challenged(message):
+            if message["type"] == "http.response.start" and message["status"] == 401:
+                headers = list(message.get("headers", []))
+                headers.append((b"www-authenticate", b'Bearer realm="linking-demo"'))
+                message = {**message, "headers": headers}
+            await send(message)
+        await self.app(scope, receive, challenged)
+
 def configure():
     secret = os.environ["LINKING_DEMO_JWT_SECRET"]
     if len(secret.encode()) < 32:
@@ -84,6 +97,7 @@ def configure():
 
     return RuntimeExtensions(
         providers={"user": Provider(user)},
+        middlewares=((BearerChallenge, {}),),
         guards={"authenticated": authenticated, "writer": writer},
         security_schemes={"authenticated": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"}},
     )
@@ -127,6 +141,8 @@ token = jwt.encode(
 ```
 
 A valid alice token returns 200 on both routes. Bob can read identity but receives 403 on writer; a token role claim cannot override the application permission map. Missing, unsigned, expired, wrong-signature, wrong-issuer and wrong-audience tokens return a generic 401.
+
+The middleware adds the applicable WWW-Authenticate challenge to each 401, as required by [HTTP semantics](https://www.rfc-editor.org/rfc/rfc9110.html#section-15.5.2). A declared OpenAPI scheme does not automatically choose this header; authentication policy and its challenge belong to the application.
 
 The [PyJWT API](https://pyjwt.readthedocs.io/en/stable/api.html#jwt.decode) and [usage guide](https://pyjwt.readthedocs.io/en/stable/usage.html) explain verification and required claims. Pin accepted algorithms and trusted issuer/audience in application configuration. For a real identity provider, use its documented verifier/key-discovery rules and token purpose, enforce key rotation/revocation policy, and resolve permissions from trusted application data. This example does not implement a token issuer, refresh flow or production identity service.
 

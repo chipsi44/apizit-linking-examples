@@ -5,6 +5,20 @@ from contextlib import contextmanager
 from apizit_linking.extensions import AccessDenied, Provider, RuntimeExtensions
 
 
+class ApiKeyChallenge:
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        async def challenged(message):
+            if message["type"] == "http.response.start" and message["status"] == 401:
+                headers = list(message.get("headers", []))
+                headers.append((b"www-authenticate", b'ApiKey realm="linking-demo"'))
+                message = {**message, "headers": headers}
+            await send(message)
+        await self.app(scope, receive, challenged)
+
+
 def configure():
     writer = os.environ["LINKING_DEMO_WRITER_KEY"]
     reader = os.environ["LINKING_DEMO_READER_KEY"]
@@ -17,11 +31,11 @@ def configure():
         present, token = context.request.lookup("header", "X-API-Key")
         if not present or not isinstance(token, str):
             raise AccessDenied(401, "UNAUTHENTICATED", "Valid API key required")
-        if hmac.compare_digest(token, writer):
+        if hmac.compare_digest(token.encode(), writer.encode()):
             context.state.update(user="demo", write=True)
-        elif hmac.compare_digest(token, reader):
+        elif hmac.compare_digest(token.encode(), reader.encode()):
             context.state.update(user="demo", write=False)
-        elif other and hmac.compare_digest(token, other):
+        elif other and hmac.compare_digest(token.encode(), other.encode()):
             context.state.update(user="other", write=True)
         else:
             raise AccessDenied(401, "UNAUTHENTICATED", "Valid API key required")
@@ -50,6 +64,7 @@ def configure():
             connection.close()
 
     return RuntimeExtensions(
+        middlewares=((ApiKeyChallenge, {}),),
         providers={"database": Provider(database), "user": Provider(user)},
         guards={"authenticated": authenticated, "write": write},
         security_schemes={"authenticated": {"type": "apiKey", "in": "header", "name": "X-API-Key"}},
