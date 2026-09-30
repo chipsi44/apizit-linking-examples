@@ -12,7 +12,7 @@ Suppose an access log or bug report contains:
 GET /products/42/quote?discount=0.1
 ```
 
-This line is illustrative. Linking does not promise a structured logging format or attach a Python file to every log. Collect method, path, relevant status or error and the application version that handled the request.
+This access-log line is illustrative. Linking's optional JSON route events are described below; an external server's access logs can have a different format. Collect method, path, relevant status or error and the application version that handled the request.
 
 Use that release's manifest and source. A newer branch can point to code that did not run. Remove tokens, personal data and unnecessary request values before sharing logs with an assistant.
 
